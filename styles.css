@@ -7,25 +7,26 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: transparent;
     color: #333;
     min-height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    justify-content: stretch;
     padding: 0;
+    margin: 0;
+    overflow: hidden;
     transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Tema scuro */
 body.dark-theme {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: transparent;
     color: #e0e0e0;
 }
 
 body.dark-theme .container {
     background: #0f3460;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 body.dark-theme .welcome-card {
@@ -79,18 +80,17 @@ body.dark-theme .checkbox-container input[type="checkbox"] {
     accent-color: #64b5f6;
 }
 
-body.dark-theme footer {
-    background: #16213e;
-    color: #b0b0b0;
-}
-
 .container {
     background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border-radius: 0;
+    box-shadow: none;
     width: 100%;
-    max-width: 900px;
-    overflow: hidden;
+    height: 100vh;
+    max-width: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Header */
@@ -100,6 +100,8 @@ header {
     padding: 40px;
     text-align: center;
     position: relative;
+    -webkit-app-region: drag; /* Permette di trascinare la finestra dall'header */
+    user-select: none;
 }
 
 header h1 {
@@ -130,6 +132,7 @@ header h1 {
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
     overflow: hidden;
+    -webkit-app-region: no-drag; /* Permette il click sul pulsante */
 }
 
 .theme-toggle:hover {
@@ -172,9 +175,79 @@ body.dark-theme header {
     background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
 }
 
+/* Pulsante minimizza applicazione */
+.minimize-app-btn {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 193, 7, 0.9);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1;
+    -webkit-app-region: no-drag; /* Permette il click sul pulsante */
+}
+
+.minimize-app-btn:hover {
+    background: rgba(255, 160, 0, 1);
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px rgba(255, 193, 7, 0.4);
+}
+
+.minimize-app-btn:active {
+    transform: scale(0.95);
+}
+
+/* Pulsante chiudi applicazione */
+.close-app-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(220, 53, 69, 0.9);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1;
+    -webkit-app-region: no-drag; /* Permette il click sul pulsante */
+}
+
+.close-app-btn:hover {
+    background: rgba(200, 35, 51, 1);
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 5px 20px rgba(220, 53, 69, 0.4);
+}
+
+.close-app-btn:active {
+    transform: scale(0.95) rotate(90deg);
+}
+
 /* Main content */
 main {
     padding: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .welcome-card {
@@ -619,13 +692,144 @@ body.dark-theme .categories-dialog-content::-webkit-scrollbar-thumb:hover {
     user-select: none;
 }
 
-/* Footer */
-footer {
-    background: #f8f9fa;
+/* Footer in basso */
+.home-footer {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 20px;
     text-align: center;
-    color: #666;
-    font-size: 0.9rem;
+    color: white;
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.home-footer p {
+    margin: 0;
+}
+
+body.dark-theme .home-footer {
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+    color: #b0b0b0;
+}
+
+/* Dialog aggiornamento */
+.update-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.update-box {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.4);
+    width: 90%;
+    max-width: 500px;
+    overflow: hidden;
+}
+
+body.dark-theme .update-box {
+    background: #0f3460;
+}
+
+.update-header {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    padding: 25px;
+    text-align: center;
+}
+
+.update-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.update-body {
+    padding: 30px;
+    text-align: center;
+}
+
+.update-body p {
+    font-size: 1.1rem;
+    color: #333;
+    margin: 10px 0;
+}
+
+body.dark-theme .update-body p {
+    color: #e0e0e0;
+}
+
+.update-version {
+    font-weight: 600;
+    color: #667eea;
+}
+
+body.dark-theme .update-version {
+    color: #64b5f6;
+}
+
+.download-progress {
+    margin-top: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 30px;
+    background: #e9ecef;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+body.dark-theme .progress-bar {
+    background: #1a1a2e;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 15px;
+}
+
+body.dark-theme .progress-fill {
+    background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+}
+
+.progress-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #667eea;
+}
+
+body.dark-theme .progress-text {
+    color: #64b5f6;
+}
+
+.update-footer {
+    padding: 20px 30px;
+    display: flex;
+    gap: 15px;
+    background: #f8f9fa;
+}
+
+body.dark-theme .update-footer {
+    background: #16213e;
+}
+
+.update-footer .btn {
+    flex: 1;
+    padding: 12px;
 }
 
 /* Responsive */
@@ -636,6 +840,35 @@ footer {
     
     .welcome-card h2 {
         font-size: 1.5rem;
+    }
+    
+    /* Pulsanti app responsive */
+    .minimize-app-btn {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        right: 70px;
+        font-size: 1.6rem;
+    }
+    
+    .close-app-btn {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        right: 15px;
+        font-size: 1.6rem;
+    }
+    
+    /* Theme toggle responsive */
+    .theme-toggle {
+        width: 60px;
+        height: 60px;
+        top: 15px;
+        left: 15px;
+    }
+    
+    .theme-icon {
+        font-size: 1.8rem;
     }
     
     .button-group {

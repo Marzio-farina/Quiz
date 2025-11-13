@@ -14,6 +14,12 @@
                 <span class="theme-icon sun">☀️</span>
                 <span class="theme-icon moon">🌙</span>
             </button>
+            <button id="minimizeAppBtn" class="minimize-app-btn" aria-label="Minimizza applicazione">
+                ─
+            </button>
+            <button id="closeAppBtn" class="close-app-btn" aria-label="Chiudi applicazione">
+                ✕
+            </button>
             <h1>🎯 Quiz App</h1>
             <p class="subtitle">Benvenuto nella tua applicazione Quiz!</p>
         </header>
@@ -109,10 +115,34 @@
                 </div>
             </div>
         </main>
-
-        <footer>
+        
+        <footer class="home-footer">
             <p>&copy; 2025 Quiz App - Creata da Marziano Farina</p>
         </footer>
+    </div>
+
+    <!-- Dialog aggiornamento -->
+    <div id="updateDialog" class="update-overlay" style="display: none;">
+        <div class="update-box">
+            <div class="update-header">
+                <h3>🔄 Aggiornamento Disponibile</h3>
+            </div>
+            <div class="update-body">
+                <p>È disponibile una nuova versione dell'applicazione!</p>
+                <p class="update-version">Versione: <span id="updateVersion">0.0.0</span></p>
+                <div id="downloadProgress" class="download-progress" style="display: none;">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <p class="progress-text"><span id="progressPercent">0</span>%</p>
+                </div>
+            </div>
+            <div class="update-footer">
+                <button id="laterBtn" class="btn btn-secondary">Più tardi</button>
+                <button id="downloadBtn" class="btn btn-primary">Scarica Ora</button>
+                <button id="installBtn" class="btn btn-primary" style="display: none;">Installa e Riavvia</button>
+            </div>
+        </div>
     </div>
 
     <script src="renderer.js"></script>

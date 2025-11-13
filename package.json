@@ -7,20 +7,78 @@
     "start": "electron .",
     "dev": "electron . --dev",
     "extract": "node extractPdfQuiz.js",
-    "extract-images": "node extractPdfImages.js"
+    "extract-images": "node extractPdfImages.js",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
   },
   "keywords": [
     "electron",
     "quiz"
   ],
-  "author": "",
+  "author": "Marziano Farina",
   "license": "MIT",
+  "build": {
+    "appId": "com.marzianofarina.quizapp",
+    "productName": "Quiz App",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "Marzio-farina",
+      "repo": "Quiz"
+    },
+    "files": [
+      "**/*",
+      "!**/*.md",
+      "!extractPdfQuiz.js",
+      "!extractPdfImages.js",
+      "!extract_pdf_images.py",
+      "!check_python_setup.py",
+      "!requirements.txt",
+      "!Banca dati unisa farmacia ospedaliera.pdf",
+      "!dist",
+      "!build",
+      "!.git"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Quiz App"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.png"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "assets/icon.png",
+      "category": "Education"
+    }
+  },
   "dependencies": {
     "chart.js": "^4.5.1",
+    "electron-updater": "^6.6.2",
     "pdf-parse": "^1.1.1"
   },
   "devDependencies": {
     "electron": "^32.0.0",
+    "electron-builder": "^26.0.12",
     "electron-reload": "^2.0.0-alpha.1"
   }
 }

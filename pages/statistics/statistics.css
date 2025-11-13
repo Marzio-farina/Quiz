@@ -1,27 +1,43 @@
 /* Stili per la pagina Statistiche */
 
+/* Reset per la pagina */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+}
+
 /* Stats Page Container */
 .stats-page-container {
     min-height: 100vh;
+    height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+    margin: 0;
+    background: white;
     transition: background 0.3s ease;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Tema scuro */
 body.dark-theme .stats-page-container {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: #0f3460;
 }
 
 /* Stats Container */
 .stats-container {
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 /* Pulsante Back */
@@ -63,9 +79,14 @@ body.dark-theme .btn-back:hover {
 /* Contenuto Stats */
 .stats-content {
     background: white;
-    border-radius: 20px;
+    border-radius: 0;
     padding: 80px 50px 50px 50px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 body.dark-theme .stats-content {
@@ -76,6 +97,8 @@ body.dark-theme .stats-content {
 .stats-header {
     text-align: center;
     margin-bottom: 40px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .stats-header h1 {
@@ -104,6 +127,8 @@ body.dark-theme .stats-subtitle {
     grid-template-columns: repeat(4, 1fr);
     gap: 25px;
     margin-bottom: 40px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .stat-card {
@@ -160,6 +185,8 @@ body.dark-theme .stat-label {
 /* Grafico Errori */
 .stats-chart {
     margin-bottom: 40px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .stats-chart h2 {
@@ -189,6 +216,8 @@ body.dark-theme .chart-container {
 /* Storico */
 .stats-history {
     margin-bottom: 30px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .stats-history h2 {
@@ -287,10 +316,24 @@ body.dark-theme .history-score {
     display: flex;
     justify-content: center;
     gap: 15px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .stats-footer .btn {
     padding: 12px 30px;
+}
+
+/* Blocca lo scroll quando il dialog è aperto */
+body.dialog-open {
+    overflow: hidden;
+    padding-right: var(--scrollbar-width, 0px);
+}
+
+/* Nascondi il pulsante back quando il dialog è aperto */
+body.dialog-open .btn-back {
+    pointer-events: none;
+    opacity: 0.3;
 }
 
 /* Dialog base */
@@ -305,7 +348,7 @@ body.dark-theme .history-score {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 10000;
     animation: fadeIn 0.3s ease;
 }
 
@@ -322,17 +365,18 @@ body.dark-theme .history-score {
     background: white;
     border-radius: 15px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    animation: slideUp 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
 @keyframes slideUp {
     from {
-        transform: translateY(50px);
+        transform: translateY(50px) translateZ(0);
         opacity: 0;
     }
     to {
-        transform: translateY(0);
+        transform: translateY(0) translateZ(0);
         opacity: 1;
     }
 }
@@ -342,6 +386,8 @@ body.dark-theme .history-score {
     color: white;
     padding: 20px 25px;
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .dialog-header h3 {
@@ -366,38 +412,56 @@ body.dark-theme .dialog-header {
 .detail-dialog {
     max-width: 800px;
     width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
 }
 
 .detail-dialog .dialog-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
+    padding: 20px 60px 20px 25px;
+    position: relative;
+    z-index: 1;
 }
 
-.btn-close-detail {
-    background: transparent;
+.btn-close-detail-fixed {
+    background: rgba(220, 53, 69, 0.85);
     border: none;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    font-weight: bold;
     cursor: pointer;
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     transition: all 0.3s ease;
+    z-index: 10001;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: calc(-45vh - 22px);
+    margin-left: calc(400px - 55px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.btn-close-detail:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg);
+.btn-close-detail-fixed:hover {
+    background: rgba(220, 53, 69, 1);
+    transform: scale(1.15) rotate(90deg);
+    box-shadow: 0 4px 20px rgba(220, 53, 69, 0.6);
+}
+
+.btn-close-detail-fixed:active {
+    transform: scale(0.95) rotate(90deg);
 }
 
 .detail-body {
     padding: 30px;
     max-height: 500px;
     overflow-y: auto;
+    position: relative;
+    z-index: 0;
 }
 
 /* Scrollbar personalizzata per il detail-body */

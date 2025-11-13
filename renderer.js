@@ -24,8 +24,6 @@ function toggleTheme() {
     // Salva la preferenza
     const isDark = document.body.classList.contains('dark-theme');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    
-    console.log(`Tema cambiato: ${isDark ? 'Scuro' : 'Chiaro'}`);
 }
 
 // Inizializza il tema all'avvio
@@ -34,6 +32,16 @@ initTheme();
 // Gestione click sul toggle tema
 document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
+// Gestione pulsante minimizza applicazione
+document.getElementById('minimizeAppBtn').addEventListener('click', () => {
+    ipcRenderer.send('minimize-window');
+});
+
+// Gestione pulsante chiudi applicazione
+document.getElementById('closeAppBtn').addEventListener('click', () => {
+    window.close();
+});
+
 // Carica i quiz dal JSON
 async function loadQuizData() {
     try {
@@ -41,10 +49,8 @@ async function loadQuizData() {
         const rawData = fs.readFileSync(dataPath, 'utf8');
         const data = JSON.parse(rawData);
         allQuizzes = data.quizzes;
-        console.log(`✅ Caricati ${allQuizzes.length} quiz dal database`);
         return true;
     } catch (error) {
-        console.error('❌ Errore nel caricamento dei quiz:', error);
         return false;
     }
 }
@@ -69,7 +75,6 @@ function updateQuestionCountButtons() {
         .map(cb => cb.value);
     
     availableQuizCount = countAvailableQuizzes(selectedCategories);
-    console.log(`📊 Quiz disponibili per le categorie selezionate: ${availableQuizCount}`);
     
     // Valori standard dei pulsanti
     const standardButtons = [10, 20, 50, 100];
@@ -92,7 +97,6 @@ function updateQuestionCountButtons() {
     const maxAvailable = Math.max(...buttonsToShow);
     if (selectedQuestionCount > availableQuizCount) {
         selectedQuestionCount = maxAvailable;
-        console.log(`⚠️ Selezione ridotta a ${selectedQuestionCount} (massimo disponibile)`);
     }
     
     // Se la selezione corrente non è tra i pulsanti disponibili, seleziona il più vicino
@@ -121,7 +125,6 @@ function updateQuestionCountButtons() {
             document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             selectedQuestionCount = parseInt(button.dataset.count);
-            console.log(`Numero di domande selezionato: ${selectedQuestionCount}`);
         });
         
         container.appendChild(button);
@@ -133,7 +136,6 @@ function updateQuestionCountButtons() {
 // Gestione checkbox Random
 document.getElementById('randomCheck').addEventListener('change', (e) => {
     isRandomMode = e.target.checked;
-    console.log(`Modalità Random: ${isRandomMode ? 'Attiva' : 'Disattiva'}`);
 });
 
 // Riferimento ai checkbox delle categorie (definito qui per essere usato dopo)
@@ -141,16 +143,10 @@ let categoryCheckboxes;
 
 // Gestione pulsante Inizia Quiz
 document.getElementById('startBtn').addEventListener('click', () => {
-    console.log('=== Avvio Quiz ===');
-    console.log(`Domande: ${selectedQuestionCount}`);
-    console.log(`Random: ${isRandomMode}`);
-    
     // Ottieni le categorie selezionate
     const selectedCategories = Array.from(categoryCheckboxes)
         .filter(cb => cb.checked)
         .map(cb => cb.value);
-    
-    console.log(`Categorie selezionate: ${selectedCategories.join(', ')}`);
     
     // Salva le impostazioni e carica la pagina quiz
     const settings = {
@@ -165,7 +161,6 @@ document.getElementById('startBtn').addEventListener('click', () => {
 
 // Gestione pulsante Statistiche
 document.getElementById('statsBtn').addEventListener('click', () => {
-    console.log('📊 Apertura pagina statistiche');
     // Naviga alla pagina statistiche
     window.location.href = 'pages/statistics/statistics.html';
 });
@@ -179,13 +174,11 @@ categoryCheckboxes = document.querySelectorAll('.category-checkbox input[type="c
 // Gestione pulsante Opzioni - Toggle dialog
 optionsBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    console.log('⚙️ Toggle dialog categorie');
     categoriesDialog.classList.toggle('hidden');
 });
 
 // Chiudi dialog con pulsante X
 closeDialogBtn.addEventListener('click', () => {
-    console.log('Chiusura dialog categorie');
     categoriesDialog.classList.add('hidden');
 });
 
@@ -215,7 +208,6 @@ function saveSelectedCategories() {
         .filter(cb => cb.checked)
         .map(cb => cb.value);
     localStorage.setItem('selectedCategories', JSON.stringify(selectedCategories));
-    console.log('Categorie salvate:', selectedCategories);
     
     // Aggiorna i pulsanti delle quantità
     updateQuestionCountButtons();
@@ -236,7 +228,6 @@ document.getElementById('selectAllBtn').addEventListener('click', () => {
     });
     saveSelectedCategories();
     updateQuestionCountButtons();
-    console.log('Tutte le categorie selezionate');
 });
 
 // Pulsante "Deseleziona Tutto"
@@ -246,7 +237,6 @@ document.getElementById('deselectAllBtn').addEventListener('click', () => {
     });
     saveSelectedCategories();
     updateQuestionCountButtons();
-    console.log('Tutte le categorie deselezionate');
 });
 
 // Inizializzazione all'avvio
@@ -262,6 +252,53 @@ async function init() {
 // Avvia l'inizializzazione
 init();
 
-// Log di conferma caricamento
-console.log('Home page caricata correttamente');
+// Gestione aggiornamenti
+const updateDialog = document.getElementById('updateDialog');
+const updateVersion = document.getElementById('updateVersion');
+const downloadProgress = document.getElementById('downloadProgress');
+const progressFill = document.getElementById('progressFill');
+const progressPercent = document.getElementById('progressPercent');
+const downloadBtn = document.getElementById('downloadBtn');
+const installBtn = document.getElementById('installBtn');
+const laterBtn = document.getElementById('laterBtn');
+
+// Quando c'è un aggiornamento disponibile
+ipcRenderer.on('update-available', (event, info) => {
+    console.log('📦 Nuova versione disponibile:', info.version);
+    updateVersion.textContent = info.version;
+    updateDialog.style.display = 'flex';
+    document.body.classList.add('dialog-open');
+});
+
+// Progresso download
+ipcRenderer.on('download-progress', (event, percent) => {
+    downloadProgress.style.display = 'block';
+    progressFill.style.width = `${percent}%`;
+    progressPercent.textContent = Math.round(percent);
+});
+
+// Download completato
+ipcRenderer.on('update-downloaded', () => {
+    downloadProgress.style.display = 'none';
+    downloadBtn.style.display = 'none';
+    installBtn.style.display = 'block';
+});
+
+// Pulsante "Scarica Ora"
+downloadBtn.addEventListener('click', () => {
+    downloadBtn.disabled = true;
+    downloadBtn.textContent = 'Download in corso...';
+    ipcRenderer.send('download-update');
+});
+
+// Pulsante "Installa e Riavvia"
+installBtn.addEventListener('click', () => {
+    ipcRenderer.send('install-update');
+});
+
+// Pulsante "Più tardi"
+laterBtn.addEventListener('click', () => {
+    updateDialog.style.display = 'none';
+    document.body.classList.remove('dialog-open');
+});
 

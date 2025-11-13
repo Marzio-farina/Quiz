@@ -11,6 +11,3 @@ contextBridge.exposeInMainWorld('electronAPI', {
     // }
 });
 
-// Log per confermare il caricamento del preload script
-console.log('Preload script caricato correttamente');
-

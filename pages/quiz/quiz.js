@@ -41,15 +41,12 @@ function startTimer() {
             updateTimerDisplay();
         }
     }, 1000);
-    
-    console.log('⏱️ Timer avviato');
 }
 
 function stopTimer() {
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
-        console.log(`⏱️ Timer fermato - Tempo totale: ${formatTime(elapsedSeconds)}`);
     }
 }
 
@@ -65,7 +62,6 @@ function togglePauseTimer() {
         pauseStartTime = Date.now();
         timerElement.classList.add('paused');
         showPauseDialog();
-        console.log('⏸️ Timer in pausa');
     }
 }
 
@@ -88,7 +84,6 @@ function resumeQuiz() {
     pausedTime += resumeTime - pauseStartTime;
     timerElement.classList.remove('paused');
     hidePauseDialog();
-    console.log('▶️ Timer ripreso');
 }
 
 function exitQuizFromPause() {
@@ -114,7 +109,6 @@ function formatTime(seconds) {
 // Ricevi le impostazioni dalla pagina home
 ipcRenderer.on('start-quiz', (event, settings) => {
     quizSettings = settings;
-    console.log('Impostazioni ricevute:', settings);
     initQuiz();
 });
 
@@ -126,10 +120,8 @@ async function loadQuizData() {
         const rawData = fs.readFileSync(dataPath, 'utf8');
         const data = JSON.parse(rawData);
         allQuizzes = data.quizzes;
-        console.log(`✅ Caricati ${allQuizzes.length} quiz dal database`);
         return true;
     } catch (error) {
-        console.error('❌ Errore nel caricamento dei quiz:', error);
         alert('Errore nel caricamento dei quiz. Verifica che il file quiz-data.json esista.');
         return false;
     }
@@ -154,18 +146,11 @@ function selectQuizzes() {
         filteredQuizzes = allQuizzes.filter(quiz => 
             quizSettings.categories.includes(quiz.category)
         );
-        console.log(`📂 Filtrati ${filteredQuizzes.length} quiz dalle categorie selezionate:`, quizSettings.categories);
     }
     
     // Se non ci sono quiz dopo il filtro, usa tutti i quiz
     if (filteredQuizzes.length === 0) {
-        console.warn('⚠️ Nessun quiz trovato per le categorie selezionate, uso tutti i quiz');
         filteredQuizzes = allQuizzes;
-    }
-    
-    // Log se ci sono meno quiz del richiesto
-    if (filteredQuizzes.length < quizSettings.count) {
-        console.warn(`⚠️ Richieste ${quizSettings.count} domande ma sono disponibili solo ${filteredQuizzes.length} domande per le categorie selezionate`);
     }
     
     let selected;
@@ -178,60 +163,13 @@ function selectQuizzes() {
         selected = filteredQuizzes.slice(0, quizSettings.count);
     }
     
-    console.log(`✅ Selezionati ${selected.length} quiz`);
     return selected;
 }
 
 // Calcola le dimensioni minime necessarie per il contenitore
+// Disabilitato per layout frameless - le dimensioni sono gestite tramite CSS
 function calculateMinContentSize() {
-    const quizContainer = document.querySelector('.quiz-container');
-    const quizContent = document.querySelector('.quiz-content');
-    let maxHeight = 0;
-    let maxWidth = 0;
-    
-    // Salva il contenuto originale
-    const originalContent = quizContent.innerHTML;
-    
-    // Rimuovi temporaneamente max-width per misurare la larghezza naturale
-    const originalMaxWidth = quizContainer.style.maxWidth;
-    quizContainer.style.maxWidth = 'none';
-    
-    // Per ogni domanda, renderizzala temporaneamente e misura le dimensioni
-    currentQuizzes.forEach((quiz, index) => {
-        // Renderizza la domanda temporaneamente
-        renderQuestionContent(quiz, index);
-        
-        // Aspetta che le immagini siano caricate per misurare correttamente
-        // Misura l'altezza e larghezza del contenuto
-        const currentHeight = quizContent.scrollHeight;
-        const currentWidth = quizContent.scrollWidth;
-        
-        if (currentHeight > maxHeight) {
-            maxHeight = currentHeight;
-        }
-        if (currentWidth > maxWidth) {
-            maxWidth = currentWidth;
-        }
-    });
-    
-    // Ripristina max-width originale
-    quizContainer.style.maxWidth = originalMaxWidth;
-    
-    // Ripristina il contenuto originale
-    quizContent.innerHTML = originalContent;
-    
-    // Imposta le dimensioni minime
-    if (maxHeight > 0) {
-        quizContent.style.minHeight = `${maxHeight}px`;
-    }
-    
-    // Imposta la larghezza del contenitore in base alla larghezza massima del contenuto
-    // Mantieni il limite di 900px ma usa la larghezza massima trovata
-    if (maxWidth > 0) {
-        const containerWidth = Math.min(maxWidth + 60, 900); // +60 per padding laterale
-        quizContainer.style.width = `${containerWidth}px`;
-        console.log(`📏 Dimensioni calcolate - Larghezza: ${containerWidth}px, Altezza: ${maxHeight}px`);
-    }
+    // Non calcoliamo più nulla - tutto gestito tramite CSS con width e height al 100%
 }
 
 // Renderizza il contenuto di una domanda (senza aggiornare progresso e navigazione)
@@ -286,8 +224,6 @@ async function initQuiz() {
     currentQuizzes = selectQuizzes();
     currentQuestionIndex = 0;
     userAnswers = new Array(currentQuizzes.length).fill(null);
-    
-    console.log(`Quiz avviato: ${currentQuizzes.length} domande, Random: ${quizSettings.random}`);
     
     // Calcola le dimensioni minime necessarie
     calculateMinContentSize();
@@ -393,6 +329,11 @@ function selectAnswer(questionIndex, letter) {
 
 // Mostra dialog conferma uscita
 function showExitDialog() {
+    // Calcola larghezza scrollbar e blocca lo scroll del body
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+    document.body.classList.add('dialog-open');
+    
     const dialog = document.getElementById('exitDialog');
     dialog.style.display = 'flex';
 }
@@ -401,12 +342,18 @@ function showExitDialog() {
 function hideExitDialog() {
     const dialog = document.getElementById('exitDialog');
     dialog.style.display = 'none';
+    
+    // Riabilita lo scroll del body
+    document.body.classList.remove('dialog-open');
 }
 
 // Esci dal quiz (chiamata dal dialog)
 function exitQuiz() {
     // Ferma il timer
     stopTimer();
+    
+    // Riabilita lo scroll del body prima di uscire
+    document.body.classList.remove('dialog-open');
     
     window.location.href = '../../index.html';
 }
@@ -460,11 +407,15 @@ function saveStatistics(correctCount, totalQuestions, percentage, timeSpent) {
     
     // Salva nel localStorage
     localStorage.setItem('quizStatistics', JSON.stringify(stats));
-    console.log('✅ Statistiche salvate:', stats);
 }
 
 // Mostra dialog completamento quiz
 function showCompletionDialog(correctCount, totalQuestions, percentage, timeSpent) {
+    // Calcola larghezza scrollbar e blocca lo scroll del body
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+    document.body.classList.add('dialog-open');
+    
     const dialog = document.getElementById('completionDialog');
     
     // Aggiorna i dati nel dialog
@@ -478,6 +429,7 @@ function showCompletionDialog(correctCount, totalQuestions, percentage, timeSpen
     // Chiudi automaticamente dopo 2 secondi e torna alla home
     setTimeout(() => {
         dialog.style.display = 'none';
+        document.body.classList.remove('dialog-open');
         window.location.href = '../../index.html';
     }, 2000);
 }
@@ -532,7 +484,4 @@ document.getElementById('pauseDialog').addEventListener('click', (e) => {
     // Il dialog pausa richiede una scelta esplicita
     e.stopPropagation();
 });
-
-// Log di conferma caricamento
-console.log('Quiz page caricata correttamente');
 

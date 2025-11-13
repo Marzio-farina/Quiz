@@ -3,22 +3,30 @@
 /* Quiz Page Container (senza header) */
 .quiz-page-container {
     min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+    margin: 0;
+    background: white;
     transition: background 0.3s ease;
+    overflow: hidden;
 }
 
 /* Tema scuro per la pagina quiz */
 body.dark-theme .quiz-page-container {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: #0f3460;
 }
 
 body.dark-theme .quiz-content {
     background: #0f3460;
     color: #e0e0e0;
+}
+
+body.dark-theme .quiz-footer {
+    background: #16213e;
 }
 
 body.dark-theme .quiz-progress {
@@ -68,10 +76,14 @@ body.dark-theme .btn-secondary:hover {
 
 /* Quiz Screen */
 .quiz-container {
-    margin: 0 auto;
+    margin: 0 !important;
     position: relative;
-    /* width e max-width verranno impostati dinamicamente via JavaScript */
-    max-width: 100%; /* Per responsive su schermi piccoli */
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Progresso - posizione assoluta in alto a sinistra del contenitore */
@@ -238,15 +250,46 @@ body.dark-theme .stop-bar {
 /* Contenuto Quiz */
 .quiz-content {
     background: white;
-    border-radius: 15px;
+    border-radius: 0;
     padding: 70px 30px 30px 30px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    box-shadow: none;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
     box-sizing: border-box;
-    /* min-height verrà impostato dinamicamente via JavaScript */
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Scrollbar overlay per non occupare spazio */
+.quiz-content::-webkit-scrollbar {
+    width: 10px;
+    background: transparent;
+}
+
+.quiz-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.quiz-content::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.5);
+    border-radius: 5px;
+}
+
+.quiz-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.8);
+}
+
+body.dark-theme .quiz-content::-webkit-scrollbar-thumb {
+    background: rgba(100, 181, 246, 0.5);
+}
+
+body.dark-theme .quiz-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 181, 246, 0.8);
 }
 
 /* Immagine Quiz */
@@ -310,10 +353,19 @@ body.dark-theme .stop-bar {
     display: flex;
     justify-content: space-between;
     gap: 15px;
+    padding: 20px 30px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
 }
 
 .quiz-footer .btn {
     flex: 1;
+}
+
+/* Blocca lo scroll quando il dialog è aperto */
+body.dialog-open {
+    overflow: hidden;
+    padding-right: var(--scrollbar-width, 0px);
 }
 
 /* Dialog personalizzato */

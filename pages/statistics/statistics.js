@@ -284,6 +284,11 @@ function showQuizDetail(quiz) {
         return;
     }
     
+    // Calcola larghezza scrollbar e blocca lo scroll del body
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+    document.body.classList.add('dialog-open');
+    
     const dialog = document.getElementById('quizDetailDialog');
     
     // Formatta la data
@@ -346,6 +351,9 @@ function showQuizDetail(quiz) {
 function hideQuizDetail() {
     const dialog = document.getElementById('quizDetailDialog');
     dialog.style.display = 'none';
+    
+    // Riabilita lo scroll del body
+    document.body.classList.remove('dialog-open');
 }
 
 // Cancella tutte le statistiche
@@ -367,7 +375,6 @@ function hideConfirmDeleteDialog() {
 function performDelete() {
     localStorage.removeItem('quizStatistics');
     displayStatistics();
-    console.log('✅ Statistiche cancellate');
     hideConfirmDeleteDialog();
 }
 
@@ -401,7 +408,4 @@ document.getElementById('confirmDeleteDialog').addEventListener('click', (e) => 
 
 // Carica le statistiche all'avvio
 displayStatistics();
-
-// Log di conferma caricamento
-console.log('Pagina statistiche caricata correttamente');
 
