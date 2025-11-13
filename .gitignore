@@ -29,3 +29,17 @@ Thumbs.db
 Banca dati unisa farmacia ospedaliera.pdf
 *.pdf
 
+# Immagini estratte dal PDF
+quiz-images/
+images-metadata.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+

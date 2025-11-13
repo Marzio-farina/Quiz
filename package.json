@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
-    "extract": "node extractPdfQuiz.js"
+    "extract": "node extractPdfQuiz.js",
+    "extract-images": "node extractPdfImages.js"
   },
   "keywords": [
     "electron",

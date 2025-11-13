@@ -30,19 +30,51 @@ Questo comando:
 - Estrae domande, risposte e risposte corrette
 - Genera il file `quiz-data.json` con tutti i quiz in formato strutturato
 
+## 🖼️ Estrazione Immagini dal PDF (Opzionale)
+
+Alcuni quiz contengono strutture chimiche e grafici. Per estrarli:
+
+### Metodo Python (Consigliato) ✅
+
+```bash
+# 1. Installa PyMuPDF
+pip install PyMuPDF
+
+# 2. Verifica il setup
+python check_python_setup.py
+
+# 3. Estrai le immagini
+python extract_pdf_images.py
+```
+
+**Vantaggi:**
+- ✅ Nessuna compilazione C++ necessaria
+- ✅ Funziona su tutti i sistemi operativi
+- ✅ Veloce ed efficiente
+
+Le immagini verranno salvate in `quiz-images/`
+
+📖 Guida dettagliata: [README_PYTHON_EXTRACTION.md](README_PYTHON_EXTRACTION.md)
+
 ## 📁 Struttura del progetto
 
 ```
 Quiz/
-├── main.js                    # Processo principale di Electron
-├── preload.js                 # Script di preload per la sicurezza
-├── index.html                 # Interfaccia utente principale
-├── renderer.js                # Script del renderer process
-├── styles.css                 # Stili CSS
-├── extractPdfQuiz.js          # Script per estrarre quiz dal PDF
-├── quiz-data.json             # Database quiz in formato JSON
-├── package.json               # Configurazione del progetto
-└── README.md                  # Questo file
+├── main.js                         # Processo principale di Electron
+├── preload.js                      # Script di preload per la sicurezza
+├── index.html                      # Interfaccia utente principale
+├── renderer.js                     # Script del renderer process
+├── styles.css                      # Stili CSS
+├── extractPdfQuiz.js               # Script Node.js per estrarre quiz dal PDF
+├── extract_pdf_images.py           # Script Python per estrarre immagini
+├── check_python_setup.py           # Script per verificare setup Python
+├── requirements.txt                # Dipendenze Python
+├── quiz-data.json                  # Database quiz in formato JSON
+├── quiz-images/                    # Immagini estratte (opzionale)
+├── package.json                    # Configurazione del progetto
+├── README.md                       # Questo file
+├── README_PYTHON_EXTRACTION.md     # Guida estrazione immagini
+└── IMAGE_EXTRACTION_GUIDE.md       # Guida completa alle immagini
 ```
 
 ## 🛠️ Tecnologie utilizzate

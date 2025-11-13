@@ -1,0 +1,9 @@
+# Dipendenze Python per l'estrazione delle immagini dal PDF
+
+# PyMuPDF - libreria potente per manipolare PDF
+# Installa con: pip install PyMuPDF
+PyMuPDF>=1.23.0
+
+# Pillow - per eventuale elaborazione immagini (opzionale)
+# Pillow>=10.0.0
+
