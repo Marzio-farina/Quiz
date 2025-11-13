@@ -71,6 +71,13 @@ document.getElementById('statsBtn').addEventListener('click', () => {
     window.location.href = 'pages/statistics/statistics.html';
 });
 
+// Gestione pulsante Opzioni
+document.getElementById('optionsBtn').addEventListener('click', () => {
+    console.log('⚙️ Apertura opzioni');
+    // TODO: Implementare pagina opzioni
+    alert('⚙️ Pagina Opzioni - In arrivo!');
+});
+
 // Log di conferma caricamento
 console.log('Home page caricata correttamente');
 
