@@ -14,6 +14,74 @@ body {
     align-items: center;
     justify-content: center;
     padding: 0;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Tema scuro */
+body.dark-theme {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e0e0e0;
+}
+
+body.dark-theme .container {
+    background: #0f3460;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-theme .welcome-card {
+    background: #16213e;
+}
+
+body.dark-theme .welcome-card h2 {
+    color: #64b5f6;
+}
+
+body.dark-theme .welcome-card p {
+    color: #b0b0b0;
+}
+
+body.dark-theme .setting-label {
+    color: #b0b0b0;
+}
+
+body.dark-theme .option-btn {
+    background: #1a1a2e;
+    color: #e0e0e0;
+    border-color: #2c3e50;
+}
+
+body.dark-theme .option-btn:hover {
+    background: #2c3e50;
+    border-color: #64b5f6;
+}
+
+body.dark-theme .option-btn.active {
+    background: #64b5f6;
+    color: #1a1a2e;
+    border-color: #64b5f6;
+}
+
+body.dark-theme .checkbox-label {
+    color: #e0e0e0;
+}
+
+body.dark-theme .checkbox-container {
+    background: #1a1a2e;
+    border-color: #2c3e50;
+}
+
+body.dark-theme .checkbox-container:hover {
+    background: #2c3e50;
+    border-color: #64b5f6;
+}
+
+body.dark-theme .checkbox-container input[type="checkbox"] {
+    accent-color: #64b5f6;
+}
+
+body.dark-theme footer {
+    background: #16213e;
+    color: #b0b0b0;
 }
 
 .container {
@@ -31,6 +99,7 @@ header {
     color: white;
     padding: 40px;
     text-align: center;
+    position: relative;
 }
 
 header h1 {
@@ -44,6 +113,65 @@ header h1 {
     opacity: 0.95;
 }
 
+/* Toggle tema */
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95) rotate(15deg);
+}
+
+.theme-icon {
+    position: absolute;
+    font-size: 2rem;
+    transition: all 0.3s ease;
+}
+
+.theme-icon.sun {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+}
+
+.theme-icon.moon {
+    opacity: 0;
+    transform: translateY(50px) rotate(180deg);
+}
+
+body.dark-theme .theme-icon.sun {
+    opacity: 0;
+    transform: translateY(-50px) rotate(-180deg);
+}
+
+body.dark-theme .theme-icon.moon {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+}
+
+body.dark-theme header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+}
+
 /* Main content */
 main {
     padding: 40px;
@@ -55,6 +183,47 @@ main {
     padding: 30px;
     margin-bottom: 30px;
     text-align: center;
+    position: relative;
+}
+
+/* Icona statistiche */
+.stats-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: white;
+    border: 3px solid #667eea;
+    border-radius: 12px;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+}
+
+.stats-icon:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.stats-icon:active {
+    transform: scale(0.95) rotate(5deg);
+}
+
+body.dark-theme .stats-icon {
+    background: #1a1a2e;
+    border-color: #64b5f6;
+    box-shadow: 0 2px 10px rgba(100, 181, 246, 0.2);
+}
+
+body.dark-theme .stats-icon:hover {
+    background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+    box-shadow: 0 5px 20px rgba(100, 181, 246, 0.4);
 }
 
 .welcome-card h2 {
@@ -149,7 +318,7 @@ main {
 .settings-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: end;
     gap: 30px;
     flex-wrap: wrap;
 }

@@ -10,6 +10,17 @@ let currentQuestionIndex = 0;
 let userAnswers = [];
 let quizSettings = {};
 
+// Carica il tema salvato (mantiene il tema scelto nella home)
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+}
+
+// Inizializza il tema all'avvio
+initTheme();
+
 // Ricevi le impostazioni dalla pagina home
 ipcRenderer.on('start-quiz', (event, settings) => {
     quizSettings = settings;
@@ -262,11 +273,21 @@ function selectAnswer(questionIndex, letter) {
     });
 }
 
-// Esci dal quiz
+// Mostra dialog conferma uscita
+function showExitDialog() {
+    const dialog = document.getElementById('exitDialog');
+    dialog.style.display = 'flex';
+}
+
+// Nascondi dialog conferma uscita
+function hideExitDialog() {
+    const dialog = document.getElementById('exitDialog');
+    dialog.style.display = 'none';
+}
+
+// Esci dal quiz (chiamata dal dialog)
 function exitQuiz() {
-    if (confirm('Sei sicuro di voler uscire dal quiz? I progressi andranno persi.')) {
-        window.location.href = '../../index.html';
-    }
+    window.location.href = '../../index.html';
 }
 
 // Navigazione quiz
@@ -306,9 +327,20 @@ function finishQuiz() {
 }
 
 // Event Listeners
-document.getElementById('exitQuizBtn').addEventListener('click', exitQuiz);
+document.getElementById('exitQuizBtn').addEventListener('click', showExitDialog);
 document.getElementById('prevBtn').addEventListener('click', previousQuestion);
 document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+
+// Event Listeners per il dialog
+document.getElementById('confirmExitBtn').addEventListener('click', exitQuiz);
+document.getElementById('cancelExitBtn').addEventListener('click', hideExitDialog);
+
+// Chiudi dialog cliccando fuori dalla finestra
+document.getElementById('exitDialog').addEventListener('click', (e) => {
+    if (e.target.id === 'exitDialog') {
+        hideExitDialog();
+    }
+});
 
 // Log di conferma caricamento
 console.log('Quiz page caricata correttamente');
