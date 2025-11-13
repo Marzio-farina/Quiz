@@ -96,16 +96,38 @@ function shuffleArray(array) {
 
 // Seleziona i quiz in base alle impostazioni
 function selectQuizzes() {
+    // Filtra i quiz in base alle categorie selezionate
+    let filteredQuizzes = allQuizzes;
+    
+    if (quizSettings.categories && quizSettings.categories.length > 0) {
+        filteredQuizzes = allQuizzes.filter(quiz => 
+            quizSettings.categories.includes(quiz.category)
+        );
+        console.log(`📂 Filtrati ${filteredQuizzes.length} quiz dalle categorie selezionate:`, quizSettings.categories);
+    }
+    
+    // Se non ci sono quiz dopo il filtro, usa tutti i quiz
+    if (filteredQuizzes.length === 0) {
+        console.warn('⚠️ Nessun quiz trovato per le categorie selezionate, uso tutti i quiz');
+        filteredQuizzes = allQuizzes;
+    }
+    
+    // Log se ci sono meno quiz del richiesto
+    if (filteredQuizzes.length < quizSettings.count) {
+        console.warn(`⚠️ Richieste ${quizSettings.count} domande ma sono disponibili solo ${filteredQuizzes.length} domande per le categorie selezionate`);
+    }
+    
     let selected;
     
     if (quizSettings.random) {
         // Modalità random: mescola e prendi i primi N
-        selected = shuffleArray(allQuizzes).slice(0, quizSettings.count);
+        selected = shuffleArray(filteredQuizzes).slice(0, quizSettings.count);
     } else {
         // Modalità sequenziale: prendi i primi N
-        selected = allQuizzes.slice(0, quizSettings.count);
+        selected = filteredQuizzes.slice(0, quizSettings.count);
     }
     
+    console.log(`✅ Selezionati ${selected.length} quiz`);
     return selected;
 }
 

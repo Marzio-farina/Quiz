@@ -233,6 +233,212 @@ body.dark-theme .stats-icon:hover {
     box-shadow: 0 5px 20px rgba(100, 181, 246, 0.4);
 }
 
+/* Dialog Categorie */
+.categories-dialog {
+    position: absolute;
+    top: 60px;
+    right: 90px;
+    width: 320px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-origin: top right;
+}
+
+.categories-dialog.hidden {
+    opacity: 0;
+    transform: scale(0) translateY(-20px);
+    pointer-events: none;
+}
+
+.categories-dialog:not(.hidden) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+body.dark-theme .categories-dialog {
+    background: #16213e;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.categories-dialog-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.dark-theme .categories-dialog-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+}
+
+.categories-dialog-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.close-dialog-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.close-dialog-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.categories-dialog-content {
+    padding: 15px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.category-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.category-checkbox:hover {
+    background: #e9ecef;
+    border-color: #667eea;
+    transform: translateX(5px);
+}
+
+body.dark-theme .category-checkbox {
+    background: #1a1a2e;
+}
+
+body.dark-theme .category-checkbox:hover {
+    background: #2c3e50;
+    border-color: #64b5f6;
+}
+
+.category-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #667eea;
+}
+
+body.dark-theme .category-checkbox input[type="checkbox"] {
+    accent-color: #64b5f6;
+}
+
+.category-checkbox span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    user-select: none;
+}
+
+body.dark-theme .category-checkbox span {
+    color: #e0e0e0;
+}
+
+.categories-dialog-footer {
+    padding: 15px;
+    background: #f8f9fa;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #e9ecef;
+}
+
+body.dark-theme .categories-dialog-footer {
+    background: #1a1a2e;
+    border-top-color: #2c3e50;
+}
+
+.dialog-btn {
+    flex: 1;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary-dialog {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-secondary-dialog:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+}
+
+body.dark-theme .btn-secondary-dialog {
+    background: #0f3460;
+    color: #64b5f6;
+    border-color: #64b5f6;
+}
+
+body.dark-theme .btn-secondary-dialog:hover {
+    background: #64b5f6;
+    color: #1a1a2e;
+}
+
+/* Scrollbar personalizzata per il dialog */
+.categories-dialog-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.categories-dialog-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.categories-dialog-content::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 10px;
+}
+
+.categories-dialog-content::-webkit-scrollbar-thumb:hover {
+    background: #764ba2;
+}
+
+body.dark-theme .categories-dialog-content::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+body.dark-theme .categories-dialog-content::-webkit-scrollbar-thumb {
+    background: #64b5f6;
+}
+
+body.dark-theme .categories-dialog-content::-webkit-scrollbar-thumb:hover {
+    background: #42a5f5;
+}
+
 .welcome-card h2 {
     color: #667eea;
     margin-bottom: 15px;
