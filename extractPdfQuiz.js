@@ -34,6 +34,173 @@ function cleanText(text) {
 }
 
 /**
+ * Funzione per categorizzare automaticamente una domanda
+ * in base alle parole chiave presenti nel testo
+ */
+function categorizeQuiz(questionText, answersText) {
+    const fullText = (questionText + ' ' + answersText).toLowerCase();
+    
+    // Definizione delle categorie e relative parole chiave
+    const categories = {
+        'FARMACOLOGIA': [
+            'farmaco', 'farmaci', 'meccanismo', 'azione', 'recettori', 'recettore',
+            'antagonista', 'agonista', 'blocca', 'bloccante', 'inibisce', 'inibitore',
+            'stimola', 'stimolante', 'effetto', 'effetti', 'collaterali', 'avversi',
+            'terapia', 'terapeutico', 'trattamento', 'somministrazione', 'dose', 'dosi',
+            'farmacodinamica', 'farmacocinetica', 'metabolismo', 'eliminazione',
+            'assorbimento', 'distribuzione', 'biodisponibilità', 'emivita',
+            'antipertensivo', 'antineoplastico', 'ansiolitico', 'antidepressivo',
+            'antibiotico', 'antinfiammatorio', 'analgesico', 'antidolorifico',
+            'vasodilatatore', 'diuretico', 'anticoagulante', 'broncodilatatore',
+            'adrenergic', 'colinergic', 'dopaminergic', 'serotoninergic',
+            'interazioni farmacologiche', 'interazione', 'associazione farmacologica'
+        ],
+        'FARMACEUTICA': [
+            'compressa', 'compresse', 'capsula', 'capsule', 'forma farmaceutica',
+            'eccipiente', 'eccipienti', 'gastroresistente', 'gastroresistenza',
+            'rilascio', 'formulazione', 'preparazione galenica', 'galenico',
+            'viscosità', 'tensione superficiale', 'solubilità', 'scioglimento',
+            'disgregazione', 'disintegrazione', 'rivestimento', 'coating',
+            'granulazione', 'liofilizzazione', 'essicazione', 'polvere',
+            'sospensione', 'emulsione', 'soluzione', 'sciroppo', 'gocce',
+            'supposta', 'supposte', 'ovuli', 'unguento', 'crema', 'gel',
+            'cerotto', 'transdermico', 'parenterale', 'endovenosa',
+            'stabilità', 'conservazione', 'scadenza', 'shelf-life',
+            'lattosio', 'cellulosa', 'stearato', 'magnesio stearato',
+            'silice', 'talco', 'amido', 'gelatina', 'glicerina'
+        ],
+        'CHIMICA_FARMACEUTICA': [
+            'struttura', 'molecola', 'molecolare', 'atomo', 'carbonio',
+            'isomeria', 'isomero', 'stereoisomeria', 'enantiomero', 'chirale',
+            'asimmetrico', 'configurazione', 'conformazione',
+            'gruppo funzionale', 'radicale', 'catena', 'anello', 'aromatico',
+            'sintesi', 'reazione', 'ossidazione', 'riduzione', 'idrolisi',
+            'acido', 'base', 'sale', 'estere', 'ammide', 'chetone', 'aldeide',
+            'alcool', 'fenolo', 'ammina', 'carbossil', 'idrossil',
+            'solfo', 'azoto', 'ossigeno', 'alogenio', 'cloro', 'fluoro',
+            'ph', 'pka', 'ionizzazione', 'tampone', 'equilibrio'
+        ],
+        'LEGISLAZIONE': [
+            'ricetta', 'prescrizione', 'prescrivere', 'registri', 'registro',
+            'legge', 'normativa', 'decreto', 'regolamento', 'dlgs', 'dpr',
+            'aifa', 'ministero', 'autorizzazione', 'aic', 'prontuario',
+            'classe', 'classificazione', 'tabella', 'stupefacenti', 'psicotropi',
+            'ricettario', 'validità', 'ripetibile', 'non ripetibile',
+            'ssn', 'servizio sanitario', 'ticket', 'mutuabile',
+            'etichetta', 'etichettatura', 'foglietto illustrativo', 'bugiardino',
+            'dispositivo medico', 'marcatura ce', 'lotto', 'scadenza',
+            'farmacovigilanza', 'reazione avversa', 'segnalazione',
+            'deontologia', 'codice deontologico', 'farmacista', 'camice',
+            'ordine', 'albo', 'professionale', 'titolare', 'direttore',
+            'responsabile', 'ispezione', 'vigilanza', 'sanzione'
+        ],
+        'CHIMICA_ANALITICA': [
+            'analisi', 'analytic', 'dosaggio', 'titolazione', 'spettroscopia',
+            'spettrofotometria', 'cromatografia', 'hplc', 'gc-ms', 'tlc',
+            'elettroforesi', 'risonanza magnetica', 'nmr', 'infrarosso', 'ir',
+            'massa', 'spettrometria', 'uv', 'visibile', 'fluorescenza',
+            'tac', 'tomografia', 'radiazioni', 'raggi x', 'radioattiv',
+            'frequenza', 'lunghezza d\'onda', 'energia', 'fotone',
+            'concentrazione', 'molarità', 'normalità', 'diluizione',
+            'standard', 'calibrazione', 'curva', 'linearità',
+            'limiti di rivelabilità', 'sensibilità', 'specificità',
+            'validazione', 'metodo analitico', 'controllo qualità'
+        ],
+        'FARMACOGNOSIA': [
+            'pianta', 'piante', 'droga', 'droghe vegetali', 'fitoterapia',
+            'estratto', 'estratti', 'tintura madre', 'macerato', 'infuso',
+            'decotto', 'oleolito', 'omeopati', 'omeopatico', 'diluizione',
+            'dinamizzazione', 'centesimale', 'decimale', 'korsakoviana',
+            'alcaloide', 'alcaloidi', 'glucoside', 'glucosidi', 'tannin',
+            'flavonoide', 'flavonoidi', 'terpene', 'oli essenziali',
+            'resina', 'gomma', 'mucillagine', 'saponina', 'principio attivo naturale',
+            'botanica', 'specie', 'genere', 'famiglia', 'nomenclatura',
+            'coltivazione', 'raccolta', 'essicazione', 'conservazione',
+            'guar', 'ginseng', 'valeriana', 'camomilla', 'echinacea',
+            'digitale', 'belladonna', 'segale cornuta', 'oppio', 'china'
+        ],
+        'COSMETOLOGIA': [
+            'cosmetico', 'cosmetici', 'cosmetica', 'dermocosmetico',
+            'crema viso', 'crema mani', 'lozione', 'shampoo', 'balsamo',
+            'trucco', 'makeup', 'smalto', 'profumo', 'deodorante',
+            'solare', 'protezione solare', 'spf', 'filtro solare',
+            'idratante', 'emolliente', 'nutriente', 'antiage', 'antirughe',
+            'schiarente', 'depigmentante', 'idrochinone', 'acido glicolico',
+            'conservante', 'parabeni', 'profumazione', 'colorante',
+            'tensioattivo', 'emulsionante', 'addensante', 'umettante',
+            'legge 713', '713/86', 'allegato', 'proibito', 'ammesso',
+            'concentrazione massima', 'etichettatura cosmetica',
+            'pao', 'period after opening', 'nickel tested', 'dermatologicamente',
+            'bambini', 'età inferiore', 'tre anni', 'pelle sensibile'
+        ],
+        'MICROBIOLOGIA': [
+            'batterio', 'batteri', 'batteric', 'microbio', 'microbiologia',
+            'gram-positiv', 'gram-negativ', 'gram positiv', 'gram negativ',
+            'stafilococco', 'streptococco', 'enterococco', 'pneumococco',
+            'escherichia', 'e. coli', 'salmonella', 'pseudomonas',
+            'klebsiella', 'proteus', 'mycobacterium', 'micobatter',
+            'tubercolosi', 'tbc', 'lebbra', 'hansen',
+            'parete cellulare', 'peptidoglicano', 'lipopolisaccaride', 'lps',
+            'acidi micolici', 'capsula', 'flagello', 'pilo',
+            'antibiotico', 'antibatterico', 'antimicrobico', 'antisettico',
+            'disinfettante', 'battericida', 'batteriostatico',
+            'resistenza', 'resistente', 'sensibile', 'sensibilità',
+            'beta-lattamasi', 'penicillinasi', 'betalattamina', 'beta-lattamin',
+            'penicillina', 'cefalosporina', 'chinolone', 'fluorochinolone',
+            'tetracicline', 'macrolidi', 'amminoglicosidi', 'sulfamidici',
+            'infezione', 'infettivo', 'setticemia', 'endocardite', 'meningite',
+            'coltura', 'antibiogramma', 'mic', 'sterilizzazione', 'asettico'
+        ],
+        'ECONOMIA_FARMACEUTICA': [
+            'prezzo', 'prezzi', 'costo', 'tariffa', 'margine', 'sconto',
+            'rimborso', 'rimborsabilità', 'compartecipazione', 'ticket',
+            'prontuario', 'classe a', 'classe c', 'classe h',
+            'ddd', 'defined daily dose', 'dose definita giornaliera',
+            'equivalente', 'generico', 'biosimilare', 'farmaco equivalente',
+            'asl', 'regione', 'regionale', 'convenzione', 'convenzionato',
+            'grossista', 'distribuzione', 'acquisto', 'approvvigionamento',
+            'gestione magazzino', 'stock', 'inventario', 'rotazione',
+            'farmacoeconomia', 'cost-effectiveness', 'budget', 'spesa',
+            'appropriatezza prescrittiva', 'consumo', 'utilizzazione'
+        ]
+    };
+    
+    // Calcola il punteggio per ogni categoria
+    const scores = {};
+    
+    for (const [category, keywords] of Object.entries(categories)) {
+        let score = 0;
+        for (const keyword of keywords) {
+            // Conta le occorrenze della parola chiave
+            const regex = new RegExp(keyword, 'gi');
+            const matches = fullText.match(regex);
+            if (matches) {
+                score += matches.length;
+            }
+        }
+        scores[category] = score;
+    }
+    
+    // Trova la categoria con il punteggio più alto
+    let maxScore = 0;
+    let bestCategory = 'ALTRO'; // Categoria di default
+    
+    for (const [category, score] of Object.entries(scores)) {
+        if (score > maxScore) {
+            maxScore = score;
+            bestCategory = category;
+        }
+    }
+    
+    // Se nessuna categoria ha un punteggio significativo (>= 1), usa 'ALTRO'
+    if (maxScore < 1) {
+        bestCategory = 'ALTRO';
+    }
+    
+    return bestCategory;
+}
+
+/**
  * Funzione principale per estrarre i quiz
  */
 function extractQuizzes(text) {
@@ -352,9 +519,14 @@ function parseQuizSection(section, quizNumber) {
         console.warn(`Quiz ${quizNumber}: risposta corretta non trovata`);
     }
     
+    // Categorizza il quiz in base al contenuto
+    const answersText = answers.map(a => a.text).join(' ');
+    const category = categorizeQuiz(questionText, answersText);
+    
     return {
         id: quizNumber,
         question: questionText,
+        category: category,
         answers: answers,
         correctAnswer: correctAnswer || 'NON_TROVATA'
     };
@@ -391,6 +563,22 @@ async function main() {
         console.log(`   - Quiz senza risposta: ${quizzes.filter(q => q.correctAnswer === 'NON_TROVATA').length}`);
         console.log(`   - Quiz con 5 risposte: ${quizzes.filter(q => q.answers.length === 5).length}`);
         
+        // Statistiche per categoria
+        console.log('\n📂 Distribuzione per categoria:');
+        const categoryCount = {};
+        quizzes.forEach(quiz => {
+            categoryCount[quiz.category] = (categoryCount[quiz.category] || 0) + 1;
+        });
+        
+        // Ordina le categorie per numero di quiz (decrescente)
+        const sortedCategories = Object.entries(categoryCount)
+            .sort((a, b) => b[1] - a[1]);
+        
+        sortedCategories.forEach(([category, count]) => {
+            const percentage = ((count / quizzes.length) * 100).toFixed(1);
+            console.log(`   - ${category}: ${count} quiz (${percentage}%)`);
+        });
+        
         // Salva il JSON
         const jsonOutput = {
             metadata: {
@@ -411,6 +599,7 @@ async function main() {
         const quiz59 = quizzes.find(q => q.id === 59);
         if (quiz59) {
             console.log('\n📋 Test - Quiz 59 (talco bambini):');
+            console.log(`Categoria: ${quiz59.category}`);
             console.log(`Domanda: ${quiz59.question}`);
             console.log(`Risposte (${quiz59.answers.length}):`);
             quiz59.answers.forEach(ans => {
@@ -423,6 +612,7 @@ async function main() {
         console.log('\n📋 Primi 3 quiz:');
         quizzes.slice(0, 3).forEach(quiz => {
             console.log(`\n--- Quiz ${quiz.id} ---`);
+            console.log(`Categoria: ${quiz.category}`);
             console.log(`Domanda: ${quiz.question.substring(0, 80)}${quiz.question.length > 80 ? '...' : ''}`);
             console.log(`Risposte (${quiz.answers.length}):`);
             quiz.answers.forEach(ans => {
