@@ -20,8 +20,8 @@ ipcRenderer.on('start-quiz', (event, settings) => {
 // Carica i quiz dal JSON
 async function loadQuizData() {
     try {
-        // Path relativo dalla cartella pages alla root
-        const dataPath = path.join(__dirname, '..', 'quiz-data.json');
+        // Path relativo dalla cartella pages/quiz alla root
+        const dataPath = path.join(__dirname, '..', '..', 'quiz-data.json');
         const rawData = fs.readFileSync(dataPath, 'utf8');
         const data = JSON.parse(rawData);
         allQuizzes = data.quizzes;
@@ -59,13 +59,100 @@ function selectQuizzes() {
     return selected;
 }
 
+// Calcola le dimensioni minime necessarie per il contenitore
+function calculateMinContentSize() {
+    const quizContainer = document.querySelector('.quiz-container');
+    const quizContent = document.querySelector('.quiz-content');
+    let maxHeight = 0;
+    let maxWidth = 0;
+    
+    // Salva il contenuto originale
+    const originalContent = quizContent.innerHTML;
+    
+    // Rimuovi temporaneamente max-width per misurare la larghezza naturale
+    const originalMaxWidth = quizContainer.style.maxWidth;
+    quizContainer.style.maxWidth = 'none';
+    
+    // Per ogni domanda, renderizzala temporaneamente e misura le dimensioni
+    currentQuizzes.forEach((quiz, index) => {
+        // Renderizza la domanda temporaneamente
+        renderQuestionContent(quiz, index);
+        
+        // Aspetta che le immagini siano caricate per misurare correttamente
+        // Misura l'altezza e larghezza del contenuto
+        const currentHeight = quizContent.scrollHeight;
+        const currentWidth = quizContent.scrollWidth;
+        
+        if (currentHeight > maxHeight) {
+            maxHeight = currentHeight;
+        }
+        if (currentWidth > maxWidth) {
+            maxWidth = currentWidth;
+        }
+    });
+    
+    // Ripristina max-width originale
+    quizContainer.style.maxWidth = originalMaxWidth;
+    
+    // Ripristina il contenuto originale
+    quizContent.innerHTML = originalContent;
+    
+    // Imposta le dimensioni minime
+    if (maxHeight > 0) {
+        quizContent.style.minHeight = `${maxHeight}px`;
+    }
+    
+    // Imposta la larghezza del contenitore in base alla larghezza massima del contenuto
+    // Mantieni il limite di 900px ma usa la larghezza massima trovata
+    if (maxWidth > 0) {
+        const containerWidth = Math.min(maxWidth + 60, 900); // +60 per padding laterale
+        quizContainer.style.width = `${containerWidth}px`;
+        console.log(`📏 Dimensioni calcolate - Larghezza: ${containerWidth}px, Altezza: ${maxHeight}px`);
+    }
+}
+
+// Renderizza il contenuto di una domanda (senza aggiornare progresso e navigazione)
+function renderQuestionContent(quiz, index) {
+    const questionText = document.getElementById('questionText');
+    const answersContainer = document.getElementById('answersContainer');
+    const imageContainer = document.getElementById('quizImage');
+    const imageElement = document.getElementById('quizImageElement');
+    
+    // Mostra domanda
+    questionText.textContent = quiz.question;
+    
+    // Controlla se c'è un'immagine
+    const imagePath = getQuizImage(quiz.id);
+    if (imagePath) {
+        imageElement.src = imagePath;
+        imageContainer.style.display = 'block';
+    } else {
+        imageContainer.style.display = 'none';
+    }
+    
+    // Mostra risposte
+    answersContainer.innerHTML = '';
+    quiz.answers.forEach((answer) => {
+        const answerDiv = document.createElement('div');
+        answerDiv.className = 'answer-option';
+        answerDiv.textContent = `${answer.letter}) ${answer.text}`;
+        answerDiv.dataset.letter = answer.letter;
+        
+        if (userAnswers[index] === answer.letter) {
+            answerDiv.classList.add('selected');
+        }
+        
+        answersContainer.appendChild(answerDiv);
+    });
+}
+
 // Inizializza il quiz
 async function initQuiz() {
     // Carica i quiz se non già caricati
     if (allQuizzes.length === 0) {
         const loaded = await loadQuizData();
         if (!loaded) {
-            window.location.href = '../index.html';
+            window.location.href = '../../index.html';
             return;
         }
     }
@@ -77,6 +164,9 @@ async function initQuiz() {
     
     console.log(`Quiz avviato: ${currentQuizzes.length} domande, Random: ${quizSettings.random}`);
     
+    // Calcola le dimensioni minime necessarie
+    calculateMinContentSize();
+    
     // Mostra prima domanda
     displayQuestion(0);
 }
@@ -86,8 +176,8 @@ function getQuizImage(quizId) {
     // Ogni pagina ha circa 2 quiz
     const pageNumber = Math.ceil(quizId / 2) + 1;
     
-    // Path relativo dalla cartella pages alla root
-    const basePath = path.join(__dirname, '..');
+    // Path relativo dalla cartella pages/quiz alla root
+    const basePath = path.join(__dirname, '..', '..');
     
     // Prova diversi pattern di nomi file
     const possibleImages = [
@@ -101,7 +191,7 @@ function getQuizImage(quizId) {
         const fullPath = path.join(basePath, imagePath);
         if (fs.existsSync(fullPath)) {
             // Ritorna path relativo per l'HTML
-            return `../${imagePath}`;
+            return `../../${imagePath}`;
         }
     }
     
@@ -175,7 +265,7 @@ function selectAnswer(questionIndex, letter) {
 // Esci dal quiz
 function exitQuiz() {
     if (confirm('Sei sicuro di voler uscire dal quiz? I progressi andranno persi.')) {
-        window.location.href = '../index.html';
+        window.location.href = '../../index.html';
     }
 }
 
@@ -212,7 +302,7 @@ function finishQuiz() {
     alert(`Quiz completato!\n\nRisposte corrette: ${correctCount}/${currentQuizzes.length}\nPercentuale: ${percentage}%`);
     
     // Torna alla home
-    window.location.href = '../index.html';
+    window.location.href = '../../index.html';
 }
 
 // Event Listeners

@@ -120,6 +120,27 @@ main {
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
 }
 
+/* Stili per pulsanti disabilitati */
+.btn:disabled,
+.btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn-primary:disabled,
+.btn-primary[disabled] {
+    background: #ccc;
+    box-shadow: none;
+}
+
+.btn-secondary:disabled,
+.btn-secondary[disabled] {
+    background: #f5f5f5;
+    color: #999;
+    border-color: #ddd;
+}
+
 /* Quiz Settings */
 .quiz-settings {
     margin: 30px 0;

@@ -49,7 +49,7 @@ function createWindow() {
 ipcMain.on('load-quiz-page', (event, settings) => {
     console.log('Caricamento pagina quiz con impostazioni:', settings);
     quizSettings = settings;
-    mainWindow.loadFile('pages/quiz.html');
+    mainWindow.loadFile('pages/quiz/quiz.html');
     
     // Quando la pagina quiz è caricata, invia le impostazioni
     mainWindow.webContents.once('did-finish-load', () => {
