@@ -3,15 +3,15 @@ const path = require('path');
 const pdf = require('pdf-parse');
 
 /**
- * Script per estrarre quiz dal PDF "Banca dati unisa farmacia ospedaliera"
+ * Script migliorato per estrarre quiz dal PDF "Banca dati unisa farmacia ospedaliera"
  * 
  * Struttura del PDF:
  * Domanda[testo domanda]
- * [risposta 1]
- * [risposta 2]
- * [risposta 3]
- * [risposta 4]
- * [risposta 5]
+ * [risposta 1 - può essere su più linee]
+ * [risposta 2 - può essere su più linee]
+ * [risposta 3 - può essere su più linee]
+ * [risposta 4 - può essere su più linee]
+ * [risposta 5 - può essere su più linee]
  * Risposta esatta
  * [lettera corretta]
  * A
@@ -78,7 +78,6 @@ function parseQuizSection(section, quizNumber) {
     // Trova gli indici chiave
     let questionStartIndex = -1;
     let correctAnswerIndex = -1;
-    let numberIndex = -1;
     
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -87,8 +86,7 @@ function parseQuizSection(section, quizNumber) {
             questionStartIndex = i;
         } else if (/^Risposta\s+esatta$/i.test(line)) {
             correctAnswerIndex = i;
-        } else if (/^N°\d+$/.test(line)) {
-            numberIndex = i;
+            break;
         }
     }
     
@@ -97,99 +95,244 @@ function parseQuizSection(section, quizNumber) {
         return null;
     }
     
-    // Estrai la domanda
-    // La domanda inizia dopo "Domanda" e finisce quando iniziano le risposte
-    // Le risposte sono tra la domanda e "Risposta esatta"
-    let questionText = lines[questionStartIndex].replace(/^Domanda/, '').trim();
-    
-    // Se la domanda è su più righe, continua fino a trovare le risposte
-    let answerStartIndex = questionStartIndex + 1;
-    
-    // La domanda può continuare su più linee fino alle risposte
-    // Le risposte sono le 5 linee prima di "Risposta esatta"
-    const answerEndIndex = correctAnswerIndex;
-    
-    // Trova dove iniziano le risposte (5 linee prima di "Risposta esatta")
-    answerStartIndex = correctAnswerIndex - 5;
-    
-    if (answerStartIndex <= questionStartIndex) {
-        answerStartIndex = questionStartIndex + 1;
-    }
-    
-    // Raccogli il resto della domanda (se su più linee)
-    for (let i = questionStartIndex + 1; i < answerStartIndex; i++) {
-        const line = lines[i];
-        // Non includere le lettere singole A, B, C, D, E nella domanda
-        if (!/^[A-E]$/.test(line)) {
-            questionText += ' ' + line;
-        }
-    }
-    
-    questionText = cleanText(questionText);
-    
-    // Estrai le 5 risposte
-    const answers = [];
-    for (let i = 0; i < 5 && (answerStartIndex + i) < correctAnswerIndex; i++) {
-        const answerText = lines[answerStartIndex + i];
-        // Salta le linee che sono solo lettere singole
-        if (!/^[A-E]$/.test(answerText) && answerText.length > 1) {
-            answers.push({
-                letter: String.fromCharCode(65 + answers.length), // A=65, B=66, etc.
-                text: cleanText(answerText)
-            });
-        }
-    }
-    
-    // Se non abbiamo esattamente 5 risposte, proviamo un altro approccio
-    if (answers.length !== 5) {
-        answers.length = 0;
-        // Le risposte sono le linee tra la domanda e "Risposta esatta"
-        // escludendo le linee molto corte o che sono solo lettere
-        for (let i = questionStartIndex + 1; i < correctAnswerIndex; i++) {
-            const line = lines[i];
-            if (line.length > 2 && !/^[A-E]$/.test(line) && answers.length < 5) {
-                // Non è la domanda
-                const isPartOfQuestion = questionText.includes(line);
-                if (!isPartOfQuestion) {
-                    answers.push({
-                        letter: String.fromCharCode(65 + answers.length),
-                        text: cleanText(line)
-                    });
-                }
-            }
-        }
-    }
-    
-    // Se ancora non abbiamo 5 risposte, ricostruisci la domanda e le risposte
-    if (answers.length < 5) {
-        // Metodo alternativo: tutto tra "Domanda" e "Risposta esatta"
-        const contentLines = lines.slice(questionStartIndex + 1, correctAnswerIndex)
-            .filter(l => l.length > 2 && !/^[A-E]$/.test(l));
-        
-        if (contentLines.length >= 6) {
-            // La prima è la domanda (o le prime linee)
-            questionText = contentLines[0];
-            answers.length = 0;
-            
-            // Le ultime 5 sono le risposte
-            for (let i = contentLines.length - 5; i < contentLines.length; i++) {
-                if (i >= 0) {
-                    answers.push({
-                        letter: String.fromCharCode(65 + answers.length),
-                        text: cleanText(contentLines[i])
-                    });
-                }
-            }
-        }
-    }
-    
-    // Estrai la risposta corretta
+    // Estrai la risposta corretta (la linea dopo "Risposta esatta")
     let correctAnswer = '';
     if (correctAnswerIndex + 1 < lines.length) {
         const nextLine = lines[correctAnswerIndex + 1];
         if (/^[A-E]$/.test(nextLine)) {
             correctAnswer = nextLine;
         }
+    }
+    
+    // Trova le 5 lettere dopo "Risposta esatta" (servono per capire dove finiscono le risposte)
+    const letterIndices = [];
+    for (let i = correctAnswerIndex + 1; i < Math.min(correctAnswerIndex + 7, lines.length); i++) {
+        if (/^[A-E]$/.test(lines[i])) {
+            letterIndices.push(i);
+        }
+    }
+    
+    // Estrai tutte le linee tra "Domanda" e "Risposta esatta", escludendo le lettere finali
+    let allContentLines = lines.slice(questionStartIndex, correctAnswerIndex);
+    
+    // Rimuovi le lettere singole dalla fine (le 5 lettere A, B, C, D, E)
+    while (allContentLines.length > 0 && /^[A-E]$/.test(allContentLines[allContentLines.length - 1])) {
+        allContentLines.pop();
+    }
+    
+    if (allContentLines.length < 6) { // Almeno domanda + 5 risposte
+        console.warn(`Quiz ${quizNumber}: contenuto insufficiente`);
+        return null;
+    }
+    
+    // La prima linea contiene "Domanda" + inizio della domanda
+    let questionText = allContentLines[0].replace(/^Domanda/, '').trim();
+    let questionEndIndex = 0;
+    let firstLineComplete = false;
+    
+    // Cerca dove finisce la domanda
+    // Pattern di fine domanda: "?", "TRANNE", ":", o inizio lista risposte
+    for (let i = 0; i < allContentLines.length; i++) {
+        const line = allContentLines[i];
+        if (i === 0) {
+            // Prima linea
+            if (line.includes('?')) {
+                questionEndIndex = 0;
+                // Estrai solo la parte fino al "?"
+                const qIndex = line.indexOf('?');
+                questionText = line.substring(0, qIndex + 1).replace(/^Domanda/, '').trim();
+                firstLineComplete = true;
+                break;
+            }
+            // Controlla se finisce con "TRANNE"
+            if (/TRANNE\s*$/i.test(line)) {
+                questionEndIndex = 0;
+                const tranneMatch = line.match(/(.*?TRANNE)\s*/i);
+                if (tranneMatch) {
+                    questionText = tranneMatch[1].replace(/^Domanda/, '').trim();
+                }
+                firstLineComplete = true;
+                break;
+            }
+            // Controlla se finisce con ":"
+            if (line.endsWith(':')) {
+                questionEndIndex = 0;
+                questionText = line.replace(/^Domanda/, '').trim();
+                firstLineComplete = true;
+                break;
+            }
+            // Se la prima linea è già abbastanza lunga (>40 caratteri) e sembra completa,
+            // potrebbe non avere bisogno di continuare
+            if (questionText.length > 40) {
+                firstLineComplete = true;
+            }
+        } else {
+            // Linee successive
+            if (line.includes('?')) {
+                questionText += ' ' + line.substring(0, line.indexOf('?') + 1);
+                questionEndIndex = i;
+                break;
+            }
+            // Controlla se contiene "TRANNE"
+            if (/TRANNE/i.test(line)) {
+                const tranneIndex = line.search(/TRANNE/i);
+                questionText += ' ' + line.substring(0, tranneIndex + 6); // +6 per "TRANNE"
+                questionEndIndex = i;
+                break;
+            }
+            // Controlla se finisce con ":"
+            if (line.endsWith(':')) {
+                questionText += ' ' + line;
+                questionEndIndex = i;
+                break;
+            }
+            // Euristica per rilevare l'inizio delle risposte senza marcatori espliciti
+            if (questionEndIndex === 0) {
+                // Se la prima linea sembrava completa e questa linea inizia con minuscola
+                // o è molto corta, è probabilmente una risposta
+                if (firstLineComplete && (/^[a-z]/.test(line) || line.length < 30)) {
+                    questionEndIndex = 0;
+                    break;
+                }
+                
+                // Se la linea inizia con minuscola e non è troppo lunga, potrebbe essere continuazione
+                if (/^[a-z]/.test(line) && !firstLineComplete) {
+                    questionText += ' ' + line;
+                }
+                // Se abbiamo già una domanda di lunghezza ragionevole (>50 caratteri)
+                // e questa linea sembra una risposta (parole lowercase separate)
+                else if (questionText.length > 50) {
+                    // Pattern tipici di risposte: parole tutte minuscole separate da spazi
+                    // Esempio: "enalapril tetraciclina cloridrato ampicillina"
+                    const wordsInLine = line.split(/\s+/);
+                    const lowercaseWords = wordsInLine.filter(w => /^[a-z]/.test(w)).length;
+                    
+                    // Se la maggior parte delle parole sono lowercase (non inizio frase)
+                    // è probabilmente l'inizio delle risposte
+                    if (lowercaseWords >= wordsInLine.length * 0.6 && wordsInLine.length >= 2) {
+                        questionEndIndex = i - 1;
+                        break;
+                    } else {
+                        questionText += ' ' + line;
+                    }
+                } else {
+                    // Domanda ancora corta, continua
+                    questionText += ' ' + line;
+                }
+            }
+        }
+    }
+    
+    questionText = cleanText(questionText);
+    
+    // Le risposte sono tutto dopo la domanda
+    const answerLines = allContentLines.slice(questionEndIndex + 1);
+    
+    if (answerLines.length < 5) {
+        console.warn(`Quiz ${quizNumber}: linee di risposte insufficienti (${answerLines.length})`);
+        return null;
+    }
+    
+    // Strategia migliorata: raggruppa le linee in 5 risposte
+    // Assumiamo che ci siano esattamente 5 risposte
+    // Dividiamo le linee in modo intelligente
+    
+    const answers = [];
+    const totalLines = answerLines.length;
+    
+    // Caso semplice: se abbiamo esattamente 5 linee
+    if (totalLines === 5) {
+        for (let i = 0; i < 5; i++) {
+            answers.push({
+                letter: String.fromCharCode(65 + i),
+                text: cleanText(answerLines[i])
+            });
+        }
+    } 
+    // Se abbiamo più di 5 linee, alcune risposte sono su più linee
+    else {
+        // Strategia: cerca pattern di nuove risposte
+        // Una nuova risposta di solito inizia con maiuscola ed è abbastanza lunga
+        // oppure è significativamente diversa dalla linea precedente
+        
+        let currentAnswer = '';
+        let answerCount = 0;
+        
+        for (let i = 0; i < answerLines.length && answerCount < 5; i++) {
+            const line = answerLines[i];
+            
+            // Calcola quante linee mancano e quante risposte mancano
+            const linesLeft = answerLines.length - i;
+            const answersLeft = 5 - answerCount;
+            
+            // Determina se questa linea è l'inizio di una nuova risposta
+            let shouldStartNew = false;
+            
+            if (answerCount === 0) {
+                // Prima risposta - inizia sempre
+                shouldStartNew = true;
+            } else if (linesLeft === answersLeft) {
+                // Se il numero di linee rimanenti = numero di risposte rimanenti,
+                // ogni linea deve essere una risposta
+                shouldStartNew = true;
+            } else if (currentAnswer.length > 0) {
+                // Se la linea corrente è molto corta (< 15 caratteri),
+                // è probabilmente una continuazione
+                if (line.length < 15) {
+                    shouldStartNew = false;
+                }
+                // Se la linea è più lunga e inizia con maiuscola, potrebbe essere una nuova risposta
+                else if (/^[A-Z]/.test(line) && line.length > 20) {
+                    shouldStartNew = true;
+                }
+            }
+            
+            if (shouldStartNew && currentAnswer.length > 0 && answerCount < 5) {
+                answers.push({
+                    letter: String.fromCharCode(65 + answerCount),
+                    text: cleanText(currentAnswer)
+                });
+                answerCount++;
+                currentAnswer = line;
+            } else {
+                if (currentAnswer.length === 0) {
+                    currentAnswer = line;
+                    if (answerCount === 0) answerCount = 1;
+                } else {
+                    currentAnswer += ' ' + line;
+                }
+            }
+        }
+        
+        // Aggiungi l'ultima risposta
+        if (currentAnswer.length > 0 && answerCount <= 5) {
+            answers.push({
+                letter: String.fromCharCode(65 + answerCount),
+                text: cleanText(currentAnswer)
+            });
+        }
+        
+        // Se ancora non abbiamo 5 risposte, dividi le linee in modo uniforme
+        if (answers.length < 5) {
+            answers.length = 0;
+            const linesPerAnswer = Math.floor(totalLines / 5);
+            let currentIndex = 0;
+            
+            for (let i = 0; i < 5; i++) {
+                const linesToTake = (i < 4) ? linesPerAnswer : (totalLines - currentIndex);
+                const answerText = answerLines.slice(currentIndex, currentIndex + linesToTake).join(' ');
+                answers.push({
+                    letter: String.fromCharCode(65 + i),
+                    text: cleanText(answerText)
+                });
+                currentIndex += linesToTake;
+            }
+        }
+    }
+    
+    // Assicurati che le lettere siano corrette
+    for (let i = 0; i < answers.length; i++) {
+        answers[i].letter = String.fromCharCode(65 + i);
     }
     
     // Validazione
@@ -200,7 +343,6 @@ function parseQuizSection(section, quizNumber) {
     
     if (answers.length !== 5) {
         console.warn(`Quiz ${quizNumber}: trovate ${answers.length} risposte invece di 5`);
-        // Continua comunque se abbiamo almeno 2 risposte
         if (answers.length < 2) {
             return null;
         }
@@ -265,19 +407,29 @@ async function main() {
         console.log(`\n💾 File salvato: ${outputPath}`);
         console.log('\n✨ Estrazione completata!');
         
-        // Mostra i primi 3 quiz come esempio
-        if (quizzes.length > 0) {
-            console.log('\n📋 Esempio (primi 3 quiz):');
-            quizzes.slice(0, 3).forEach(quiz => {
-                console.log(`\n--- Quiz ${quiz.id} ---`);
-                console.log(`Domanda: ${quiz.question.substring(0, 80)}${quiz.question.length > 80 ? '...' : ''}`);
-                console.log(`Risposte (${quiz.answers.length}):`);
-                quiz.answers.forEach(ans => {
-                    console.log(`  ${ans.letter}) ${ans.text.substring(0, 60)}${ans.text.length > 60 ? '...' : ''}`);
-                });
-                console.log(`Risposta corretta: ${quiz.correctAnswer}`);
+        // Mostra il quiz 59 come test
+        const quiz59 = quizzes.find(q => q.id === 59);
+        if (quiz59) {
+            console.log('\n📋 Test - Quiz 59 (talco bambini):');
+            console.log(`Domanda: ${quiz59.question}`);
+            console.log(`Risposte (${quiz59.answers.length}):`);
+            quiz59.answers.forEach(ans => {
+                console.log(`  ${ans.letter}) ${ans.text}`);
             });
+            console.log(`Risposta corretta: ${quiz59.correctAnswer}`);
         }
+        
+        // Mostra i primi 3 quiz come esempio
+        console.log('\n📋 Primi 3 quiz:');
+        quizzes.slice(0, 3).forEach(quiz => {
+            console.log(`\n--- Quiz ${quiz.id} ---`);
+            console.log(`Domanda: ${quiz.question.substring(0, 80)}${quiz.question.length > 80 ? '...' : ''}`);
+            console.log(`Risposte (${quiz.answers.length}):`);
+            quiz.answers.forEach(ans => {
+                console.log(`  ${ans.letter}) ${ans.text.substring(0, 60)}${ans.text.length > 60 ? '...' : ''}`);
+            });
+            console.log(`Risposta corretta: ${quiz.correctAnswer}`);
+        });
         
     } catch (error) {
         console.error('❌ Errore durante l\'estrazione:', error);
