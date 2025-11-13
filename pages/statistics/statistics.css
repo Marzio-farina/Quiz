@@ -48,6 +48,17 @@ body.dark-theme .stats-page-container {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 }
 
+body.dark-theme .btn-back {
+    background: rgba(100, 181, 246, 0.2);
+    border-color: rgba(100, 181, 246, 0.3);
+    color: #64b5f6;
+}
+
+body.dark-theme .btn-back:hover {
+    background: rgba(100, 181, 246, 0.3);
+    box-shadow: 0 5px 20px rgba(100, 181, 246, 0.2);
+}
+
 /* Contenuto Stats */
 .stats-content {
     background: white;
