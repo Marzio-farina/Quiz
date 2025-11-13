@@ -30,22 +30,23 @@ body.dark-theme .stats-page-container {
     top: 20px;
     left: 20px;
     padding: 12px 24px;
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: white;
+    border: 2px solid #667eea;
     border-radius: 10px;
-    color: white;
+    color: #667eea;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 10;
 }
 
 .btn-back:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: #667eea;
+    color: white;
     transform: translateX(-5px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
 }
 
 body.dark-theme .btn-back {
@@ -214,15 +215,24 @@ body.dark-theme .stats-history h2 {
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
 }
 
 .history-item:hover {
     transform: translateX(5px);
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    border-color: #667eea;
+    background: #f0f4ff;
 }
 
 body.dark-theme .history-item {
     background: #1a1a2e;
+}
+
+body.dark-theme .history-item:hover {
+    border-color: #64b5f6;
+    background: #2c3e50;
 }
 
 .history-info {
@@ -281,6 +291,274 @@ body.dark-theme .history-score {
 
 .stats-footer .btn {
     padding: 12px 30px;
+}
+
+/* Dialog base */
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.dialog-box {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.dialog-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 25px;
+    text-align: center;
+}
+
+.dialog-header h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.dialog-body {
+    padding: 30px 25px;
+}
+
+body.dark-theme .dialog-box {
+    background: #0f3460;
+}
+
+body.dark-theme .dialog-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+}
+
+/* Dialog dettagli quiz */
+.detail-dialog {
+    max-width: 800px;
+    width: 90%;
+}
+
+.detail-dialog .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-close-detail {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.btn-close-detail:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.detail-body {
+    padding: 30px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Scrollbar personalizzata per il detail-body */
+.detail-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.detail-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.detail-body::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 10px;
+}
+
+.detail-body::-webkit-scrollbar-thumb:hover {
+    background: #764ba2;
+}
+
+body.dark-theme .detail-body::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+body.dark-theme .detail-body::-webkit-scrollbar-thumb {
+    background: #64b5f6;
+}
+
+body.dark-theme .detail-body::-webkit-scrollbar-thumb:hover {
+    background: #42a5f5;
+}
+
+.detail-summary {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+body.dark-theme .detail-summary {
+    border-bottom-color: #2c3e50;
+}
+
+.detail-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.detail-info span:first-child {
+    color: #666;
+}
+
+.detail-info span:last-child {
+    color: #667eea;
+    font-size: 1.5rem;
+}
+
+body.dark-theme .detail-info span:first-child {
+    color: #b0b0b0;
+}
+
+body.dark-theme .detail-info span:last-child {
+    color: #64b5f6;
+}
+
+.detail-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.detail-question-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    border-left: 4px solid #ccc;
+    transition: all 0.3s ease;
+}
+
+.detail-question-item.correct {
+    border-left-color: #28a745;
+    background: #d4edda;
+}
+
+.detail-question-item.incorrect {
+    border-left-color: #dc3545;
+    background: #f8d7da;
+}
+
+body.dark-theme .detail-question-item {
+    background: #1a1a2e;
+}
+
+body.dark-theme .detail-question-item.correct {
+    background: #1e3a2e;
+}
+
+body.dark-theme .detail-question-item.incorrect {
+    background: #3a1e23;
+}
+
+.detail-question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.detail-question-number {
+    font-weight: 700;
+    color: #333;
+}
+
+body.dark-theme .detail-question-number {
+    color: #e0e0e0;
+}
+
+.detail-question-status {
+    font-size: 1.2rem;
+}
+
+.detail-question-text {
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+body.dark-theme .detail-question-text {
+    color: #e0e0e0;
+}
+
+.detail-answer {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 6px;
+    margin: 5px 0;
+}
+
+body.dark-theme .detail-answer {
+    background: #0f3460;
+}
+
+.detail-answer.user-answer {
+    font-weight: 600;
+    border: 2px solid #667eea;
+}
+
+.detail-answer.correct-answer {
+    background: #d4edda;
+    color: #155724;
+    font-weight: 600;
+}
+
+body.dark-theme .detail-answer.correct-answer {
+    background: #1e3a2e;
+    color: #52b788;
 }
 
 /* Responsive */

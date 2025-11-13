@@ -72,6 +72,27 @@
         </div>
     </div>
 
+    <!-- Dialog dettagli quiz -->
+    <div id="quizDetailDialog" class="dialog-overlay" style="display: none;">
+        <div class="dialog-box detail-dialog">
+            <div class="dialog-header">
+                <h3>📋 Dettagli Quiz</h3>
+                <button id="closeDetailBtn" class="btn-close-detail">✕</button>
+            </div>
+            <div class="dialog-body detail-body">
+                <div class="detail-summary">
+                    <div class="detail-info">
+                        <span id="detailDate">01/01/2025, 10:00</span>
+                        <span id="detailScore">0%</span>
+                    </div>
+                </div>
+                <div id="detailQuestions" class="detail-questions">
+                    <!-- Le domande verranno inserite qui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="statistics.js"></script>
 </body>
 </html>

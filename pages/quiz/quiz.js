@@ -362,13 +362,24 @@ function saveStatistics(correctCount, totalQuestions, percentage, timeSpent) {
     stats.completed = (stats.completed || 0) + 1;
     stats.history = stats.history || [];
     
+    // Prepara i dettagli delle risposte
+    const quizDetails = currentQuizzes.map((quiz, index) => ({
+        questionId: quiz.id,
+        question: quiz.question,
+        userAnswer: userAnswers[index],
+        correctAnswer: quiz.correctAnswer,
+        isCorrect: userAnswers[index] === quiz.correctAnswer,
+        answers: quiz.answers
+    }));
+    
     stats.history.push({
         date: new Date().toISOString(),
         correctAnswers: correctCount,
         totalQuestions: totalQuestions,
         percentage: parseFloat(percentage),
         random: quizSettings.random || false,
-        timeSpent: timeSpent
+        timeSpent: timeSpent,
+        details: quizDetails // Aggiungo i dettagli delle risposte
     });
     
     // Salva nel localStorage

@@ -235,7 +235,7 @@ function displayHistory(history) {
     // Mostra gli ultimi 10 quiz (più recenti prima)
     const recentHistory = history.slice(-10).reverse();
     
-    container.innerHTML = recentHistory.map(quiz => {
+    container.innerHTML = recentHistory.map((quiz, index) => {
         const date = new Date(quiz.date);
         const dateStr = date.toLocaleDateString('it-IT', {
             day: '2-digit',
@@ -254,7 +254,7 @@ function displayHistory(history) {
         }
         
         return `
-            <div class="history-item">
+            <div class="history-item" data-quiz-index="${index}">
                 <div class="history-info">
                     <div class="history-date">${dateStr}</div>
                     <div class="history-details">
@@ -266,6 +266,86 @@ function displayHistory(history) {
             </div>
         `;
     }).join('');
+    
+    // Aggiungi listener per il click sui record
+    const historyItems = container.querySelectorAll('.history-item');
+    historyItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const quizIndex = parseInt(item.dataset.quizIndex);
+            showQuizDetail(recentHistory[quizIndex]);
+        });
+    });
+}
+
+// Mostra il dialog con i dettagli del quiz
+function showQuizDetail(quiz) {
+    if (!quiz.details || quiz.details.length === 0) {
+        alert('⚠️ Dettagli non disponibili per questo quiz.\n\nI dettagli sono disponibili solo per i quiz completati dopo questo aggiornamento.');
+        return;
+    }
+    
+    const dialog = document.getElementById('quizDetailDialog');
+    
+    // Formatta la data
+    const date = new Date(quiz.date);
+    const dateStr = date.toLocaleDateString('it-IT', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    
+    // Calcola la percentuale
+    let percentage = 0;
+    if (quiz.percentage !== null && quiz.percentage !== undefined && !isNaN(quiz.percentage)) {
+        percentage = quiz.percentage;
+    } else if (quiz.totalQuestions && quiz.totalQuestions > 0) {
+        percentage = (quiz.correctAnswers / quiz.totalQuestions) * 100;
+    }
+    
+    // Aggiorna le informazioni del dialog
+    document.getElementById('detailDate').textContent = dateStr;
+    document.getElementById('detailScore').textContent = `${percentage.toFixed(1)}%`;
+    
+    // Genera l'HTML per le domande
+    const questionsHTML = quiz.details.map((detail, index) => {
+        const statusIcon = detail.isCorrect ? '✅' : '❌';
+        const statusClass = detail.isCorrect ? 'correct' : 'incorrect';
+        
+        // Trova la risposta data dall'utente
+        const userAnswerText = detail.answers.find(a => a.letter === detail.userAnswer)?.text || 'Nessuna risposta';
+        const correctAnswerText = detail.answers.find(a => a.letter === detail.correctAnswer)?.text || '';
+        
+        return `
+            <div class="detail-question-item ${statusClass}">
+                <div class="detail-question-header">
+                    <span class="detail-question-number">Domanda ${index + 1}</span>
+                    <span class="detail-question-status">${statusIcon}</span>
+                </div>
+                <div class="detail-question-text">${detail.question}</div>
+                <div class="detail-answer user-answer">
+                    Tua risposta: ${detail.userAnswer}) ${userAnswerText}
+                </div>
+                ${!detail.isCorrect ? `
+                    <div class="detail-answer correct-answer">
+                        Risposta corretta: ${detail.correctAnswer}) ${correctAnswerText}
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }).join('');
+    
+    document.getElementById('detailQuestions').innerHTML = questionsHTML;
+    
+    // Mostra il dialog
+    dialog.style.display = 'flex';
+}
+
+// Nascondi il dialog dei dettagli
+function hideQuizDetail() {
+    const dialog = document.getElementById('quizDetailDialog');
+    dialog.style.display = 'none';
 }
 
 // Cancella tutte le statistiche
@@ -285,6 +365,14 @@ function backToHome() {
 // Event Listeners
 document.getElementById('backHomeBtn').addEventListener('click', backToHome);
 document.getElementById('clearStatsBtn').addEventListener('click', clearStatistics);
+document.getElementById('closeDetailBtn').addEventListener('click', hideQuizDetail);
+
+// Chiudi dialog dettagli cliccando fuori dalla finestra
+document.getElementById('quizDetailDialog').addEventListener('click', (e) => {
+    if (e.target.id === 'quizDetailDialog') {
+        hideQuizDetail();
+    }
+});
 
 // Carica le statistiche all'avvio
 displayStatistics();
