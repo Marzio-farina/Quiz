@@ -1,0 +1,31 @@
+# Dipendenze
+node_modules/
+
+# Directory di build
+dist/
+build/
+out/
+
+# File di log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# File di sistema
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# File temporanei
+*.tmp
+*.temp
+
+# File PDF (sorgenti dati)
+Banca dati unisa farmacia ospedaliera.pdf
+*.pdf
+

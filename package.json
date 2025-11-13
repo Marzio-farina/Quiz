@@ -1,0 +1,24 @@
+{
+  "name": "quiz-app",
+  "version": "1.0.0",
+  "description": "Applicazione Quiz con Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "extract": "node extractPdfQuiz.js"
+  },
+  "keywords": [
+    "electron",
+    "quiz"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "electron": "^32.0.0"
+  }
+}
+
