@@ -350,11 +350,25 @@ function hideQuizDetail() {
 
 // Cancella tutte le statistiche
 function clearStatistics() {
-    if (confirm('⚠️ Sei sicuro di voler cancellare tutte le statistiche?\n\nQuesta azione non può essere annullata.')) {
-        localStorage.removeItem('quizStatistics');
-        displayStatistics();
-        console.log('✅ Statistiche cancellate');
-    }
+    // Mostra il dialog di conferma
+    showConfirmDeleteDialog();
+}
+
+function showConfirmDeleteDialog() {
+    const dialog = document.getElementById('confirmDeleteDialog');
+    dialog.style.display = 'flex';
+}
+
+function hideConfirmDeleteDialog() {
+    const dialog = document.getElementById('confirmDeleteDialog');
+    dialog.style.display = 'none';
+}
+
+function performDelete() {
+    localStorage.removeItem('quizStatistics');
+    displayStatistics();
+    console.log('✅ Statistiche cancellate');
+    hideConfirmDeleteDialog();
 }
 
 // Torna alla home
@@ -367,10 +381,21 @@ document.getElementById('backHomeBtn').addEventListener('click', backToHome);
 document.getElementById('clearStatsBtn').addEventListener('click', clearStatistics);
 document.getElementById('closeDetailBtn').addEventListener('click', hideQuizDetail);
 
+// Event listeners per il dialog di conferma cancellazione
+document.getElementById('confirmDeleteBtn').addEventListener('click', performDelete);
+document.getElementById('cancelDeleteBtn').addEventListener('click', hideConfirmDeleteDialog);
+
 // Chiudi dialog dettagli cliccando fuori dalla finestra
 document.getElementById('quizDetailDialog').addEventListener('click', (e) => {
     if (e.target.id === 'quizDetailDialog') {
         hideQuizDetail();
+    }
+});
+
+// Chiudi dialog conferma cancellazione cliccando fuori dalla finestra
+document.getElementById('confirmDeleteDialog').addEventListener('click', (e) => {
+    if (e.target.id === 'confirmDeleteDialog') {
+        hideConfirmDeleteDialog();
     }
 });
 

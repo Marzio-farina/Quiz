@@ -236,7 +236,7 @@ body.dark-theme .stats-icon:hover {
 /* Dialog Categorie */
 .categories-dialog {
     position: absolute;
-    top: 60px;
+    top: -50px;
     right: 90px;
     width: 320px;
     background: white;
@@ -651,6 +651,7 @@ footer {
         font-size: 1.2rem;
     }
     
+    /* Layout ottimizzato per dispositivi piccoli */
     .settings-row {
         flex-direction: column;
         align-items: stretch;
@@ -663,14 +664,80 @@ footer {
     
     .random-group {
         width: 100%;
+        order: 2; /* Sposta il random dopo i pulsanti delle domande */
     }
     
+    .setting-group:first-child {
+        order: 1; /* I pulsanti delle domande vengono prima */
+    }
+    
+    /* Griglia 2x2 per i pulsanti delle domande */
     .question-count-options {
         width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
     
     .option-btn {
-        flex: 1;
+        flex: none;
+        padding: 18px 15px;
+        font-size: 1.2rem;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Checkbox Random a tutta larghezza */
+    .checkbox-container {
+        width: 100%;
+        justify-content: center;
+        padding: 16px 20px;
+        font-size: 1.1rem;
+    }
+    
+    /* Icone statistiche e opzioni per mobile */
+    .stats-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.6rem;
+    }
+    
+    .stats-icon-left {
+        left: 15px;
+        top: 15px;
+    }
+    
+    .stats-icon-right {
+        right: 15px;
+        top: 15px;
+    }
+    
+    /* Dialog categorie responsive */
+    .categories-dialog {
+        width: calc(100% - 30px);
+        max-width: 320px;
+        right: 15px;
+        top: 75px;
+    }
+    
+    .categories-dialog-content {
+        max-height: 240px;
+    }
+    
+    .category-checkbox {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+    
+    .categories-dialog-footer {
+        padding: 12px;
+    }
+    
+    .dialog-btn {
+        font-size: 0.85rem;
+        padding: 8px 12px;
     }
 }
 

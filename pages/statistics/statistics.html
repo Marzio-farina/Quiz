@@ -93,6 +93,23 @@
         </div>
     </div>
 
+    <!-- Dialog conferma cancellazione -->
+    <div id="confirmDeleteDialog" class="dialog-overlay" style="display: none;">
+        <div class="dialog-box confirm-dialog">
+            <div class="dialog-header warning-header">
+                <h3>⚠️ Conferma Cancellazione</h3>
+            </div>
+            <div class="dialog-body">
+                <p class="confirm-message">Sei sicuro di voler cancellare tutte le statistiche?</p>
+                <p class="confirm-warning">Questa azione non può essere annullata.</p>
+            </div>
+            <div class="dialog-footer">
+                <button id="cancelDeleteBtn" class="btn btn-secondary">Annulla</button>
+                <button id="confirmDeleteBtn" class="btn btn-danger">Cancella Tutto</button>
+            </div>
+        </div>
+    </div>
+
     <script src="statistics.js"></script>
 </body>
 </html>
