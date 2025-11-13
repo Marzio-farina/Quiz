@@ -60,17 +60,20 @@ Le immagini verranno salvate in `quiz-images/`
 
 ```
 Quiz/
+├── pages/                          # Pagine dell'applicazione
+│   ├── quiz.html                   # Pagina del quiz
+│   └── quiz.js                     # Script per la pagina quiz
+├── quiz-images/                    # Immagini estratte (543 immagini)
 ├── main.js                         # Processo principale di Electron
 ├── preload.js                      # Script di preload per la sicurezza
-├── index.html                      # Interfaccia utente principale
-├── renderer.js                     # Script del renderer process
-├── styles.css                      # Stili CSS
+├── index.html                      # Pagina home
+├── renderer.js                     # Script per la home page
+├── styles.css                      # Stili CSS globali
 ├── extractPdfQuiz.js               # Script Node.js per estrarre quiz dal PDF
 ├── extract_pdf_images.py           # Script Python per estrarre immagini
 ├── check_python_setup.py           # Script per verificare setup Python
 ├── requirements.txt                # Dipendenze Python
-├── quiz-data.json                  # Database quiz in formato JSON
-├── quiz-images/                    # Immagini estratte (opzionale)
+├── quiz-data.json                  # Database quiz in formato JSON (2990 quiz)
 ├── package.json                    # Configurazione del progetto
 ├── README.md                       # Questo file
 ├── README_PYTHON_EXTRACTION.md     # Guida estrazione immagini

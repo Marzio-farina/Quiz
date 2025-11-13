@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' file: data:">
     <title>Quiz App</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -17,40 +17,40 @@
         <main>
             <div class="welcome-card">
                 <h2>Iniziamo!</h2>
-                <p>Questa è la tua applicazione Electron base.</p>
-                <p>Puoi iniziare a personalizzarla come preferisci.</p>
+                
+                <div class="quiz-settings">
+                    <div class="settings-row">
+                        <div class="setting-group">
+                            <label class="setting-label">Numero di domande</label>
+                            <div class="question-count-options">
+                                <button class="option-btn active" data-count="10">10</button>
+                                <button class="option-btn" data-count="20">20</button>
+                                <button class="option-btn" data-count="50">50</button>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group random-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="randomCheck">
+                                <span class="checkbox-label">Random</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="button-group">
-                    <button id="startBtn" class="btn btn-primary">Inizia Quiz</button>
-                    <button id="settingsBtn" class="btn btn-secondary">Impostazioni</button>
-                </div>
-            </div>
-
-            <div class="info-section">
-                <h3>Informazioni</h3>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <span class="label">Versione Node:</span>
-                        <span id="nodeVersion" class="value">-</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Versione Chrome:</span>
-                        <span id="chromeVersion" class="value">-</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Versione Electron:</span>
-                        <span id="electronVersion" class="value">-</span>
-                    </div>
+                    <button id="startBtn" class="btn btn-primary btn-large">Inizia Quiz</button>
                 </div>
             </div>
         </main>
 
         <footer>
-            <p>&copy; 2025 Quiz App - Creata con Electron</p>
+            <p>&copy; 2025 Quiz App - Creata da Marziano Farina</p>
         </footer>
     </div>
 
     <script src="renderer.js"></script>
 </body>
 </html>
+
 
