@@ -109,6 +109,8 @@ body.dark-theme .btn-secondary:hover {
     gap: 8px;
     min-width: 120px;
     justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .timer-icon {
@@ -118,6 +120,90 @@ body.dark-theme .btn-secondary:hover {
 #timerDisplay {
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.05em;
+}
+
+/* Overlay con icona stop - nascosto di default */
+.timer-stop-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.stop-icon {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.stop-bar {
+    width: 5px;
+    height: 28px;
+    background: #667eea;
+    border-radius: 2px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.stop-bar:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scaleY(0.8);
+        opacity: 0.7;
+    }
+}
+
+/* Mostra overlay all'hover */
+.quiz-container .quiz-timer:hover .timer-stop-overlay {
+    opacity: 1;
+}
+
+/* Rende il tempo visibile in sottofondo */
+.quiz-container .quiz-timer:hover .timer-icon,
+.quiz-container .quiz-timer:hover #timerDisplay {
+    opacity: 0.5;
+}
+
+/* Stato pausa - mostra sempre l'overlay */
+.quiz-container .quiz-timer.paused .timer-stop-overlay {
+    opacity: 1;
+}
+
+.quiz-container .quiz-timer.paused .timer-icon,
+.quiz-container .quiz-timer.paused #timerDisplay {
+    opacity: 0.5;
+}
+
+/* Ferma l'animazione quando è in pausa */
+.quiz-container .quiz-timer.paused .stop-bar {
+    animation: none;
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+/* Tema scuro per overlay e barre */
+body.dark-theme .timer-stop-overlay {
+    background: rgba(22, 33, 62, 0.3);
+}
+
+body.dark-theme .stop-bar {
+    background: #64b5f6;
 }
 
 /* Pulsante esci - posizione assoluta in alto a destra del contenitore */
@@ -367,6 +453,44 @@ body.dark-theme .btn-danger:hover {
 
 body.dark-theme .completion-header {
     background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+}
+
+/* Dialog pausa */
+.pause-dialog {
+    max-width: 450px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.pause-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+body.dark-theme .pause-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+}
+
+.pause-message {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+body.dark-theme .pause-message {
+    color: #e0e0e0;
+}
+
+.pause-info {
+    font-size: 0.95rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+body.dark-theme .pause-info {
+    color: #b0b0b0;
 }
 
 .completion-body {

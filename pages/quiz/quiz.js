@@ -14,6 +14,8 @@ let quizSettings = {};
 let quizStartTime = null;
 let timerInterval = null;
 let elapsedSeconds = 0;
+let isPaused = false;
+let pausedTime = 0;
 
 // Carica il tema salvato (mantiene il tema scelto nella home)
 function initTheme() {
@@ -30,10 +32,14 @@ initTheme();
 function startTimer() {
     quizStartTime = Date.now();
     elapsedSeconds = 0;
+    isPaused = false;
+    pausedTime = 0;
     
     timerInterval = setInterval(() => {
-        elapsedSeconds = Math.floor((Date.now() - quizStartTime) / 1000);
-        updateTimerDisplay();
+        if (!isPaused) {
+            elapsedSeconds = Math.floor((Date.now() - quizStartTime - pausedTime) / 1000);
+            updateTimerDisplay();
+        }
     }, 1000);
     
     console.log('⏱️ Timer avviato');
@@ -46,6 +52,51 @@ function stopTimer() {
         console.log(`⏱️ Timer fermato - Tempo totale: ${formatTime(elapsedSeconds)}`);
     }
 }
+
+function togglePauseTimer() {
+    const timerElement = document.querySelector('.quiz-timer');
+    
+    if (isPaused) {
+        // Se già in pausa, non fare nulla (la ripresa avviene dal dialog)
+        return;
+    } else {
+        // Metti in pausa il timer
+        isPaused = true;
+        pauseStartTime = Date.now();
+        timerElement.classList.add('paused');
+        showPauseDialog();
+        console.log('⏸️ Timer in pausa');
+    }
+}
+
+function showPauseDialog() {
+    const dialog = document.getElementById('pauseDialog');
+    dialog.style.display = 'flex';
+}
+
+function hidePauseDialog() {
+    const dialog = document.getElementById('pauseDialog');
+    dialog.style.display = 'none';
+}
+
+function resumeQuiz() {
+    const timerElement = document.querySelector('.quiz-timer');
+    
+    // Riprendi il timer
+    isPaused = false;
+    const resumeTime = Date.now();
+    pausedTime += resumeTime - pauseStartTime;
+    timerElement.classList.remove('paused');
+    hidePauseDialog();
+    console.log('▶️ Timer ripreso');
+}
+
+function exitQuizFromPause() {
+    hidePauseDialog();
+    exitQuiz();
+}
+
+let pauseStartTime = 0;
 
 function updateTimerDisplay() {
     const display = document.getElementById('timerDisplay');
@@ -202,8 +253,10 @@ function renderQuestionContent(quiz, index) {
         imageContainer.style.display = 'none';
     }
     
-    // Mostra risposte
-    answersContainer.innerHTML = '';
+    // Mostra risposte - rimuove solo le risposte precedenti, non il badge categoria
+    const existingAnswers = answersContainer.querySelectorAll('.answer-option');
+    existingAnswers.forEach(answer => answer.remove());
+    
     quiz.answers.forEach((answer) => {
         const answerDiv = document.createElement('div');
         answerDiv.className = 'answer-option';
@@ -296,9 +349,10 @@ function displayQuestion(index) {
         imageContainer.style.display = 'none';
     }
     
-    // Mostra risposte
+    // Mostra risposte - rimuove solo le risposte precedenti, non il badge categoria
     const answersContainer = document.getElementById('answersContainer');
-    answersContainer.innerHTML = '';
+    const existingAnswers = answersContainer.querySelectorAll('.answer-option');
+    existingAnswers.forEach(answer => answer.remove());
     
     quiz.answers.forEach((answer) => {
         const answerDiv = document.createElement('div');
@@ -455,15 +509,28 @@ document.getElementById('exitQuizBtn').addEventListener('click', showExitDialog)
 document.getElementById('prevBtn').addEventListener('click', previousQuestion);
 document.getElementById('nextBtn').addEventListener('click', nextQuestion);
 
-// Event Listeners per il dialog
+// Event Listener per il timer - pausa/riprendi
+document.querySelector('.quiz-timer').addEventListener('click', togglePauseTimer);
+
+// Event Listeners per il dialog uscita
 document.getElementById('confirmExitBtn').addEventListener('click', exitQuiz);
 document.getElementById('cancelExitBtn').addEventListener('click', hideExitDialog);
+
+// Event Listeners per il dialog pausa
+document.getElementById('resumeQuizBtn').addEventListener('click', resumeQuiz);
+document.getElementById('cancelQuizFromPauseBtn').addEventListener('click', exitQuizFromPause);
 
 // Chiudi dialog cliccando fuori dalla finestra
 document.getElementById('exitDialog').addEventListener('click', (e) => {
     if (e.target.id === 'exitDialog') {
         hideExitDialog();
     }
+});
+
+// Non permettere chiusura del dialog pausa cliccando fuori
+document.getElementById('pauseDialog').addEventListener('click', (e) => {
+    // Il dialog pausa richiede una scelta esplicita
+    e.stopPropagation();
 });
 
 // Log di conferma caricamento

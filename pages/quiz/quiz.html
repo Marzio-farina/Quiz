@@ -20,6 +20,12 @@
             <div class="quiz-timer">
                 <span class="timer-icon">⏱️</span>
                 <span id="timerDisplay">00:00</span>
+                <div class="timer-stop-overlay">
+                    <div class="stop-icon">
+                        <span class="stop-bar"></span>
+                        <span class="stop-bar"></span>
+                    </div>
+                </div>
             </div>
             
             <!-- Pulsante esci - posizione assoluta in alto a destra -->
@@ -77,6 +83,23 @@
                         <p id="completionTime">Tempo: 00:00</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dialog pausa -->
+    <div id="pauseDialog" class="dialog-overlay" style="display: none;">
+        <div class="dialog-box pause-dialog">
+            <div class="dialog-header pause-header">
+                <h3>⏸️ Quiz in Pausa</h3>
+            </div>
+            <div class="dialog-body">
+                <p class="pause-message">Il quiz è stato messo in pausa.</p>
+                <p class="pause-info">Il timer riprenderà dal tempo corrente quando tornerai al quiz.</p>
+            </div>
+            <div class="dialog-footer">
+                <button id="cancelQuizFromPauseBtn" class="btn btn-danger">Esci dal Quiz</button>
+                <button id="resumeQuizBtn" class="btn btn-primary">Riprendi Quiz</button>
             </div>
         </div>
     </div>
