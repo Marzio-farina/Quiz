@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' file: data:">
+    <title>Statistiche - Quiz App</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="statistics.css">
+</head>
+<body>
+    <div class="stats-page-container">
+        <div class="stats-container">
+            <!-- Pulsante torna alla home - posizione assoluta in alto a sinistra -->
+            <button id="backHomeBtn" class="btn-back">
+                ← Home
+            </button>
+            
+            <div class="stats-content">
+                <div class="stats-header">
+                    <h1>📊 Statistiche</h1>
+                    <p class="stats-subtitle">I tuoi progressi e risultati</p>
+                </div>
+
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-value" id="totalQuizzes">0</div>
+                        <div class="stat-label">Quiz Completati</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-value" id="avgScore">0%</div>
+                        <div class="stat-label">Punteggio Medio</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-value" id="avgTime">0m</div>
+                        <div class="stat-label">Tempo Medio</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-value" id="bestScore">0%</div>
+                        <div class="stat-label">Miglior Risultato</div>
+                    </div>
+                </div>
+
+                <div class="stats-history">
+                    <h2>📈 Storico Recente</h2>
+                    <div id="historyContainer" class="history-list">
+                        <div class="no-data">
+                            <p>📭 Nessun quiz completato ancora</p>
+                            <p class="no-data-subtitle">Completa il tuo primo quiz per vedere le statistiche!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-footer">
+                    <button id="clearStatsBtn" class="btn btn-secondary">🗑️ Cancella Statistiche</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="statistics.js"></script>
+</body>
+</html>
+

@@ -66,9 +66,9 @@ document.getElementById('startBtn').addEventListener('click', () => {
 
 // Gestione pulsante Statistiche
 document.getElementById('statsBtn').addEventListener('click', () => {
-    console.log('📊 Statistiche cliccate - Funzionalità da implementare');
-    // TODO: Implementare la visualizzazione delle statistiche
-    alert('📊 Statistiche\n\nFunzionalità in arrivo!\nQui potrai vedere:\n- Quiz completati\n- Punteggio medio\n- Tempo medio\n- Storico risultati');
+    console.log('📊 Apertura pagina statistiche');
+    // Naviga alla pagina statistiche
+    window.location.href = 'pages/statistics/statistics.html';
 });
 
 // Log di conferma caricamento

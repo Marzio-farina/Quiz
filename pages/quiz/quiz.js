@@ -308,6 +308,29 @@ function nextQuestion() {
     }
 }
 
+// Salva le statistiche del quiz
+function saveStatistics(correctCount, totalQuestions, percentage) {
+    // Carica le statistiche esistenti
+    const stats = JSON.parse(localStorage.getItem('quizStatistics') || '{"completed": 0, "history": []}');
+    
+    // Aggiungi il nuovo risultato
+    stats.completed = (stats.completed || 0) + 1;
+    stats.history = stats.history || [];
+    
+    stats.history.push({
+        date: new Date().toISOString(),
+        correctAnswers: correctCount,
+        totalQuestions: totalQuestions,
+        percentage: parseFloat(percentage),
+        random: quizSettings.random || false,
+        timeSpent: 0 // TODO: Implementare il tracking del tempo
+    });
+    
+    // Salva nel localStorage
+    localStorage.setItem('quizStatistics', JSON.stringify(stats));
+    console.log('✅ Statistiche salvate:', stats);
+}
+
 // Termina il quiz e mostra i risultati
 function finishQuiz() {
     let correctCount = 0;
@@ -319,6 +342,9 @@ function finishQuiz() {
     }
     
     const percentage = ((correctCount / currentQuizzes.length) * 100).toFixed(1);
+    
+    // Salva le statistiche
+    saveStatistics(correctCount, currentQuizzes.length, percentage);
     
     alert(`Quiz completato!\n\nRisposte corrette: ${correctCount}/${currentQuizzes.length}\nPercentuale: ${percentage}%`);
     
