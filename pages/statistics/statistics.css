@@ -19,7 +19,7 @@ body.dark-theme .stats-page-container {
 /* Stats Container */
 .stats-container {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1400px;
     margin: 0 auto;
     position: relative;
 }
@@ -52,7 +52,7 @@ body.dark-theme .stats-page-container {
 .stats-content {
     background: white;
     border-radius: 20px;
-    padding: 80px 40px 40px 40px;
+    padding: 80px 50px 50px 50px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
@@ -89,15 +89,15 @@ body.dark-theme .stats-subtitle {
 /* Cards Statistiche */
 .stats-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
     margin-bottom: 40px;
 }
 
 .stat-card {
     background: #f8f9fa;
     border-radius: 15px;
-    padding: 30px 20px;
+    padding: 35px 25px;
     text-align: center;
     transition: all 0.3s ease;
     border: 2px solid transparent;
@@ -120,15 +120,15 @@ body.dark-theme .stat-card:hover {
 }
 
 .stat-icon {
-    font-size: 3rem;
-    margin-bottom: 15px;
+    font-size: 3.5rem;
+    margin-bottom: 20px;
 }
 
 .stat-value {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 700;
     color: #667eea;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 body.dark-theme .stat-value {
@@ -143,6 +143,35 @@ body.dark-theme .stat-value {
 
 body.dark-theme .stat-label {
     color: #b0b0b0;
+}
+
+/* Grafico Errori */
+.stats-chart {
+    margin-bottom: 40px;
+}
+
+.stats-chart h2 {
+    font-size: 1.8rem;
+    color: #667eea;
+    margin-bottom: 20px;
+}
+
+body.dark-theme .stats-chart h2 {
+    color: #64b5f6;
+}
+
+.chart-container {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 30px;
+    position: relative;
+    height: 350px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+body.dark-theme .chart-container {
+    background: #1a1a2e;
 }
 
 /* Storico */
@@ -244,6 +273,13 @@ body.dark-theme .history-score {
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    .stats-cards {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+}
+
 @media (max-width: 768px) {
     .stats-content {
         padding: 70px 20px 20px 20px;
@@ -255,6 +291,12 @@ body.dark-theme .history-score {
 
     .stats-cards {
         grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .chart-container {
+        height: 250px;
+        padding: 20px;
     }
 
     .btn-back {

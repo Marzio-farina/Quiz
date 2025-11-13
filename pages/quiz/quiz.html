@@ -16,6 +16,12 @@
                 <span id="currentQuestion">1</span> / <span id="totalQuestions">10</span>
             </div>
             
+            <!-- Timer - posizione assoluta al centro in alto -->
+            <div class="quiz-timer">
+                <span class="timer-icon">⏱️</span>
+                <span id="timerDisplay">00:00</span>
+            </div>
+            
             <!-- Pulsante esci - posizione assoluta in alto a destra -->
             <button id="exitQuizBtn" class="btn-exit">✕</button>
             
@@ -53,6 +59,24 @@
             <div class="dialog-footer">
                 <button id="cancelExitBtn" class="btn btn-secondary">Annulla</button>
                 <button id="confirmExitBtn" class="btn btn-danger">Esci</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dialog completamento quiz -->
+    <div id="completionDialog" class="dialog-overlay" style="display: none;">
+        <div class="dialog-box completion-dialog">
+            <div class="dialog-header completion-header">
+                <h3>🎉 Quiz Completato!</h3>
+            </div>
+            <div class="dialog-body completion-body">
+                <div class="completion-stats">
+                    <div class="completion-score" id="completionScore">0%</div>
+                    <div class="completion-details">
+                        <p id="completionCorrect">0/0 risposte corrette</p>
+                        <p id="completionTime">Tempo: 00:00</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

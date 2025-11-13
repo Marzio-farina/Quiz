@@ -26,6 +26,11 @@ body.dark-theme .quiz-progress {
     color: #64b5f6;
 }
 
+body.dark-theme .quiz-timer {
+    background: #16213e;
+    color: #64b5f6;
+}
+
 body.dark-theme .quiz-question h3 {
     color: #e0e0e0;
 }
@@ -82,6 +87,37 @@ body.dark-theme .btn-secondary:hover {
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 10;
+}
+
+/* Timer - posizione assoluta al centro in alto */
+.quiz-container .quiz-timer {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #667eea;
+    background: white;
+    padding: 12px 24px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.timer-icon {
+    font-size: 1.4rem;
+}
+
+#timerDisplay {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
 }
 
 /* Pulsante esci - posizione assoluta in alto a destra del contenitore */
@@ -320,6 +356,65 @@ body.dark-theme .btn-danger:hover {
     background: #d62828;
 }
 
+/* Dialog completamento quiz */
+.completion-dialog {
+    max-width: 500px;
+}
+
+.completion-header {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+body.dark-theme .completion-header {
+    background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+}
+
+.completion-body {
+    padding: 40px 30px;
+}
+
+.completion-stats {
+    text-align: center;
+}
+
+.completion-score {
+    font-size: 4rem;
+    font-weight: 700;
+    color: #28a745;
+    margin-bottom: 20px;
+    animation: scaleIn 0.5s ease;
+}
+
+body.dark-theme .completion-score {
+    color: #52b788;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.completion-details {
+    margin-top: 20px;
+}
+
+.completion-details p {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 8px 0;
+    font-weight: 600;
+}
+
+body.dark-theme .completion-details p {
+    color: #e0e0e0;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .quiz-content {
@@ -349,6 +444,17 @@ body.dark-theme .btn-danger:hover {
         left: 15px;
         font-size: 1rem;
         padding: 8px 14px;
+    }
+    
+    .quiz-container .quiz-timer {
+        top: 15px;
+        font-size: 1.1rem;
+        padding: 8px 16px;
+        min-width: 100px;
+    }
+    
+    .timer-icon {
+        font-size: 1.2rem;
     }
     
     .quiz-container .btn-exit {

@@ -10,6 +10,11 @@ let currentQuestionIndex = 0;
 let userAnswers = [];
 let quizSettings = {};
 
+// Timer
+let quizStartTime = null;
+let timerInterval = null;
+let elapsedSeconds = 0;
+
 // Carica il tema salvato (mantiene il tema scelto nella home)
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
@@ -20,6 +25,40 @@ function initTheme() {
 
 // Inizializza il tema all'avvio
 initTheme();
+
+// Funzioni Timer
+function startTimer() {
+    quizStartTime = Date.now();
+    elapsedSeconds = 0;
+    
+    timerInterval = setInterval(() => {
+        elapsedSeconds = Math.floor((Date.now() - quizStartTime) / 1000);
+        updateTimerDisplay();
+    }, 1000);
+    
+    console.log('⏱️ Timer avviato');
+}
+
+function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        console.log(`⏱️ Timer fermato - Tempo totale: ${formatTime(elapsedSeconds)}`);
+    }
+}
+
+function updateTimerDisplay() {
+    const display = document.getElementById('timerDisplay');
+    if (display) {
+        display.textContent = formatTime(elapsedSeconds);
+    }
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
 
 // Ricevi le impostazioni dalla pagina home
 ipcRenderer.on('start-quiz', (event, settings) => {
@@ -180,6 +219,9 @@ async function initQuiz() {
     
     // Mostra prima domanda
     displayQuestion(0);
+    
+    // Avvia il timer
+    startTimer();
 }
 
 // Controlla se esiste un'immagine per il quiz
@@ -287,6 +329,9 @@ function hideExitDialog() {
 
 // Esci dal quiz (chiamata dal dialog)
 function exitQuiz() {
+    // Ferma il timer
+    stopTimer();
+    
     window.location.href = '../../index.html';
 }
 
@@ -309,7 +354,7 @@ function nextQuestion() {
 }
 
 // Salva le statistiche del quiz
-function saveStatistics(correctCount, totalQuestions, percentage) {
+function saveStatistics(correctCount, totalQuestions, percentage, timeSpent) {
     // Carica le statistiche esistenti
     const stats = JSON.parse(localStorage.getItem('quizStatistics') || '{"completed": 0, "history": []}');
     
@@ -323,7 +368,7 @@ function saveStatistics(correctCount, totalQuestions, percentage) {
         totalQuestions: totalQuestions,
         percentage: parseFloat(percentage),
         random: quizSettings.random || false,
-        timeSpent: 0 // TODO: Implementare il tracking del tempo
+        timeSpent: timeSpent
     });
     
     // Salva nel localStorage
@@ -331,8 +376,30 @@ function saveStatistics(correctCount, totalQuestions, percentage) {
     console.log('✅ Statistiche salvate:', stats);
 }
 
+// Mostra dialog completamento quiz
+function showCompletionDialog(correctCount, totalQuestions, percentage, timeSpent) {
+    const dialog = document.getElementById('completionDialog');
+    
+    // Aggiorna i dati nel dialog
+    document.getElementById('completionScore').textContent = `${percentage}%`;
+    document.getElementById('completionCorrect').textContent = `${correctCount}/${totalQuestions} risposte corrette`;
+    document.getElementById('completionTime').textContent = `Tempo: ${formatTime(timeSpent)}`;
+    
+    // Mostra il dialog
+    dialog.style.display = 'flex';
+    
+    // Chiudi automaticamente dopo 2 secondi e torna alla home
+    setTimeout(() => {
+        dialog.style.display = 'none';
+        window.location.href = '../../index.html';
+    }, 2000);
+}
+
 // Termina il quiz e mostra i risultati
 function finishQuiz() {
+    // Ferma il timer
+    stopTimer();
+    
     let correctCount = 0;
     
     for (let i = 0; i < currentQuizzes.length; i++) {
@@ -343,13 +410,11 @@ function finishQuiz() {
     
     const percentage = ((correctCount / currentQuizzes.length) * 100).toFixed(1);
     
-    // Salva le statistiche
-    saveStatistics(correctCount, currentQuizzes.length, percentage);
+    // Salva le statistiche con il tempo impiegato
+    saveStatistics(correctCount, currentQuizzes.length, percentage, elapsedSeconds);
     
-    alert(`Quiz completato!\n\nRisposte corrette: ${correctCount}/${currentQuizzes.length}\nPercentuale: ${percentage}%`);
-    
-    // Torna alla home
-    window.location.href = '../../index.html';
+    // Mostra dialog personalizzato invece di alert
+    showCompletionDialog(correctCount, currentQuizzes.length, percentage, elapsedSeconds);
 }
 
 // Event Listeners
