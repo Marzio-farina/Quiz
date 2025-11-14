@@ -3,124 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' file: data:">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' file: data:; connect-src 'self'">
     <title>Quiz App</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="components/homepage/homepage.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema">
-                <span class="theme-icon sun">☀️</span>
-                <span class="theme-icon moon">🌙</span>
-            </button>
-            <button id="minimizeAppBtn" class="minimize-app-btn" aria-label="Minimizza applicazione">
-                ─
-            </button>
-            <button id="closeAppBtn" class="close-app-btn" aria-label="Chiudi applicazione">
-                ✕
-            </button>
-            <h1>🎯 Quiz App</h1>
-            <p class="subtitle">Benvenuto nella tua applicazione Quiz!</p>
-        </header>
-
-        <main>
-            <div class="welcome-card">
-                <button id="statsBtn" class="stats-icon stats-icon-left" aria-label="Statistiche">
-                    📊
-                </button>
-                <button id="optionsBtn" class="stats-icon stats-icon-right" aria-label="Opzioni">
-                    ⚙️
-                </button>
-                
-                <!-- Dialog Opzioni Categorie -->
-                <div id="categoriesDialog" class="categories-dialog hidden">
-                    <div class="categories-dialog-header">
-                        <h3>📂 Filtra per Categoria</h3>
-                        <button id="closeDialogBtn" class="close-dialog-btn" aria-label="Chiudi">×</button>
-                    </div>
-                    <div class="categories-dialog-content">
-                        <label class="category-checkbox">
-                            <input type="checkbox" value="FARMACOLOGIA" checked>
-                            <span>💊 Farmacologia</span>
-                        </label>
-                        <label class="category-checkbox">
-                            <input type="checkbox" value="CHIMICA_FARMACEUTICA" checked>
-                            <span>⚗️ Chimica Farmaceutica</span>
-                        </label>
-                        <label class="category-checkbox">
-                            <input type="checkbox" value="LEGISLAZIONE" checked>
-                            <span>⚖️ Legislazione</span>
-                        </label>
-                        <label class="category-checkbox">
-                            <input type="checkbox" value="MICROBIOLOGIA" checked>
-                            <span>🦠 Microbiologia</span>
-                        </label>
-                        <label class="category-checkbox">
-                            <input type="checkbox" value="FARMACEUTICA" checked>
-                            <span>💉 Farmaceutica</span>
-                        </label>
-                        <label class="category-checkbox">
-                            <input type="checkbox" value="CHIMICA_ANALITICA" checked>
-                            <span>🔬 Chimica Analitica</span>
-                        </label>
-                        <label class="category-checkbox">
-                            <input type="checkbox" value="FARMACOGNOSIA" checked>
-                            <span>🌿 Farmacognosia</span>
-                        </label>
-                        <label class="category-checkbox">
-                            <input type="checkbox" value="COSMETOLOGIA" checked>
-                            <span>✨ Cosmetologia</span>
-                        </label>
-                        <label class="category-checkbox">
-                            <input type="checkbox" value="ECONOMIA_FARMACEUTICA" checked>
-                            <span>💰 Economia Farmaceutica</span>
-                        </label>
-                        <label class="category-checkbox">
-                            <input type="checkbox" value="ALTRO" checked>
-                            <span>📌 Altro</span>
-                        </label>
-                    </div>
-                    <div class="categories-dialog-footer">
-                        <button id="selectAllBtn" class="dialog-btn btn-secondary-dialog">Seleziona Tutto</button>
-                        <button id="deselectAllBtn" class="dialog-btn btn-secondary-dialog">Deseleziona Tutto</button>
-                    </div>
-                </div>
-                
-                <h2>Iniziamo!</h2>
-                
-                <div class="quiz-settings">
-                    <div class="settings-row">
-                        <div class="setting-group">
-                            <label class="setting-label">Numero di domande</label>
-                            <div class="question-count-options">
-                                <button class="option-btn active" data-count="10">10</button>
-                                <button class="option-btn" data-count="20">20</button>
-                                <button class="option-btn" data-count="50">50</button>
-                                <button class="option-btn" data-count="100">100</button>
-                            </div>
-                        </div>
-                        
-                        <div class="setting-group random-group">
-                            <label class="checkbox-container">
-                                <input type="checkbox" id="randomCheck">
-                                <span class="checkbox-label">Random</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="button-group">
-                    <button id="startBtn" class="btn btn-primary btn-large">Inizia Quiz</button>
-                </div>
-            </div>
-        </main>
-        
-        <footer class="home-footer">
-            <p>&copy; 2025 Quiz App - Creata da Marziano Farina</p>
-            <p class="app-version">Versione <span id="appVersion">-</span></p>
-        </footer>
-    </div>
+    <div id="homepage-container"></div>
 
     <!-- Dialog aggiornamento -->
     <div id="updateDialog" class="update-overlay" style="display: none;">
@@ -146,7 +35,7 @@
         </div>
     </div>
 
-    <script src="renderer.js"></script>
+    <script src="load-homepage.js"></script>
 </body>
 </html>
 

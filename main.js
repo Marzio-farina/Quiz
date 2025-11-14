@@ -45,8 +45,8 @@ function createWindow() {
     // Carica il file index.html dell'app
     mainWindow.loadFile('index.html');
 
-    // Invia la versione dell'applicazione al renderer quando è pronta
-    mainWindow.webContents.once('did-finish-load', () => {
+    // Funzione per inviare la versione
+    function sendAppVersion() {
         try {
             const packagePath = path.join(__dirname, 'package.json');
             const packageData = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
@@ -56,6 +56,19 @@ function createWindow() {
             console.error('Errore nel leggere la versione:', error);
             mainWindow.webContents.send('app-version', '1.0.0');
         }
+    }
+
+    // Invia la versione quando la pagina è caricata
+    mainWindow.webContents.once('did-finish-load', () => {
+        // Aspetta un po' per permettere alla homepage di caricarsi
+        setTimeout(() => {
+            sendAppVersion();
+        }, 100);
+    });
+
+    // IPC handler per richiedere la versione
+    ipcMain.on('request-app-version', () => {
+        sendAppVersion();
     });
 
     // Apri gli strumenti di sviluppo (sempre aperto per lo sviluppo)
