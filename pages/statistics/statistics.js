@@ -18,6 +18,22 @@ function initTheme() {
 // Inizializza il tema all'avvio
 initTheme();
 
+// Pulsante minimize applicazione
+const minimizeAppBtn = document.getElementById('minimizeAppBtn');
+if (minimizeAppBtn) {
+    minimizeAppBtn.addEventListener('click', () => {
+        ipcRenderer.send('minimize-window');
+    });
+}
+
+// Pulsante chiudi applicazione
+const closeAppBtn = document.getElementById('closeAppBtn');
+if (closeAppBtn) {
+    closeAppBtn.addEventListener('click', () => {
+        window.close();
+    });
+}
+
 // Carica le statistiche dal localStorage
 function loadStatistics() {
     const stats = JSON.parse(localStorage.getItem('quizStatistics') || '{"completed": 0, "history": []}');

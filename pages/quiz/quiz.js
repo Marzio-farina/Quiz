@@ -812,6 +812,14 @@ function finishQuiz() {
 }
 
 // Event Listeners
+// Pulsante minimize applicazione
+const minimizeAppBtn = document.getElementById('minimizeAppBtn');
+if (minimizeAppBtn) {
+    minimizeAppBtn.addEventListener('click', () => {
+        ipcRenderer.send('minimize-window');
+    });
+}
+
 document.getElementById('exitQuizBtn').addEventListener('click', showExitDialog);
 document.getElementById('prevBtn').addEventListener('click', previousQuestion);
 document.getElementById('nextBtn').addEventListener('click', nextQuestion);

@@ -195,3 +195,118 @@ body.dark-theme .update-footer {
 body.dialog-open {
     overflow: hidden;
 }
+
+/* Pulsante minimize applicazione - globale per tutte le pagine */
+/* IMPORTANTE: position fixed con valori fissi per evitare qualsiasi interferenza */
+.minimize-app-btn {
+    position: fixed !important; /* Forza position fixed per evitare conflitti con position absolute/relative dei parent */
+    top: 20px !important; /* Forza anche top per evitare sovrascritture */
+    right: 90px !important; /* Valore fisso, non calcolato - forzato per evitare conflitti */
+    width: 50px !important;
+    height: 50px !important;
+    background: rgba(255, 193, 7, 0.9) !important;
+    border: 3px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 50% !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    color: white !important;
+    font-size: 1.8rem !important;
+    font-weight: 600;
+    line-height: 1;
+    z-index: 999 !important; /* Sotto ai dialog (z-index 1000+) - forzato */
+    -webkit-app-region: no-drag; /* Permette il click sul pulsante */
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+    margin: 0 !important; /* Rimuove qualsiasi margine */
+    padding: 0 !important; /* Rimuove qualsiasi padding */
+}
+
+.minimize-app-btn:hover {
+    background: rgba(255, 160, 0, 1) !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 5px 20px rgba(255, 193, 7, 0.4);
+}
+
+.minimize-app-btn:active {
+    transform: scale(0.95);
+}
+
+body.dark-theme .minimize-app-btn {
+    background: rgba(255, 193, 7, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme .minimize-app-btn:hover {
+    background: rgba(255, 160, 0, 0.9);
+    box-shadow: 0 5px 20px rgba(255, 193, 7, 0.5);
+}
+
+/* Pulsante chiudi applicazione - globale per tutte le pagine */
+.close-app-btn {
+    position: fixed !important; /* Forza position fixed per evitare conflitti */
+    top: 20px !important;
+    right: 20px !important;
+    width: 50px !important;
+    height: 50px !important;
+    background: rgba(220, 53, 69, 0.9) !important;
+    border: 3px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 50% !important;
+    cursor: pointer;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    color: white !important;
+    font-size: 1.8rem !important;
+    font-weight: 600;
+    line-height: 1;
+    z-index: 999 !important; /* Sotto ai dialog (z-index 1000+) */
+    -webkit-app-region: no-drag; /* Permette il click sul pulsante */
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.close-app-btn:hover {
+    background: rgba(200, 35, 51, 1) !important;
+    transform: scale(1.1) rotate(90deg) !important;
+    box-shadow: 0 5px 20px rgba(220, 53, 69, 0.4);
+}
+
+.close-app-btn:active {
+    transform: scale(0.95) rotate(90deg) !important;
+}
+
+body.dark-theme .close-app-btn {
+    background: rgba(220, 53, 69, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.dark-theme .close-app-btn:hover {
+    background: rgba(200, 35, 51, 0.9) !important;
+    box-shadow: 0 5px 20px rgba(220, 53, 69, 0.5);
+}
+
+/* Stili responsive per minimize-app-btn - valori fissi per evitare spostamenti */
+/* Il pulsante mantiene sempre la stessa posizione relativa al viewport */
+@media (max-width: 768px) {
+    .minimize-app-btn {
+        width: 45px !important;
+        height: 45px !important;
+        top: 15px !important;
+        right: 70px !important; /* Valore fisso, forzato per evitare conflitti */
+        font-size: 1.6rem;
+    }
+    
+    .close-app-btn {
+        width: 45px !important;
+        height: 45px !important;
+        top: 15px !important;
+        right: 15px !important;
+        font-size: 1.6rem !important;
+    }
+}

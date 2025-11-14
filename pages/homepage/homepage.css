@@ -81,37 +81,7 @@ body.dark-theme header {
 }
 
 /* Pulsante minimizza applicazione */
-.minimize-app-btn {
-    position: absolute;
-    top: 20px;
-    right: 80px;
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 193, 7, 0.9);
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    color: white;
-    font-size: 1.8rem;
-    font-weight: 600;
-    line-height: 1;
-    -webkit-app-region: no-drag; /* Permette il click sul pulsante */
-}
-
-.minimize-app-btn:hover {
-    background: rgba(255, 160, 0, 1);
-    transform: scale(1.1);
-    box-shadow: 0 5px 20px rgba(255, 193, 7, 0.4);
-}
-
-.minimize-app-btn:active {
-    transform: scale(0.95);
-}
+/* Stili per minimize-app-btn sono ora in styles.css (globali) */
 
 /* Pulsante chiudi applicazione */
 .close-app-btn {
@@ -148,7 +118,7 @@ body.dark-theme header {
 
 /* Main content */
 main {
-    padding: 40px;
+    padding: 30px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -999,7 +969,7 @@ body.dark-theme .checkbox-container input[type="checkbox"] {
 /* Footer in basso */
 .home-footer {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px;
+    padding: 5px;
     text-align: center;
     color: white;
     font-size: 0.85rem;
@@ -1036,20 +1006,21 @@ body.dark-theme .home-footer {
     }
     
     /* Pulsanti app responsive */
-    .minimize-app-btn {
+    /* Stili responsive per minimize-app-btn sono ora in styles.css */
+    /* .minimize-app-btn {
         width: 45px;
         height: 45px;
         top: 15px;
         right: 70px;
         font-size: 1.6rem;
     }
-    
+    */
     .close-app-btn {
-        width: 45px;
-        height: 45px;
-        top: 15px;
-        right: 15px;
-        font-size: 1.6rem;
+        width: 45px !important;
+        height: 45px !important;
+        top: 15px !important;
+        right: 15px !important;
+        font-size: 1.6rem !important;
     }
     
     /* Theme toggle responsive */
