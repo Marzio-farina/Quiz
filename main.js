@@ -37,9 +37,21 @@ function createWindow() {
         hasShadow: true, // Abilita l'ombra della finestra per enfatizzare i bordi
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: false,
+            devTools: true // Abilita DevTools
         },
         icon: path.join(__dirname, 'assets', 'icon.png')
+    });
+    
+    // Abilita DevTools con tasto di scelta rapida (F12 o Ctrl+Shift+I)
+    mainWindow.webContents.on('before-input-event', (event, input) => {
+        if (input.key === 'F12' || (input.control && input.shift && input.key === 'I')) {
+            if (mainWindow.webContents.isDevToolsOpened()) {
+                mainWindow.webContents.closeDevTools();
+            } else {
+                mainWindow.webContents.openDevTools();
+            }
+        }
     });
 
     // Carica il file index.html dell'app
@@ -198,15 +210,22 @@ autoUpdater.on('update-not-available', (info) => {
 });
 
 autoUpdater.on('download-progress', (progressObj) => {
-    const percent = Math.round(progressObj.percent || 0);
+    const percent = progressObj.percent || 0;
+    const percentRounded = Math.round(percent);
+    
     autoUpdater.logger.info('=== PROGRESSO DOWNLOAD ===');
-    autoUpdater.logger.info('Percentuale:', percent + '%');
+    autoUpdater.logger.info('Percentuale raw:', percent);
+    autoUpdater.logger.info('Percentuale arrotondata:', percentRounded + '%');
     autoUpdater.logger.info('Bytes per secondo:', progressObj.bytesPerSecond);
     autoUpdater.logger.info('Totale:', progressObj.total);
     autoUpdater.logger.info('Trasferiti:', progressObj.transferred);
+    autoUpdater.logger.info('ProgressObj completo:', JSON.stringify(progressObj, null, 2));
     
-    if (mainWindow) {
-        mainWindow.webContents.send('download-progress', percent);
+    if (mainWindow && !mainWindow.isDestroyed()) {
+        autoUpdater.logger.info('Invio progresso al renderer:', percentRounded);
+        mainWindow.webContents.send('download-progress', percentRounded);
+    } else {
+        autoUpdater.logger.warn('MainWindow non disponibile per inviare progresso');
     }
 });
 
@@ -231,7 +250,17 @@ autoUpdater.on('checking-for-update', () => {
 
 // IPC per scaricare l'aggiornamento
 ipcMain.on('download-update', () => {
-    autoUpdater.downloadUpdate();
+    autoUpdater.logger.info('=== RICHIESTA DOWNLOAD AGGIORNAMENTO ===');
+    autoUpdater.logger.info('Avvio download...');
+    try {
+        autoUpdater.downloadUpdate();
+        autoUpdater.logger.info('Download avviato con successo');
+    } catch (error) {
+        autoUpdater.logger.error('Errore nell\'avvio del download:', error);
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('update-error', error.message);
+        }
+    }
 });
 
 // IPC per installare e riavviare
@@ -249,6 +278,13 @@ ipcMain.on('check-for-updates', () => {
                 mainWindow.webContents.send('update-error', err.message);
             }
         });
+    }
+});
+
+// IPC per aprire DevTools
+ipcMain.on('open-devtools', () => {
+    if (mainWindow) {
+        mainWindow.webContents.openDevTools();
     }
 });
 

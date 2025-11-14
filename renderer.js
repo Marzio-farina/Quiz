@@ -7,7 +7,7 @@ function getIpcRenderer() {
 
 // Funzione per ottenere gli elementi del dialog (possono non essere ancora caricati)
 function getUpdateElements() {
-    return {
+    const elements = {
         updateDialog: document.getElementById('updateDialog'),
         updateVersion: document.getElementById('updateVersion'),
         downloadProgress: document.getElementById('downloadProgress'),
@@ -17,6 +17,20 @@ function getUpdateElements() {
         installBtn: document.getElementById('installBtn'),
         laterBtn: document.getElementById('laterBtn')
     };
+    
+    // Debug: verifica che tutti gli elementi esistano
+    console.log('[RENDERER] Elementi trovati:', {
+        updateDialog: !!elements.updateDialog,
+        updateVersion: !!elements.updateVersion,
+        downloadProgress: !!elements.downloadProgress,
+        progressFill: !!elements.progressFill,
+        progressPercent: !!elements.progressPercent,
+        downloadBtn: !!elements.downloadBtn,
+        installBtn: !!elements.installBtn,
+        laterBtn: !!elements.laterBtn
+    });
+    
+    return elements;
 }
 
 // Inizializza gli event listener quando il DOM è pronto
@@ -31,14 +45,27 @@ function initUpdateHandlers() {
 
     // Pulsante "Scarica Ora"
     elements.downloadBtn.addEventListener('click', () => {
+        console.log('[RENDERER] Click su Scarica Ora');
         elements.downloadBtn.disabled = true;
         elements.downloadBtn.textContent = 'Download in corso... 0%';
         
         // Mostra subito il progresso
         if (elements.downloadProgress) {
             elements.downloadProgress.style.display = 'block';
+            console.log('[RENDERER] Progress bar mostrata manualmente');
+        } else {
+            console.error('[RENDERER] ERRORE: downloadProgress non trovato!');
         }
         
+        if (elements.progressFill) {
+            elements.progressFill.style.width = '0%';
+        }
+        
+        if (elements.progressPercent) {
+            elements.progressPercent.textContent = '0%';
+        }
+        
+        console.log('[RENDERER] Invio richiesta download');
         getIpcRenderer().send('download-update');
     });
 
@@ -82,9 +109,13 @@ getIpcRenderer().on('update-available', (event, info) => {
     console.log('[RENDERER] Release notes valore:', info.releaseNotes);
     
     if (info.releaseNotes && info.releaseNotes.trim()) {
+        console.log('[RENDERER] Release notes trovate, lunghezza:', info.releaseNotes.length);
         // Le release notes possono essere HTML o testo semplice
         if (releaseNotesDiv) {
             releaseNotesDiv.style.display = 'block';
+            console.log('[RENDERER] Release notes div mostrato');
+        } else {
+            console.error('[RENDERER] ERRORE: releaseNotesDiv non trovato!');
         }
         if (releaseNotesContent) {
             // Se sono HTML, inserisci direttamente, altrimenti formatta come testo
@@ -180,6 +211,7 @@ getIpcRenderer().on('download-progress', (event, percent) => {
 
 // Download completato
 getIpcRenderer().on('update-downloaded', () => {
+    console.log('[RENDERER] Download completato!');
     const elements = getUpdateElements();
     if (elements.downloadProgress) {
         elements.downloadProgress.style.display = 'none';
@@ -189,6 +221,13 @@ getIpcRenderer().on('update-downloaded', () => {
     }
     if (elements.installBtn) {
         elements.installBtn.style.display = 'block';
+        console.log('[RENDERER] Pulsante installa mostrato');
     }
+});
+
+// Gestione errori
+getIpcRenderer().on('update-error', (event, errorMessage) => {
+    console.error('[RENDERER] Errore aggiornamento:', errorMessage);
+    alert('Errore durante l\'aggiornamento: ' + errorMessage);
 });
 

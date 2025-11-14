@@ -594,6 +594,22 @@ if (excludeCompletedToggle) {
     });
 }
 
+// Pulsante per aprire DevTools (debug)
+const openDevToolsBtn = document.getElementById('openDevToolsBtn');
+if (openDevToolsBtn) {
+    openDevToolsBtn.addEventListener('click', () => {
+        ipcRenderer.send('open-devtools');
+    });
+}
+
+// Pulsante per controllare aggiornamenti manualmente
+const checkUpdatesBtn = document.getElementById('checkUpdatesBtn');
+if (checkUpdatesBtn) {
+    checkUpdatesBtn.addEventListener('click', () => {
+        ipcRenderer.send('check-for-updates');
+    });
+}
+
 // Chiudi dialog con pulsante X
 if (closeDialogBtn) {
     closeDialogBtn.addEventListener('click', () => {
