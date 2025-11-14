@@ -171,11 +171,19 @@ if (startBtn) {
             .filter(cb => cb.checked)
             .map(cb => cb.value);
         
+        // Ottieni la modalità e le impostazioni di esclusione
+        const studyMode = studyModeToggle ? (studyModeToggle.checked ? 'study' : 'quiz') : 'quiz';
+        const excludeMode = excludeCompletedToggle && studyMode === 'study' 
+            ? (excludeCompletedToggle.checked ? 'passed' : 'answered')
+            : null;
+        
         // Salva le impostazioni e carica la pagina quiz
         const settings = {
             count: selectedQuestionCount,
             random: isRandomMode,
-            categories: selectedCategories
+            categories: selectedCategories,
+            studyMode: studyMode,
+            excludeMode: excludeMode // 'answered' per escludere tutte le domande risposte, 'passed' per escludere solo quelle superate
         };
         
         // Passa le impostazioni al main process
@@ -527,7 +535,66 @@ if (studyModeToggle) {
         const mode = e.target.checked ? 'study' : 'quiz';
         localStorage.setItem('studyMode', mode);
         updateModeLabels();
+        updateExcludeSectionVisibility();
         console.log('Modalità cambiata:', mode);
+    });
+}
+
+// Gestione sezione Escludi
+const excludeSection = document.getElementById('excludeSection');
+const excludeCompletedToggle = document.getElementById('excludeCompletedToggle');
+const excludeLabelLeft = document.querySelector('.exclude-label-left');
+const excludeLabelRight = document.querySelector('.exclude-label-right');
+
+// Funzione per mostrare/nascondere la sezione Escludi
+function updateExcludeSectionVisibility() {
+    if (excludeSection && studyModeToggle) {
+        if (studyModeToggle.checked) {
+            // Modalità Studio: mostra la sezione Escludi
+            excludeSection.classList.remove('hidden');
+        } else {
+            // Modalità Quiz: nascondi la sezione Escludi
+            excludeSection.classList.add('hidden');
+        }
+    }
+}
+
+// Funzione per aggiornare l'evidenziazione delle label Escludi
+function updateExcludeLabels() {
+    if (excludeCompletedToggle) {
+        if (excludeCompletedToggle.checked) {
+            // Quiz superati selezionato
+            if (excludeLabelLeft) excludeLabelLeft.classList.remove('active');
+            if (excludeLabelRight) excludeLabelRight.classList.add('active');
+        } else {
+            // Quiz risposti selezionato (default)
+            if (excludeLabelLeft) excludeLabelLeft.classList.add('active');
+            if (excludeLabelRight) excludeLabelRight.classList.remove('active');
+        }
+    }
+}
+
+// Inizializza la sezione Escludi
+if (excludeCompletedToggle) {
+    // Carica lo stato salvato (default: quiz risposti = non checked, quindi slide a sinistra)
+    const savedExcludeMode = localStorage.getItem('excludeMode');
+    if (savedExcludeMode === 'passed') {
+        excludeCompletedToggle.checked = true; // Quiz superati
+    } else {
+        excludeCompletedToggle.checked = false; // Quiz risposti (default)
+    }
+    
+    // Aggiorna le label all'inizializzazione
+    updateExcludeLabels();
+    
+    // Aggiorna la visibilità in base alla modalità
+    updateExcludeSectionVisibility();
+    
+    excludeCompletedToggle.addEventListener('change', (e) => {
+        const excludeMode = e.target.checked ? 'passed' : 'answered';
+        localStorage.setItem('excludeMode', excludeMode);
+        updateExcludeLabels();
+        console.log('Modalità esclusione cambiata:', excludeMode);
     });
 }
 

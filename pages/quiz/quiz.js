@@ -137,6 +137,109 @@ function shuffleArray(array) {
     return shuffled;
 }
 
+// Sistema di tracciamento stato domande per modalità Studio
+// Stato: 'passed' (superata), 'unanswered' (non risposta), 'wrong' (errata), null (mai vista)
+
+// Ottieni lo stato di una domanda in modalità Studio
+function getQuestionStudyStatus(questionId) {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        const id = Number(questionId);
+        return studyStatus[id] || null;
+    } catch (error) {
+        console.error('Errore nel caricamento dello stato studio:', error);
+        return null;
+    }
+}
+
+// Aggiorna lo stato di una domanda in modalità Studio
+function updateQuestionStudyStatus(questionId, status) {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        const id = Number(questionId);
+        if (!isNaN(id)) {
+            studyStatus[id] = status;
+            localStorage.setItem('studyModeStatus', JSON.stringify(studyStatus));
+        }
+    } catch (error) {
+        console.error('Errore nel salvataggio dello stato studio:', error);
+    }
+}
+
+// Ottieni tutte le domande superate (stato 'passed')
+function getPassedQuestionIds() {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        const passedIds = new Set();
+        
+        Object.keys(studyStatus).forEach(idStr => {
+            const id = Number(idStr);
+            if (!isNaN(id) && studyStatus[idStr] === 'passed') {
+                passedIds.add(id);
+            }
+        });
+        
+        console.log(`Domande superate in modalità Studio: ${passedIds.size}`);
+        return passedIds;
+    } catch (error) {
+        console.error('Errore nel caricamento delle domande superate:', error);
+        return new Set();
+    }
+}
+
+// Ottieni tutte le domande risposte (solo quelle con risposta data: 'passed' o 'wrong', NON 'unanswered')
+function getAnsweredQuestionIds() {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        const answeredIds = new Set();
+        
+        Object.keys(studyStatus).forEach(idStr => {
+            const id = Number(idStr);
+            const status = studyStatus[idStr];
+            if (!isNaN(id) && status !== null && status !== undefined && status !== 'unanswered') {
+                // Include solo le domande con risposta data (passed o wrong), NON quelle non risposte
+                answeredIds.add(id);
+            }
+        });
+        
+        console.log(`Domande risposte in modalità Studio: ${answeredIds.size}`);
+        return answeredIds;
+    } catch (error) {
+        console.error('Errore nel caricamento delle domande risposte:', error);
+        return new Set();
+    }
+}
+
+// Funzioni legacy mantenute per compatibilità (non più usate in modalità Studio)
+function getCompletedQuizIds() {
+    try {
+        const stats = JSON.parse(localStorage.getItem('quizStatistics') || '{"history": []}');
+        const completedIds = new Set();
+        
+        stats.history.forEach(quiz => {
+            if (quiz.details && Array.isArray(quiz.details)) {
+                quiz.details.forEach(detail => {
+                    if (detail.questionId !== undefined && detail.questionId !== null) {
+                        const id = Number(detail.questionId);
+                        if (!isNaN(id)) {
+                            completedIds.add(id);
+                        }
+                    }
+                });
+            }
+        });
+        
+        return completedIds;
+    } catch (error) {
+        console.error('Errore nel caricamento delle statistiche:', error);
+        return new Set();
+    }
+}
+
+function getPassedQuizIds() {
+    return getPassedQuestionIds();
+}
+
 // Seleziona i quiz in base alle impostazioni
 function selectQuizzes() {
     // Filtra i quiz in base alle categorie selezionate
@@ -172,8 +275,41 @@ function selectQuizzes() {
         });
     }
     
-    // Se non ci sono quiz dopo il filtro, usa tutti i quiz
+    // Filtra i quiz in base alla modalità Studio e alle esclusioni
+    if (quizSettings.studyMode === 'study' && quizSettings.excludeMode) {
+        let excludeIds;
+        
+        if (quizSettings.excludeMode === 'answered') {
+            // Escludi tutte le domande risposte (qualsiasi stato)
+            excludeIds = getAnsweredQuestionIds();
+            console.log(`Modalità Studio: Esclusi ${excludeIds.size} domande risposte`);
+        } else if (quizSettings.excludeMode === 'passed') {
+            // Escludi solo le domande superate (risposte correttamente)
+            excludeIds = getPassedQuestionIds();
+            console.log(`Modalità Studio: Esclusi ${excludeIds.size} domande superate`);
+        }
+        
+        if (excludeIds && excludeIds.size > 0) {
+            const beforeCount = filteredQuizzes.length;
+            // Escludi le domande in base alla selezione
+            filteredQuizzes = filteredQuizzes.filter(quiz => {
+                const quizId = Number(quiz.id);
+                return !isNaN(quizId) && !excludeIds.has(quizId);
+            });
+            console.log(`Quiz disponibili dopo esclusione: ${beforeCount} -> ${filteredQuizzes.length}`);
+        }
+    } else if (quizSettings.studyMode === 'study') {
+        // Modalità Studio senza esclusioni specificate: non escludere nulla
+        console.log('Modalità Studio: Nessuna esclusione applicata');
+    } else if (quizSettings.studyMode === 'quiz') {
+        // Modalità Quiz: non escludiamo nulla (possono essere inclusi anche quiz già sostenuti)
+        console.log('Modalità Quiz: Nessuna esclusione applicata');
+    }
+    
+    // Se non ci sono quiz disponibili dopo il filtro, mostra un messaggio
     if (filteredQuizzes.length === 0) {
+        console.warn('Nessun quiz disponibile dopo il filtro. Usando tutti i quiz come fallback.');
+        // Fallback: usa tutti i quiz se non ce ne sono disponibili
         filteredQuizzes = allQuizzes;
     }
     
@@ -244,8 +380,27 @@ async function initQuiz() {
         }
     }
     
+    // Log delle impostazioni per debug
+    console.log('Impostazioni quiz:', {
+        count: quizSettings.count,
+        random: quizSettings.random,
+        categories: quizSettings.categories,
+        studyMode: quizSettings.studyMode,
+        excludeMode: quizSettings.excludeMode
+    });
+    
     // Seleziona i quiz
     currentQuizzes = selectQuizzes();
+    
+    // Verifica che ci siano quiz selezionati
+    if (currentQuizzes.length === 0) {
+        alert('Nessun quiz disponibile con i filtri selezionati. Torna alla home e modifica le impostazioni.');
+        window.location.href = '../../index.html';
+        return;
+    }
+    
+    console.log(`Quiz selezionati: ${currentQuizzes.length}`);
+    
     currentQuestionIndex = 0;
     userAnswers = new Array(currentQuizzes.length).fill(null);
     
@@ -413,7 +568,7 @@ function saveStatistics(correctCount, totalQuestions, percentage, timeSpent) {
     const quizDetails = currentQuizzes.map((quiz, index) => ({
         questionId: quiz.id,
         question: quiz.question,
-        category: quiz.category, // Aggiungi la categoria
+        category: quiz.category,
         userAnswer: userAnswers[index],
         correctAnswer: quiz.correctAnswer,
         isCorrect: userAnswers[index] === quiz.correctAnswer,
@@ -427,11 +582,41 @@ function saveStatistics(correctCount, totalQuestions, percentage, timeSpent) {
         percentage: parseFloat(percentage),
         random: quizSettings.random || false,
         timeSpent: timeSpent,
-        details: quizDetails // Aggiungo i dettagli delle risposte
+        studyMode: quizSettings.studyMode || 'quiz',
+        details: quizDetails
     });
     
     // Salva nel localStorage
     localStorage.setItem('quizStatistics', JSON.stringify(stats));
+    
+    // Se siamo in modalità Studio, aggiorna lo stato delle domande
+    if (quizSettings.studyMode === 'study') {
+        updateStudyModeStatus();
+    }
+}
+
+// Aggiorna lo stato delle domande in modalità Studio
+function updateStudyModeStatus() {
+    currentQuizzes.forEach((quiz, index) => {
+        const questionId = Number(quiz.id);
+        const userAnswer = userAnswers[index];
+        
+        if (isNaN(questionId)) return;
+        
+        if (userAnswer === null || userAnswer === undefined) {
+            // Domanda non risposta → stato 'unanswered' (verrà riproposta)
+            updateQuestionStudyStatus(questionId, 'unanswered');
+            console.log(`Domanda ${questionId}: non risposta (verrà riproposta)`);
+        } else if (userAnswer === quiz.correctAnswer) {
+            // Domanda risposta correttamente → stato 'passed' (non verrà più riproposta)
+            updateQuestionStudyStatus(questionId, 'passed');
+            console.log(`Domanda ${questionId}: superata (non verrà più riproposta)`);
+        } else {
+            // Domanda sbagliata → stato 'wrong' (verrà riproposta)
+            updateQuestionStudyStatus(questionId, 'wrong');
+            console.log(`Domanda ${questionId}: errata (verrà riproposta)`);
+        }
+    });
 }
 
 // Mostra dialog completamento quiz

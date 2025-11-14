@@ -413,6 +413,136 @@ body.dark-theme .mode-label.active {
     color: #64b5f6;
 }
 
+/* Sezione Escludi */
+.exclude-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+body.dark-theme .exclude-section {
+    border-top-color: #2c3e50;
+}
+
+.exclude-section.hidden {
+    display: none;
+}
+
+.exclude-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #667eea;
+    text-align: center;
+}
+
+body.dark-theme .exclude-title {
+    color: #64b5f6;
+}
+
+.exclude-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+body.dark-theme .exclude-toggle-container {
+    background: #1a1a2e;
+}
+
+.exclude-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #666;
+    user-select: none;
+    flex: 1;
+    text-align: center;
+}
+
+.exclude-label-left {
+    text-align: left;
+}
+
+.exclude-label-right {
+    text-align: right;
+}
+
+body.dark-theme .exclude-label {
+    color: #b0b0b0;
+}
+
+.exclude-toggle {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.exclude-toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.exclude-toggle-label {
+    display: block;
+    width: 80px;
+    height: 40px;
+    background: #ccc;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.exclude-toggle-input:checked + .exclude-toggle-label {
+    background: #667eea;
+}
+
+body.dark-theme .exclude-toggle-label {
+    background: #2c3e50;
+}
+
+body.dark-theme .exclude-toggle-input:checked + .exclude-toggle-label {
+    background: #64b5f6;
+}
+
+.exclude-toggle-slider {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 32px;
+    height: 32px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.exclude-toggle-input:checked + .exclude-toggle-label .exclude-toggle-slider {
+    transform: translateX(40px);
+}
+
+body.dark-theme .exclude-toggle-slider {
+    background: #e0e0e0;
+}
+
+/* Evidenzia la label attiva */
+.exclude-label.active {
+    color: #667eea;
+    font-weight: 700;
+}
+
+body.dark-theme .exclude-label.active {
+    color: #64b5f6;
+}
+
 /* Dialog Categorie */
 .categories-dialog {
     position: absolute;
