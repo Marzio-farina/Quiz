@@ -60,18 +60,33 @@ body.dark-theme .answer-option.selected {
     border-color: #64b5f6;
 }
 
-body.dark-theme .btn-primary {
+body.dark-theme .quiz-footer .btn-primary {
     background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+    color: #0f3460;
+    box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
 }
 
-body.dark-theme .btn-secondary {
+body.dark-theme .quiz-footer .btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(100, 181, 246, 0.4);
+}
+
+body.dark-theme .quiz-footer .btn-secondary {
     background: #1a1a2e;
     color: #64b5f6;
-    border-color: #64b5f6;
+    border: 2px solid #64b5f6;
 }
 
-body.dark-theme .btn-secondary:hover {
+body.dark-theme .quiz-footer .btn-secondary:hover:not(:disabled) {
     background: #2c3e50;
+    color: #64b5f6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
+}
+
+body.dark-theme .quiz-footer .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* Quiz Screen */
@@ -360,6 +375,53 @@ body.dark-theme .quiz-content::-webkit-scrollbar-thumb:hover {
 
 .quiz-footer .btn {
     flex: 1;
+    padding: 14px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-height: 48px;
+}
+
+.quiz-footer .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.quiz-footer .btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.quiz-footer .btn-primary:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.quiz-footer .btn-secondary {
+    background: #f8f9fa;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.quiz-footer .btn-secondary:hover:not(:disabled) {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.quiz-footer .btn-secondary:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.quiz-footer .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
 }
 
 /* Blocca lo scroll quando il dialog è aperto */

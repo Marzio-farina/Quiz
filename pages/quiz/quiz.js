@@ -144,14 +144,28 @@ function selectQuizzes() {
     
     if (quizSettings.categories && quizSettings.categories.length > 0) {
         filteredQuizzes = allQuizzes.filter(quiz => {
-            // Se la categoria principale è selezionata, includi tutti i quiz di quella categoria
-            if (quizSettings.categories.includes(quiz.category)) {
+            // Priorità 1: Se una sottocategoria è selezionata, usa solo quella
+            // (questo ha priorità perché se selezioni solo alcune sottocategorie,
+            // la categoria padre viene deselezionata automaticamente)
+            if (quiz.subcategory && quizSettings.categories.includes(quiz.subcategory)) {
                 return true;
             }
             
-            // Controlla se una sottocategoria è selezionata (dal JSON)
-            if (quiz.subcategory && quizSettings.categories.includes(quiz.subcategory)) {
-                return true;
+            // Priorità 2: Se la categoria principale è selezionata (senza sottocategorie specifiche),
+            // includi tutti i quiz di quella categoria
+            // Nota: se ci sono sottocategorie selezionate, la categoria padre non dovrebbe essere selezionata
+            // grazie alla sincronizzazione automatica, ma controlliamo comunque per sicurezza
+            if (quizSettings.categories.includes(quiz.category)) {
+                // Verifica che non ci siano sottocategorie selezionate per questa categoria
+                // Se ci sono, significa che vogliamo solo quelle sottocategorie specifiche
+                const hasSubcategoriesForThisCategory = quizSettings.categories.some(cat => 
+                    cat.startsWith(quiz.category + '_') && cat !== quiz.category
+                );
+                
+                // Se non ci sono sottocategorie selezionate per questa categoria, includi tutti i quiz
+                if (!hasSubcategoriesForThisCategory) {
+                    return true;
+                }
             }
             
             return false;
