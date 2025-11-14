@@ -32,7 +32,13 @@ function initUpdateHandlers() {
     // Pulsante "Scarica Ora"
     elements.downloadBtn.addEventListener('click', () => {
         elements.downloadBtn.disabled = true;
-        elements.downloadBtn.textContent = 'Download in corso...';
+        elements.downloadBtn.textContent = 'Download in corso... 0%';
+        
+        // Mostra subito il progresso
+        if (elements.downloadProgress) {
+            elements.downloadProgress.style.display = 'block';
+        }
+        
         getIpcRenderer().send('download-update');
     });
 
@@ -67,19 +73,57 @@ getIpcRenderer().on('update-available', (event, info) => {
     // Mostra le release notes se disponibili
     const releaseNotesDiv = document.getElementById('updateReleaseNotes');
     const releaseNotesContent = document.getElementById('releaseNotesContent');
-    if (info.releaseNotes) {
+    
+    if (info.releaseNotes && info.releaseNotes.trim()) {
         // Le release notes possono essere HTML o testo semplice
         if (releaseNotesDiv) {
             releaseNotesDiv.style.display = 'block';
         }
         if (releaseNotesContent) {
             // Se sono HTML, inserisci direttamente, altrimenti formatta come testo
-            if (info.releaseNotes.startsWith('<')) {
-                releaseNotesContent.innerHTML = info.releaseNotes;
+            const notes = info.releaseNotes.trim();
+            if (notes.startsWith('<')) {
+                // È già HTML
+                releaseNotesContent.innerHTML = notes;
             } else {
-                // Formatta il testo semplice come lista
-                const lines = info.releaseNotes.split('\n').filter(line => line.trim());
-                releaseNotesContent.innerHTML = '<ul>' + lines.map(line => `<li>${line.trim()}</li>`).join('') + '</ul>';
+                // Formatta il testo markdown semplice
+                // Converti markdown base in HTML
+                let html = notes
+                    .replace(/### (.*)/g, '<h4>$1</h4>')
+                    .replace(/## (.*)/g, '<h3>$1</h3>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+                
+                // Dividi in paragrafi e liste
+                const lines = html.split('\n').filter(line => line.trim());
+                let result = '';
+                let inList = false;
+                
+                lines.forEach(line => {
+                    if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+                        if (!inList) {
+                            result += '<ul>';
+                            inList = true;
+                        }
+                        result += '<li>' + line.trim().substring(2) + '</li>';
+                    } else {
+                        if (inList) {
+                            result += '</ul>';
+                            inList = false;
+                        }
+                        if (line.trim() && !line.trim().startsWith('<h')) {
+                            result += '<p>' + line.trim() + '</p>';
+                        } else {
+                            result += line;
+                        }
+                    }
+                });
+                
+                if (inList) {
+                    result += '</ul>';
+                }
+                
+                releaseNotesContent.innerHTML = result || '<p>' + notes + '</p>';
             }
         }
     } else {
@@ -104,7 +148,12 @@ getIpcRenderer().on('download-progress', (event, percent) => {
         elements.progressFill.style.width = `${percent}%`;
     }
     if (elements.progressPercent) {
-        elements.progressPercent.textContent = Math.round(percent);
+        elements.progressPercent.textContent = Math.round(percent) + '%';
+    }
+    
+    // Aggiorna anche il testo del pulsante
+    if (elements.downloadBtn) {
+        elements.downloadBtn.textContent = `Download in corso... ${Math.round(percent)}%`;
     }
 });
 

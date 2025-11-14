@@ -98,31 +98,79 @@ ipcMain.on('minimize-window', () => {
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
 
+// Configurazione per il debug
+try {
+    const log = require('electron-log');
+    autoUpdater.logger = log;
+    autoUpdater.logger.transports.file.level = 'info';
+    autoUpdater.logger.transports.console.level = 'info';
+} catch (e) {
+    // Se electron-log non è disponibile, usa console normale
+    autoUpdater.logger = {
+        info: (...args) => console.log('[AUTO-UPDATER]', ...args),
+        error: (...args) => console.error('[AUTO-UPDATER ERROR]', ...args),
+        warn: (...args) => console.warn('[AUTO-UPDATER WARN]', ...args)
+    };
+}
+
 // Eventi auto-updater
 autoUpdater.on('update-available', (info) => {
+    autoUpdater.logger.info('Aggiornamento disponibile:', info.version);
+    autoUpdater.logger.info('Release notes:', info.releaseNotes);
+    autoUpdater.logger.info('Info completo:', JSON.stringify(info, null, 2));
+    
+    // Estrai le release notes - possono essere in diversi formati
+    let releaseNotes = null;
+    if (info.releaseNotes) {
+        // Se è una stringa, usala direttamente
+        if (typeof info.releaseNotes === 'string') {
+            releaseNotes = info.releaseNotes;
+        } 
+        // Se è un oggetto con una proprietà 'content' o 'body'
+        else if (info.releaseNotes.content) {
+            releaseNotes = info.releaseNotes.content;
+        } else if (info.releaseNotes.body) {
+            releaseNotes = info.releaseNotes.body;
+        }
+    }
+    
     if (mainWindow) {
-        mainWindow.webContents.send('update-available', info);
+        mainWindow.webContents.send('update-available', {
+            version: info.version,
+            releaseNotes: releaseNotes,
+            releaseDate: info.releaseDate
+        });
     }
 });
 
-autoUpdater.on('update-not-available', () => {
-    // Nessun aggiornamento disponibile
+autoUpdater.on('update-not-available', (info) => {
+    autoUpdater.logger.info('Nessun aggiornamento disponibile. Versione corrente:', info.version);
 });
 
 autoUpdater.on('download-progress', (progressObj) => {
+    autoUpdater.logger.info('Progresso download:', Math.round(progressObj.percent) + '%');
     if (mainWindow) {
         mainWindow.webContents.send('download-progress', progressObj.percent);
     }
 });
 
 autoUpdater.on('update-downloaded', () => {
+    autoUpdater.logger.info('Aggiornamento scaricato');
     if (mainWindow) {
         mainWindow.webContents.send('update-downloaded');
     }
 });
 
 autoUpdater.on('error', (err) => {
-    // Errore silenzioso
+    autoUpdater.logger.error('Errore aggiornamento:', err);
+    // Invia l'errore al renderer per debug
+    if (mainWindow) {
+        mainWindow.webContents.send('update-error', err.message);
+    }
+});
+
+autoUpdater.on('checking-for-update', () => {
+    autoUpdater.logger.info('Controllo aggiornamenti in corso...');
 });
 
 // IPC per scaricare l'aggiornamento
@@ -135,6 +183,19 @@ ipcMain.on('install-update', () => {
     autoUpdater.quitAndInstall();
 });
 
+// IPC per controllare manualmente gli aggiornamenti
+ipcMain.on('check-for-updates', () => {
+    if (!process.argv.includes('--dev')) {
+        autoUpdater.logger.info('Controllo manuale aggiornamenti richiesto');
+        autoUpdater.checkForUpdates().catch(err => {
+            autoUpdater.logger.error('Errore nel controllo manuale aggiornamenti:', err);
+            if (mainWindow) {
+                mainWindow.webContents.send('update-error', err.message);
+            }
+        });
+    }
+});
+
 // Questo metodo verrà chiamato quando Electron avrà finito
 // l'inizializzazione ed è pronto per creare le finestre del browser
 app.whenReady().then(() => {
@@ -143,7 +204,10 @@ app.whenReady().then(() => {
     // Controlla aggiornamenti dopo 3 secondi (non in modalità dev)
     if (!process.argv.includes('--dev')) {
         setTimeout(() => {
-            autoUpdater.checkForUpdates();
+            autoUpdater.logger.info('Avvio controllo aggiornamenti...');
+            autoUpdater.checkForUpdates().catch(err => {
+                autoUpdater.logger.error('Errore nel controllo aggiornamenti:', err);
+            });
         }, 3000);
     }
 
