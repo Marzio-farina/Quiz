@@ -82,7 +82,10 @@ body.dark-theme .container {
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.4);
     width: 90%;
     max-width: 500px;
+    max-height: 90vh;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 body.dark-theme .update-box {
@@ -105,6 +108,9 @@ body.dark-theme .update-box {
 .update-body {
     padding: 30px;
     text-align: center;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
 }
 
 .update-body p {
@@ -133,6 +139,8 @@ body.dark-theme .update-version {
     background: #f8f9fa;
     border-radius: 10px;
     border-left: 4px solid #667eea;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 body.dark-theme .update-release-notes {
@@ -155,6 +163,46 @@ body.dark-theme .update-release-notes h4 {
     font-size: 0.95rem;
     color: #333;
     line-height: 1.6;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+/* Scrollbar personalizzata per release notes */
+.release-notes-content::-webkit-scrollbar,
+.update-release-notes::-webkit-scrollbar {
+    width: 8px;
+}
+
+.release-notes-content::-webkit-scrollbar-track,
+.update-release-notes::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.release-notes-content::-webkit-scrollbar-thumb,
+.update-release-notes::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 4px;
+}
+
+.release-notes-content::-webkit-scrollbar-thumb:hover,
+.update-release-notes::-webkit-scrollbar-thumb:hover {
+    background: #5568d3;
+}
+
+body.dark-theme .release-notes-content::-webkit-scrollbar-track,
+body.dark-theme .update-release-notes::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+body.dark-theme .release-notes-content::-webkit-scrollbar-thumb,
+body.dark-theme .update-release-notes::-webkit-scrollbar-thumb {
+    background: #64b5f6;
+}
+
+body.dark-theme .release-notes-content::-webkit-scrollbar-thumb:hover,
+body.dark-theme .update-release-notes::-webkit-scrollbar-thumb:hover {
+    background: #42a5f5;
 }
 
 body.dark-theme .release-notes-content {
