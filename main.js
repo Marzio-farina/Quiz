@@ -110,6 +110,12 @@ ipcMain.on('minimize-window', () => {
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
 
+// Disabilita la cache per forzare il download del latest.yml aggiornato
+// Questo risolve il problema quando GitHub rinomina i file (trattini -> punti)
+autoUpdater.requestHeaders = {
+    'Cache-Control': 'no-cache'
+};
+
 // Configurazione per il debug
 try {
     const log = require('electron-log');
