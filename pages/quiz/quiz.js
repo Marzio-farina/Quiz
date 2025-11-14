@@ -150,22 +150,23 @@ function selectQuizzes() {
             }
             
             // Controlla se una sottocategoria è selezionata
-            if (quiz.category === 'FARMACOLOGIA') {
-                const farmacologiaQuizzes = allQuizzes.filter(q => q.category === 'FARMACOLOGIA').sort((a, b) => a.id - b.id);
-                const quizIndex = farmacologiaQuizzes.findIndex(q => q.id === quiz.id);
-                
-                if (quizIndex >= 0 && quizIndex < 500 && quizSettings.categories.includes('FARMACOLOGIA_1')) {
-                    return true;
+            // Cerca pattern categoria_N (es. FARMACOLOGIA_1, FARMACOLOGIA_2, ecc.)
+            const subcategoryMatch = quizSettings.categories.find(cat => {
+                if (cat.includes('_') && cat.startsWith(quiz.category + '_')) {
+                    const subcategoryNum = parseInt(cat.split('_')[1]);
+                    if (!isNaN(subcategoryNum)) {
+                        // Calcola l'indice della sottocategoria basandosi sulla posizione del quiz nella categoria
+                        const categoryQuizzes = allQuizzes.filter(q => q.category === quiz.category).sort((a, b) => a.id - b.id);
+                        const quizIndex = categoryQuizzes.findIndex(q => q.id === quiz.id);
+                        const subcategoryIndex = Math.floor(quizIndex / 500);
+                        return subcategoryIndex === (subcategoryNum - 1);
+                    }
                 }
-                if (quizIndex >= 500 && quizIndex < 1000 && quizSettings.categories.includes('FARMACOLOGIA_2')) {
-                    return true;
-                }
-                if (quizIndex >= 1000 && quizIndex < 1500 && quizSettings.categories.includes('FARMACOLOGIA_3')) {
-                    return true;
-                }
-                if (quizIndex >= 1500 && quizSettings.categories.includes('FARMACOLOGIA_4')) {
-                    return true;
-                }
+                return false;
+            });
+            
+            if (subcategoryMatch) {
+                return true;
             }
             
             return false;
