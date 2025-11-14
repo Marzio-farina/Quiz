@@ -381,11 +381,6 @@ function createCategoryRadarChart(history) {
     // Converti i codici categoria in nomi visualizzati
     const categoryLabels = categories.map(cat => getCategoryDisplayName(cat));
     
-    console.log(`Categorie trovate: ${categories.length}`, categories);
-    console.log(`Percentuali corrette:`, correctPercentages);
-    console.log(`Percentuali errate:`, wrongPercentages);
-    console.log(`Percentuali non date:`, unansweredPercentages);
-    
     // Determina i colori in base al tema
     const isDarkTheme = document.body.classList.contains('dark-theme');
     const gridColor = isDarkTheme ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';

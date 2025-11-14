@@ -126,6 +126,55 @@ body.dark-theme .update-version {
     color: #64b5f6;
 }
 
+/* Release notes */
+.update-release-notes {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+}
+
+body.dark-theme .update-release-notes {
+    background: #1a1a2e;
+    border-left-color: #64b5f6;
+}
+
+.update-release-notes h4 {
+    margin: 0 0 12px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #667eea;
+}
+
+body.dark-theme .update-release-notes h4 {
+    color: #64b5f6;
+}
+
+.release-notes-content {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+body.dark-theme .release-notes-content {
+    color: #e0e0e0;
+}
+
+.release-notes-content ul {
+    margin: 0;
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.release-notes-content li {
+    margin-bottom: 8px;
+}
+
+.release-notes-content p {
+    margin: 8px 0;
+}
+
 .download-progress {
     margin-top: 20px;
 }

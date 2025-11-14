@@ -272,11 +272,9 @@ const subcategoryDisplayNames = {
 function generateCategoryFilters() {
     const container = document.getElementById('categoriesDialogContent');
     if (!container) {
-        console.warn('categoriesDialogContent non trovato');
         return;
     }
     if (allQuizzes.length === 0) {
-        console.warn('Nessun quiz caricato');
         return;
     }
     
@@ -536,7 +534,6 @@ if (studyModeToggle) {
         localStorage.setItem('studyMode', mode);
         updateModeLabels();
         updateExcludeSectionVisibility();
-        console.log('Modalità cambiata:', mode);
     });
 }
 
@@ -594,7 +591,6 @@ if (excludeCompletedToggle) {
         const excludeMode = e.target.checked ? 'passed' : 'answered';
         localStorage.setItem('excludeMode', excludeMode);
         updateExcludeLabels();
-        console.log('Modalità esclusione cambiata:', excludeMode);
     });
 }
 
@@ -653,7 +649,6 @@ function calculateCategoryStats() {
             const data = JSON.parse(rawData);
             allQuizzes = data.quizzes;
         } catch (error) {
-            console.error('Errore nel caricamento dei quiz per le statistiche:', error);
             return categoryStats; // Ritorna statistiche vuote se non riesce a caricare i quiz
         }
     }
@@ -733,16 +728,9 @@ function updateCategoryStats() {
         statsElements = document.querySelectorAll('.category-stats');
     }
     
-    console.log('Statistiche calcolate:', categoryStats);
-    console.log('Elementi trovati:', statsElements.length);
-    console.log('Container presente:', !!container);
-    console.log('Dialog presente:', !!categoriesDialog);
-    
     if (statsElements.length === 0) {
-        console.warn('Nessun elemento .category-stats trovato');
         // Se gli elementi non sono ancora stati generati, prova a generarli
         if (container && allQuizzes.length > 0) {
-            console.log('Tentativo di generare le categorie...');
             generateCategoryFilters();
             return;
         }
@@ -755,15 +743,11 @@ function updateCategoryStats() {
             const stats = categoryStats[category];
             if (stats.total > 0) {
                 element.textContent = `${stats.correct}/${stats.total}`;
-                console.log(`Categoria ${category}: ${stats.correct}/${stats.total}`);
             } else {
                 element.textContent = '-';
             }
         } else {
             element.textContent = '-';
-            if (category) {
-                console.log(`Categoria ${category}: nessuna statistica (total: ${categoryStats[category]?.total || 0})`);
-            }
         }
     });
 }

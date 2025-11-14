@@ -16,6 +16,6 @@ fetch('pages/homepage/homepage.html')
         };
     })
     .catch(error => {
-        console.error('Errore nel caricamento della homepage:', error);
+        // Errore silenzioso
     });
 

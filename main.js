@@ -53,7 +53,6 @@ function createWindow() {
             const appVersion = packageData.version || '1.0.0';
             mainWindow.webContents.send('app-version', appVersion);
         } catch (error) {
-            console.error('Errore nel leggere la versione:', error);
             mainWindow.webContents.send('app-version', '1.0.0');
         }
     }
@@ -101,32 +100,29 @@ autoUpdater.autoInstallOnAppQuit = true;
 
 // Eventi auto-updater
 autoUpdater.on('update-available', (info) => {
-    console.log('📦 Aggiornamento disponibile:', info.version);
     if (mainWindow) {
         mainWindow.webContents.send('update-available', info);
     }
 });
 
 autoUpdater.on('update-not-available', () => {
-    console.log('✅ Applicazione aggiornata');
+    // Nessun aggiornamento disponibile
 });
 
 autoUpdater.on('download-progress', (progressObj) => {
-    console.log(`📥 Download: ${Math.round(progressObj.percent)}%`);
     if (mainWindow) {
         mainWindow.webContents.send('download-progress', progressObj.percent);
     }
 });
 
 autoUpdater.on('update-downloaded', () => {
-    console.log('✅ Aggiornamento scaricato, verrà installato alla chiusura');
     if (mainWindow) {
         mainWindow.webContents.send('update-downloaded');
     }
 });
 
 autoUpdater.on('error', (err) => {
-    console.error('❌ Errore aggiornamento:', err);
+    // Errore silenzioso
 });
 
 // IPC per scaricare l'aggiornamento

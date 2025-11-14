@@ -59,11 +59,35 @@ if (document.readyState === 'loading') {
 
 // Quando c'è un aggiornamento disponibile
 getIpcRenderer().on('update-available', (event, info) => {
-    console.log('📦 Nuova versione disponibile:', info.version);
     const elements = getUpdateElements();
     if (elements.updateVersion) {
         elements.updateVersion.textContent = info.version;
     }
+    
+    // Mostra le release notes se disponibili
+    const releaseNotesDiv = document.getElementById('updateReleaseNotes');
+    const releaseNotesContent = document.getElementById('releaseNotesContent');
+    if (info.releaseNotes) {
+        // Le release notes possono essere HTML o testo semplice
+        if (releaseNotesDiv) {
+            releaseNotesDiv.style.display = 'block';
+        }
+        if (releaseNotesContent) {
+            // Se sono HTML, inserisci direttamente, altrimenti formatta come testo
+            if (info.releaseNotes.startsWith('<')) {
+                releaseNotesContent.innerHTML = info.releaseNotes;
+            } else {
+                // Formatta il testo semplice come lista
+                const lines = info.releaseNotes.split('\n').filter(line => line.trim());
+                releaseNotesContent.innerHTML = '<ul>' + lines.map(line => `<li>${line.trim()}</li>`).join('') + '</ul>';
+            }
+        }
+    } else {
+        if (releaseNotesDiv) {
+            releaseNotesDiv.style.display = 'none';
+        }
+    }
+    
     if (elements.updateDialog) {
         elements.updateDialog.style.display = 'flex';
         document.body.classList.add('dialog-open');

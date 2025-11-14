@@ -147,7 +147,6 @@ function getQuestionStudyStatus(questionId) {
         const id = Number(questionId);
         return studyStatus[id] || null;
     } catch (error) {
-        console.error('Errore nel caricamento dello stato studio:', error);
         return null;
     }
 }
@@ -162,7 +161,7 @@ function updateQuestionStudyStatus(questionId, status) {
             localStorage.setItem('studyModeStatus', JSON.stringify(studyStatus));
         }
     } catch (error) {
-        console.error('Errore nel salvataggio dello stato studio:', error);
+        // Errore silenzioso
     }
 }
 
@@ -179,10 +178,8 @@ function getPassedQuestionIds() {
             }
         });
         
-        console.log(`Domande superate in modalità Studio: ${passedIds.size}`);
         return passedIds;
     } catch (error) {
-        console.error('Errore nel caricamento delle domande superate:', error);
         return new Set();
     }
 }
@@ -202,10 +199,8 @@ function getAnsweredQuestionIds() {
             }
         });
         
-        console.log(`Domande risposte in modalità Studio: ${answeredIds.size}`);
         return answeredIds;
     } catch (error) {
-        console.error('Errore nel caricamento delle domande risposte:', error);
         return new Set();
     }
 }
@@ -231,7 +226,6 @@ function getCompletedQuizIds() {
         
         return completedIds;
     } catch (error) {
-        console.error('Errore nel caricamento delle statistiche:', error);
         return new Set();
     }
 }
@@ -282,33 +276,22 @@ function selectQuizzes() {
         if (quizSettings.excludeMode === 'answered') {
             // Escludi tutte le domande risposte (qualsiasi stato)
             excludeIds = getAnsweredQuestionIds();
-            console.log(`Modalità Studio: Esclusi ${excludeIds.size} domande risposte`);
         } else if (quizSettings.excludeMode === 'passed') {
             // Escludi solo le domande superate (risposte correttamente)
             excludeIds = getPassedQuestionIds();
-            console.log(`Modalità Studio: Esclusi ${excludeIds.size} domande superate`);
         }
         
         if (excludeIds && excludeIds.size > 0) {
-            const beforeCount = filteredQuizzes.length;
             // Escludi le domande in base alla selezione
             filteredQuizzes = filteredQuizzes.filter(quiz => {
                 const quizId = Number(quiz.id);
                 return !isNaN(quizId) && !excludeIds.has(quizId);
             });
-            console.log(`Quiz disponibili dopo esclusione: ${beforeCount} -> ${filteredQuizzes.length}`);
         }
-    } else if (quizSettings.studyMode === 'study') {
-        // Modalità Studio senza esclusioni specificate: non escludere nulla
-        console.log('Modalità Studio: Nessuna esclusione applicata');
-    } else if (quizSettings.studyMode === 'quiz') {
-        // Modalità Quiz: non escludiamo nulla (possono essere inclusi anche quiz già sostenuti)
-        console.log('Modalità Quiz: Nessuna esclusione applicata');
     }
     
-    // Se non ci sono quiz disponibili dopo il filtro, mostra un messaggio
+    // Se non ci sono quiz disponibili dopo il filtro, usa tutti i quiz come fallback
     if (filteredQuizzes.length === 0) {
-        console.warn('Nessun quiz disponibile dopo il filtro. Usando tutti i quiz come fallback.');
         // Fallback: usa tutti i quiz se non ce ne sono disponibili
         filteredQuizzes = allQuizzes;
     }
@@ -380,15 +363,6 @@ async function initQuiz() {
         }
     }
     
-    // Log delle impostazioni per debug
-    console.log('Impostazioni quiz:', {
-        count: quizSettings.count,
-        random: quizSettings.random,
-        categories: quizSettings.categories,
-        studyMode: quizSettings.studyMode,
-        excludeMode: quizSettings.excludeMode
-    });
-    
     // Seleziona i quiz
     currentQuizzes = selectQuizzes();
     
@@ -398,8 +372,6 @@ async function initQuiz() {
         window.location.href = '../../index.html';
         return;
     }
-    
-    console.log(`Quiz selezionati: ${currentQuizzes.length}`);
     
     currentQuestionIndex = 0;
     userAnswers = new Array(currentQuizzes.length).fill(null);
@@ -539,6 +511,15 @@ function exitQuiz() {
 
 // Navigazione quiz
 function previousQuestion() {
+    // Se siamo in modalità Studio, mostra il feedback della domanda precedente prima di tornare
+    if (quizSettings.studyMode === 'study' && currentQuestionIndex > 0) {
+        // Prima vai alla domanda precedente per vedere il suo feedback
+        currentQuestionIndex--;
+        showStudyFeedback(true); // true = andare indietro (ma l'indice è già decrementato)
+        return; // La funzione showStudyFeedback gestirà la visualizzazione della domanda
+    }
+    
+    // Comportamento normale per modalità Quiz
     if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
         displayQuestion(currentQuestionIndex);
@@ -549,11 +530,12 @@ function previousQuestion() {
 let currentFeedbackKeydownHandler = null;
 
 // Mostra feedback in modalità Studio
-function showStudyFeedback() {
+// goBackward: true se si sta tornando indietro, false se si sta andando avanti
+function showStudyFeedback(goBackward = false) {
     const currentQuiz = currentQuizzes[currentQuestionIndex];
     const userAnswer = userAnswers[currentQuestionIndex];
     const correctAnswer = currentQuiz.correctAnswer;
-    
+
     // Rimuovi listener precedente se esiste
     if (currentFeedbackKeydownHandler) {
         document.removeEventListener('keydown', currentFeedbackKeydownHandler);
@@ -582,7 +564,11 @@ function showStudyFeedback() {
             document.removeEventListener('keydown', currentFeedbackKeydownHandler);
             currentFeedbackKeydownHandler = null;
         }
-        proceedToNextQuestion();
+        if (goBackward) {
+            proceedToPreviousQuestion();
+        } else {
+            proceedToNextQuestion();
+        }
     };
     
     // Determina il tipo di feedback
@@ -683,6 +669,13 @@ function proceedToNextQuestion() {
     }
 }
 
+// Procede alla domanda precedente dopo il feedback
+// Nota: l'indice è già stato decrementato prima di chiamare showStudyFeedback
+function proceedToPreviousQuestion() {
+    // L'indice è già stato decrementato, quindi mostra direttamente la domanda
+    displayQuestion(currentQuestionIndex);
+}
+
 function nextQuestion() {
     // Se siamo in modalità Studio, mostra il feedback prima di passare alla domanda successiva
     if (quizSettings.studyMode === 'study' && currentQuestionIndex < currentQuizzes.length) {
@@ -751,15 +744,12 @@ function updateStudyModeStatus() {
         if (userAnswer === null || userAnswer === undefined) {
             // Domanda non risposta → stato 'unanswered' (verrà riproposta)
             updateQuestionStudyStatus(questionId, 'unanswered');
-            console.log(`Domanda ${questionId}: non risposta (verrà riproposta)`);
         } else if (userAnswer === quiz.correctAnswer) {
             // Domanda risposta correttamente → stato 'passed' (non verrà più riproposta)
             updateQuestionStudyStatus(questionId, 'passed');
-            console.log(`Domanda ${questionId}: superata (non verrà più riproposta)`);
         } else {
             // Domanda sbagliata → stato 'wrong' (verrà riproposta)
             updateQuestionStudyStatus(questionId, 'wrong');
-            console.log(`Domanda ${questionId}: errata (verrà riproposta)`);
         }
     });
 }

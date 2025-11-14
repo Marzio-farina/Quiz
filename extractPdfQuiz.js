@@ -509,7 +509,7 @@ function extractQuizzes(text) {
                 quizNumber++;
             }
         } catch (error) {
-            console.error(`Errore nel parsing del quiz ${quizNumber}:`, error.message);
+            // Errore silenzioso
         }
     }
     
@@ -576,7 +576,6 @@ function parseQuizSection(section, quizNumber) {
     }
     
     if (allContentLines.length < 6) { // Almeno domanda + 5 risposte
-        console.warn(`Quiz ${quizNumber}: contenuto insufficiente`);
         return null;
     }
     
@@ -684,7 +683,6 @@ function parseQuizSection(section, quizNumber) {
     const answerLines = allContentLines.slice(questionEndIndex + 1);
     
     if (answerLines.length < 5) {
-        console.warn(`Quiz ${quizNumber}: linee di risposte insufficienti (${answerLines.length})`);
         return null;
     }
     
@@ -792,19 +790,13 @@ function parseQuizSection(section, quizNumber) {
     
     // Validazione
     if (!questionText || questionText.length < 10) {
-        console.warn(`Quiz ${quizNumber}: domanda troppo corta o mancante`);
         return null;
     }
     
     if (answers.length !== 5) {
-        console.warn(`Quiz ${quizNumber}: trovate ${answers.length} risposte invece di 5`);
         if (answers.length < 2) {
             return null;
         }
-    }
-    
-    if (!correctAnswer) {
-        console.warn(`Quiz ${quizNumber}: risposta corretta non trovata`);
     }
     
     // Categorizza il quiz in base al contenuto
@@ -826,65 +818,14 @@ function parseQuizSection(section, quizNumber) {
  */
 async function main() {
     try {
-        console.log('📖 Lettura del PDF in corso...');
-        
         // Leggi il file PDF
         const dataBuffer = fs.readFileSync(pdfPath);
-        
-        console.log('🔍 Parsing del PDF...');
         
         // Parsa il PDF
         const data = await pdf(dataBuffer);
         
-        console.log(`📄 Pagine trovate: ${data.numpages}`);
-        console.log(`📝 Caratteri totali: ${data.text.length}`);
-        
         // Estrai i quiz
-        console.log('\n🎯 Estrazione quiz in corso...');
         const quizzes = extractQuizzes(data.text);
-        
-        console.log(`✅ Quiz estratti: ${quizzes.length}`);
-        
-        // Mostra un riepilogo
-        console.log('\n📊 Riepilogo:');
-        console.log(`   - Quiz totali: ${quizzes.length}`);
-        console.log(`   - Quiz validi: ${quizzes.filter(q => q.correctAnswer !== 'NON_TROVATA').length}`);
-        console.log(`   - Quiz senza risposta: ${quizzes.filter(q => q.correctAnswer === 'NON_TROVATA').length}`);
-        console.log(`   - Quiz con 5 risposte: ${quizzes.filter(q => q.answers.length === 5).length}`);
-        
-        // Statistiche per categoria
-        console.log('\n📂 Distribuzione per categoria:');
-        const categoryCount = {};
-        quizzes.forEach(quiz => {
-            categoryCount[quiz.category] = (categoryCount[quiz.category] || 0) + 1;
-        });
-        
-        // Ordina le categorie per numero di quiz (decrescente)
-        const sortedCategories = Object.entries(categoryCount)
-            .sort((a, b) => b[1] - a[1]);
-        
-        sortedCategories.forEach(([category, count]) => {
-            const percentage = ((count / quizzes.length) * 100).toFixed(1);
-            console.log(`   - ${category}: ${count} quiz (${percentage}%)`);
-        });
-        
-        // Statistiche per sottocategoria
-        console.log('\n📂 Distribuzione per sottocategoria:');
-        const subcategoryCount = {};
-        quizzes.forEach(quiz => {
-            if (quiz.subcategory) {
-                subcategoryCount[quiz.subcategory] = (subcategoryCount[quiz.subcategory] || 0) + 1;
-            }
-        });
-        
-        // Ordina le sottocategorie per numero di quiz (decrescente)
-        const sortedSubcategories = Object.entries(subcategoryCount)
-            .sort((a, b) => b[1] - a[1]);
-        
-        sortedSubcategories.forEach(([subcategory, count]) => {
-            const percentage = ((count / quizzes.length) * 100).toFixed(1);
-            console.log(`   - ${subcategory}: ${count} quiz (${percentage}%)`);
-        });
         
         // Salva il JSON
         const jsonOutput = {
@@ -899,37 +840,7 @@ async function main() {
         
         fs.writeFileSync(outputPath, JSON.stringify(jsonOutput, null, 2), 'utf8');
         
-        console.log(`\n💾 File salvato: ${outputPath}`);
-        console.log('\n✨ Estrazione completata!');
-        
-        // Mostra il quiz 59 come test
-        const quiz59 = quizzes.find(q => q.id === 59);
-        if (quiz59) {
-            console.log('\n📋 Test - Quiz 59 (talco bambini):');
-            console.log(`Categoria: ${quiz59.category}`);
-            console.log(`Domanda: ${quiz59.question}`);
-            console.log(`Risposte (${quiz59.answers.length}):`);
-            quiz59.answers.forEach(ans => {
-                console.log(`  ${ans.letter}) ${ans.text}`);
-            });
-            console.log(`Risposta corretta: ${quiz59.correctAnswer}`);
-        }
-        
-        // Mostra i primi 3 quiz come esempio
-        console.log('\n📋 Primi 3 quiz:');
-        quizzes.slice(0, 3).forEach(quiz => {
-            console.log(`\n--- Quiz ${quiz.id} ---`);
-            console.log(`Categoria: ${quiz.category}`);
-            console.log(`Domanda: ${quiz.question.substring(0, 80)}${quiz.question.length > 80 ? '...' : ''}`);
-            console.log(`Risposte (${quiz.answers.length}):`);
-            quiz.answers.forEach(ans => {
-                console.log(`  ${ans.letter}) ${ans.text.substring(0, 60)}${ans.text.length > 60 ? '...' : ''}`);
-            });
-            console.log(`Risposta corretta: ${quiz.correctAnswer}`);
-        });
-        
     } catch (error) {
-        console.error('❌ Errore durante l\'estrazione:', error);
         process.exit(1);
     }
 }
