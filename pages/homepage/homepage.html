@@ -19,9 +19,35 @@
                 <button id="statsBtn" class="stats-icon stats-icon-left" aria-label="Statistiche">
                     📊
                 </button>
-                <button id="optionsBtn" class="stats-icon stats-icon-right" aria-label="Opzioni">
+                <button id="filterBtn" class="stats-icon stats-icon-right" aria-label="Filtri">
+                    🔍
+                </button>
+                <button id="optionsBtn" class="stats-icon stats-icon-options" aria-label="Opzioni">
                     ⚙️
                 </button>
+                
+                <!-- Dialog Opzioni -->
+                <div id="optionsDialog" class="options-dialog hidden">
+                    <div class="options-dialog-header">
+                        <h3>⚙️ Opzioni</h3>
+                        <button id="closeOptionsDialogBtn" class="close-dialog-btn" aria-label="Chiudi">×</button>
+                    </div>
+                    <div class="options-dialog-content">
+                        <div class="mode-section">
+                            <h4 class="mode-title">Modalità</h4>
+                            <div class="mode-toggle-container">
+                                <span class="mode-label mode-label-left">Quiz</span>
+                                <div class="mode-toggle">
+                                    <input type="checkbox" id="studyModeToggle" class="mode-toggle-input">
+                                    <label for="studyModeToggle" class="mode-toggle-label">
+                                        <span class="mode-toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <span class="mode-label mode-label-right">Studio</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- Dialog Opzioni Categorie -->
                 <div id="categoriesDialog" class="categories-dialog hidden">
@@ -34,6 +60,26 @@
                             <input type="checkbox" value="FARMACOLOGIA" checked>
                             <span>💊 Farmacologia</span>
                             <span class="category-stats" data-category="FARMACOLOGIA">-</span>
+                        </label>
+                        <label class="category-checkbox subcategory">
+                            <input type="checkbox" value="FARMACOLOGIA_1" checked>
+                            <span>📚 Parte 1</span>
+                            <span class="category-stats" data-category="FARMACOLOGIA_1">-</span>
+                        </label>
+                        <label class="category-checkbox subcategory">
+                            <input type="checkbox" value="FARMACOLOGIA_2" checked>
+                            <span>📚 Parte 2</span>
+                            <span class="category-stats" data-category="FARMACOLOGIA_2">-</span>
+                        </label>
+                        <label class="category-checkbox subcategory">
+                            <input type="checkbox" value="FARMACOLOGIA_3" checked>
+                            <span>📚 Parte 3</span>
+                            <span class="category-stats" data-category="FARMACOLOGIA_3">-</span>
+                        </label>
+                        <label class="category-checkbox subcategory">
+                            <input type="checkbox" value="FARMACOLOGIA_4" checked>
+                            <span>📚 Parte 4</span>
+                            <span class="category-stats" data-category="FARMACOLOGIA_4">-</span>
                         </label>
                         <label class="category-checkbox">
                             <input type="checkbox" value="CHIMICA_FARMACEUTICA" checked>

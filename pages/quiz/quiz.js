@@ -143,9 +143,33 @@ function selectQuizzes() {
     let filteredQuizzes = allQuizzes;
     
     if (quizSettings.categories && quizSettings.categories.length > 0) {
-        filteredQuizzes = allQuizzes.filter(quiz => 
-            quizSettings.categories.includes(quiz.category)
-        );
+        filteredQuizzes = allQuizzes.filter(quiz => {
+            // Se la categoria principale è selezionata, includi tutti i quiz di quella categoria
+            if (quizSettings.categories.includes(quiz.category)) {
+                return true;
+            }
+            
+            // Controlla se una sottocategoria è selezionata
+            if (quiz.category === 'FARMACOLOGIA') {
+                const farmacologiaQuizzes = allQuizzes.filter(q => q.category === 'FARMACOLOGIA').sort((a, b) => a.id - b.id);
+                const quizIndex = farmacologiaQuizzes.findIndex(q => q.id === quiz.id);
+                
+                if (quizIndex >= 0 && quizIndex < 500 && quizSettings.categories.includes('FARMACOLOGIA_1')) {
+                    return true;
+                }
+                if (quizIndex >= 500 && quizIndex < 1000 && quizSettings.categories.includes('FARMACOLOGIA_2')) {
+                    return true;
+                }
+                if (quizIndex >= 1000 && quizIndex < 1500 && quizSettings.categories.includes('FARMACOLOGIA_3')) {
+                    return true;
+                }
+                if (quizIndex >= 1500 && quizSettings.categories.includes('FARMACOLOGIA_4')) {
+                    return true;
+                }
+            }
+            
+            return false;
+        });
     }
     
     // Se non ci sono quiz dopo il filtro, usa tutti i quiz

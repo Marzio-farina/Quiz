@@ -72,9 +72,33 @@ function countAvailableQuizzes(selectedCategories) {
         return allQuizzes.length;
     }
     
-    const filtered = allQuizzes.filter(quiz => 
-        selectedCategories.includes(quiz.category)
-    );
+    const filtered = allQuizzes.filter(quiz => {
+        // Se la categoria principale è selezionata, includi tutti i quiz di quella categoria
+        if (selectedCategories.includes(quiz.category)) {
+            return true;
+        }
+        
+        // Controlla se una sottocategoria è selezionata
+        if (quiz.category === 'FARMACOLOGIA') {
+            const farmacologiaQuizzes = allQuizzes.filter(q => q.category === 'FARMACOLOGIA').sort((a, b) => a.id - b.id);
+            const quizIndex = farmacologiaQuizzes.findIndex(q => q.id === quiz.id);
+            
+            if (quizIndex >= 0 && quizIndex < 500 && selectedCategories.includes('FARMACOLOGIA_1')) {
+                return true;
+            }
+            if (quizIndex >= 500 && quizIndex < 1000 && selectedCategories.includes('FARMACOLOGIA_2')) {
+                return true;
+            }
+            if (quizIndex >= 1000 && quizIndex < 1500 && selectedCategories.includes('FARMACOLOGIA_3')) {
+                return true;
+            }
+            if (quizIndex >= 1500 && selectedCategories.includes('FARMACOLOGIA_4')) {
+                return true;
+            }
+        }
+        
+        return false;
+    });
     
     return filtered.length;
 }
@@ -187,13 +211,14 @@ if (statsBtn) {
 
 // Gestione dialog categorie
 const categoriesDialog = document.getElementById('categoriesDialog');
+const filterBtn = document.getElementById('filterBtn');
 const optionsBtn = document.getElementById('optionsBtn');
 const closeDialogBtn = document.getElementById('closeDialogBtn');
 categoryCheckboxes = document.querySelectorAll('.category-checkbox input[type="checkbox"]');
 
-// Gestione pulsante Opzioni - Toggle dialog
-if (optionsBtn) {
-    optionsBtn.addEventListener('click', (e) => {
+// Gestione pulsante Filtri - Toggle dialog categorie
+if (filterBtn) {
+    filterBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         if (categoriesDialog) {
             const isHidden = categoriesDialog.classList.contains('hidden');
@@ -208,6 +233,77 @@ if (optionsBtn) {
     });
 }
 
+// Gestione dialog opzioni
+const optionsDialog = document.getElementById('optionsDialog');
+const closeOptionsDialogBtn = document.getElementById('closeOptionsDialogBtn');
+
+// Gestione pulsante Opzioni - Toggle dialog opzioni
+if (optionsBtn) {
+    optionsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (optionsDialog) {
+            const isHidden = optionsDialog.classList.contains('hidden');
+            optionsDialog.classList.toggle('hidden');
+        }
+    });
+}
+
+// Chiudi dialog opzioni con pulsante X
+if (closeOptionsDialogBtn) {
+    closeOptionsDialogBtn.addEventListener('click', () => {
+        if (optionsDialog) {
+            optionsDialog.classList.add('hidden');
+        }
+    });
+}
+
+// Chiudi dialog opzioni quando si clicca fuori
+document.addEventListener('click', (e) => {
+    if (optionsDialog && !optionsDialog.contains(e.target) && e.target !== optionsBtn && !optionsBtn?.contains(e.target)) {
+        if (!optionsDialog.classList.contains('hidden')) {
+            optionsDialog.classList.add('hidden');
+        }
+    }
+});
+
+// Gestione toggle modalità Studio/Quiz
+const studyModeToggle = document.getElementById('studyModeToggle');
+if (studyModeToggle) {
+    const modeLabelLeft = document.querySelector('.mode-label-left');
+    const modeLabelRight = document.querySelector('.mode-label-right');
+    
+    // Funzione per aggiornare l'evidenziazione delle label
+    function updateModeLabels() {
+        if (studyModeToggle.checked) {
+            // Studio attivo
+            if (modeLabelLeft) modeLabelLeft.classList.remove('active');
+            if (modeLabelRight) modeLabelRight.classList.add('active');
+        } else {
+            // Quiz attivo
+            if (modeLabelLeft) modeLabelLeft.classList.add('active');
+            if (modeLabelRight) modeLabelRight.classList.remove('active');
+        }
+    }
+    
+    // Carica lo stato salvato (default: Studio = checked)
+    const savedMode = localStorage.getItem('studyMode');
+    if (savedMode === 'quiz') {
+        studyModeToggle.checked = false;
+    } else {
+        studyModeToggle.checked = true; // Default: Studio
+    }
+    
+    // Aggiorna le label all'inizializzazione
+    updateModeLabels();
+    
+    studyModeToggle.addEventListener('change', (e) => {
+        const mode = e.target.checked ? 'study' : 'quiz';
+        localStorage.setItem('studyMode', mode);
+        updateModeLabels();
+        console.log('Modalità cambiata:', mode);
+    });
+}
+
 // Chiudi dialog con pulsante X
 if (closeDialogBtn) {
     closeDialogBtn.addEventListener('click', () => {
@@ -219,7 +315,7 @@ if (closeDialogBtn) {
 
 // Chiudi dialog quando si clicca fuori
 document.addEventListener('click', (e) => {
-    if (categoriesDialog && !categoriesDialog.contains(e.target) && e.target !== optionsBtn) {
+    if (categoriesDialog && !categoriesDialog.contains(e.target) && e.target !== filterBtn && !filterBtn?.contains(e.target)) {
         if (!categoriesDialog.classList.contains('hidden')) {
             categoriesDialog.classList.add('hidden');
         }
@@ -232,7 +328,8 @@ function calculateCategoryStats() {
     const categoryStats = {};
     
     // Inizializza tutte le categorie a 0
-    const allCategories = ['FARMACOLOGIA', 'CHIMICA_FARMACEUTICA', 'LEGISLAZIONE', 'MICROBIOLOGIA', 
+    const allCategories = ['FARMACOLOGIA', 'FARMACOLOGIA_1', 'FARMACOLOGIA_2', 'FARMACOLOGIA_3', 'FARMACOLOGIA_4',
+                          'CHIMICA_FARMACEUTICA', 'LEGISLAZIONE', 'MICROBIOLOGIA', 
                           'FARMACEUTICA', 'CHIMICA_ANALITICA', 'FARMACOGNOSIA', 'COSMETOLOGIA', 
                           'ECONOMIA_FARMACEUTICA', 'ALTRO'];
     
@@ -262,9 +359,25 @@ function calculateCategoryStats() {
     }
     
     // Calcola il totale di quiz disponibili per ogni categoria nel file quiz-data.json
+    const farmacologiaQuizzes = allQuizzes.filter(q => q.category === 'FARMACOLOGIA').sort((a, b) => a.id - b.id);
+    
     allQuizzes.forEach(quiz => {
         if (quiz.category && categoryStats[quiz.category]) {
             categoryStats[quiz.category].total++;
+        }
+        
+        // Calcola anche i totali per le sottocategorie di FARMACOLOGIA
+        if (quiz.category === 'FARMACOLOGIA') {
+            const quizIndex = farmacologiaQuizzes.findIndex(q => q.id === quiz.id);
+            if (quizIndex >= 0 && quizIndex < 500) {
+                categoryStats['FARMACOLOGIA_1'].total++;
+            } else if (quizIndex >= 500 && quizIndex < 1000) {
+                categoryStats['FARMACOLOGIA_2'].total++;
+            } else if (quizIndex >= 1000 && quizIndex < 1500) {
+                categoryStats['FARMACOLOGIA_3'].total++;
+            } else if (quizIndex >= 1500) {
+                categoryStats['FARMACOLOGIA_4'].total++;
+            }
         }
     });
     
@@ -293,6 +406,26 @@ function calculateCategoryStats() {
                     if (category && detail.isCorrect) {
                         categoryStats[category] = categoryStats[category] || { correct: 0, total: 0 };
                         categoryStats[category].correct++;
+                        
+                        // Conta anche per le sottocategorie di FARMACOLOGIA
+                        if (category === 'FARMACOLOGIA') {
+                            const farmacologiaQuizzes = allQuizzes.filter(q => q.category === 'FARMACOLOGIA').sort((a, b) => a.id - b.id);
+                            const quizIndex = farmacologiaQuizzes.findIndex(q => q.id === detail.questionId);
+                            
+                            if (quizIndex >= 0 && quizIndex < 500) {
+                                categoryStats['FARMACOLOGIA_1'] = categoryStats['FARMACOLOGIA_1'] || { correct: 0, total: 0 };
+                                categoryStats['FARMACOLOGIA_1'].correct++;
+                            } else if (quizIndex >= 500 && quizIndex < 1000) {
+                                categoryStats['FARMACOLOGIA_2'] = categoryStats['FARMACOLOGIA_2'] || { correct: 0, total: 0 };
+                                categoryStats['FARMACOLOGIA_2'].correct++;
+                            } else if (quizIndex >= 1000 && quizIndex < 1500) {
+                                categoryStats['FARMACOLOGIA_3'] = categoryStats['FARMACOLOGIA_3'] || { correct: 0, total: 0 };
+                                categoryStats['FARMACOLOGIA_3'].correct++;
+                            } else if (quizIndex >= 1500) {
+                                categoryStats['FARMACOLOGIA_4'] = categoryStats['FARMACOLOGIA_4'] || { correct: 0, total: 0 };
+                                categoryStats['FARMACOLOGIA_4'].correct++;
+                            }
+                        }
                     }
                 });
             }
@@ -353,8 +486,39 @@ function loadSelectedCategories() {
     // Non chiamare updateCategoryStats qui, verrà chiamata in init() dopo loadQuizData()
 }
 
+// Gestisce la sincronizzazione tra categoria padre e sottocategorie
+function syncParentSubcategories() {
+    const farmacologiaCheckbox = document.querySelector('input[type="checkbox"][value="FARMACOLOGIA"]');
+    const subcategoryCheckboxes = [
+        document.querySelector('input[type="checkbox"][value="FARMACOLOGIA_1"]'),
+        document.querySelector('input[type="checkbox"][value="FARMACOLOGIA_2"]'),
+        document.querySelector('input[type="checkbox"][value="FARMACOLOGIA_3"]'),
+        document.querySelector('input[type="checkbox"][value="FARMACOLOGIA_4"]')
+    ].filter(cb => cb !== null);
+    
+    if (!farmacologiaCheckbox) return;
+    
+    // Se FARMACOLOGIA è spuntata, spunta tutte le sottocategorie
+    if (farmacologiaCheckbox.checked) {
+        subcategoryCheckboxes.forEach(sub => {
+            if (!sub.checked) {
+                sub.checked = true;
+            }
+        });
+    } else {
+        // Se una sottocategoria è deselezionata, deseleziona FARMACOLOGIA
+        const allSubcategoriesChecked = subcategoryCheckboxes.every(sub => sub.checked);
+        if (!allSubcategoriesChecked && farmacologiaCheckbox.checked) {
+            farmacologiaCheckbox.checked = false;
+        }
+    }
+}
+
 // Salva le categorie selezionate nel localStorage
 function saveSelectedCategories() {
+    // Sincronizza categoria padre e sottocategorie
+    syncParentSubcategories();
+    
     const selectedCategories = Array.from(categoryCheckboxes)
         .filter(cb => cb.checked)
         .map(cb => cb.value);
@@ -372,7 +536,48 @@ loadSelectedCategories();
 
 // Salva quando cambia una selezione
 categoryCheckboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', saveSelectedCategories);
+    checkbox.addEventListener('change', (e) => {
+        const checkboxValue = e.target.value;
+        
+        // Gestione sincronizzazione FARMACOLOGIA e sottocategorie
+        const subcategoryCheckboxes = [
+            document.querySelector('input[type="checkbox"][value="FARMACOLOGIA_1"]'),
+            document.querySelector('input[type="checkbox"][value="FARMACOLOGIA_2"]'),
+            document.querySelector('input[type="checkbox"][value="FARMACOLOGIA_3"]'),
+            document.querySelector('input[type="checkbox"][value="FARMACOLOGIA_4"]')
+        ].filter(cb => cb !== null);
+        
+        const farmacologiaCheckbox = document.querySelector('input[type="checkbox"][value="FARMACOLOGIA"]');
+        
+        if (checkboxValue === 'FARMACOLOGIA') {
+            // Se viene spuntata FARMACOLOGIA, spunta tutte le sottocategorie
+            if (e.target.checked) {
+                subcategoryCheckboxes.forEach(sub => {
+                    sub.checked = true;
+                });
+            } else {
+                // Se viene deselezionata FARMACOLOGIA, deseleziona tutte le sottocategorie
+                subcategoryCheckboxes.forEach(sub => {
+                    sub.checked = false;
+                });
+            }
+        } else if (checkboxValue.startsWith('FARMACOLOGIA_')) {
+            // Se viene deselezionata una sottocategoria, deseleziona FARMACOLOGIA
+            if (!e.target.checked && farmacologiaCheckbox && farmacologiaCheckbox.checked) {
+                farmacologiaCheckbox.checked = false;
+            }
+            
+            // Se tutte le sottocategorie sono spuntate, spunta FARMACOLOGIA
+            if (e.target.checked) {
+                const allChecked = subcategoryCheckboxes.every(sub => sub.checked);
+                if (allChecked && farmacologiaCheckbox && !farmacologiaCheckbox.checked) {
+                    farmacologiaCheckbox.checked = true;
+                }
+            }
+        }
+        
+        saveSelectedCategories();
+    });
 });
 
 // Pulsante "Seleziona Tutto"
@@ -382,6 +587,7 @@ if (selectAllBtn) {
         categoryCheckboxes.forEach(checkbox => {
             checkbox.checked = true;
         });
+        // La sincronizzazione verrà gestita da saveSelectedCategories
         saveSelectedCategories();
         updateQuestionCountButtons();
     });
@@ -394,6 +600,7 @@ if (deselectAllBtn) {
         categoryCheckboxes.forEach(checkbox => {
             checkbox.checked = false;
         });
+        // La sincronizzazione verrà gestita da saveSelectedCategories
         saveSelectedCategories();
         updateQuestionCountButtons();
     });
