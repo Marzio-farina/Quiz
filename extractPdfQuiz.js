@@ -36,6 +36,7 @@ function cleanText(text) {
 /**
  * Funzione per categorizzare automaticamente una domanda
  * in base alle parole chiave presenti nel testo
+ * Restituisce un oggetto con category e subcategory
  */
 function categorizeQuiz(questionText, answersText) {
     const fullText = (questionText + ' ' + answersText).toLowerCase();
@@ -165,6 +166,255 @@ function categorizeQuiz(questionText, answersText) {
         ]
     };
     
+    // Definizione delle sottocategorie per ogni categoria
+    const subcategories = {
+        'FARMACOLOGIA': {
+            'FARMACOLOGIA_CARDIOVASCOLARE': [
+                // Cardiovascolare - più specifico
+                'antipertensivo', 'ipertensione', 'ace inibitore', 'enalapril', 'captopril', 'lisinopril',
+                'sartano', 'losartan', 'valsartan', 'irbesartan', 'calcio-antagonista', 'amlodipina', 'nifedipina',
+                'beta-bloccante', 'propranolol', 'atenolol', 'metoprolol', 'bisoprolol',
+                'alfa-bloccante', 'doxazosina', 'prazosina', 'nitrati', 'nitroglicerina', 'isosorbide',
+                'digitale', 'digitossina', 'digossina', 'antiaritmico', 'amiodarone', 'flecainide',
+                'anticoagulante', 'warfarin', 'eparina', 'dabigatran', 'rivaroxaban', 'apixaban',
+                'antiaggregante', 'clopidogrel', 'ticlopidina', 'dipiridamolo',
+                'statine', 'atorvastatina', 'simvastatina', 'rosuvastatina', 'pravastatina',
+                'colesterolo', 'trigliceridi', 'aterosclerosi', 'cardiaco', 'cuore', 'miocardio',
+                'angina', 'antianginosa', 'ischemia', 'infarto'
+            ],
+            'FARMACOLOGIA_ANTIBIOTICI': [
+                // Antibiotici - più completo
+                'antibiotico', 'antibatterico', 'antimicrobico', 'battericida', 'batteriostatico',
+                'penicillina', 'amoxicillina', 'ampicillina', 'benzilpenicillina', 'oxacillina',
+                'cloxacillina', 'piperacillina', 'ticarcillina', 'pivampicillina',
+                'cefalosporina', 'cefazolina', 'cefalexina', 'ceftriaxone', 'cefotaxima',
+                'ceftazidima', 'cefepime', 'cefuroxima',
+                'macrolidi', 'eritromicina', 'azitromicina', 'claritromicina', 'roxitromicina',
+                'aminoglicosidi', 'gentamicina', 'amikacina', 'tobramicina', 'streptomicina',
+                'chinoloni', 'ciprofloxacina', 'levofloxacina', 'moxifloxacina', 'norfloxacina',
+                'tetracicline', 'doxiciclina', 'tetraciclina', 'minociclina',
+                'sulfamidici', 'sulfametossazolo', 'trimetoprim', 'cotrimossazolo',
+                'vancomicina', 'teicoplanina', 'linezolid', 'daptomicina',
+                'metronidazolo', 'clindamicina', 'cloramfenicolo',
+                'imipenem', 'meropenem', 'ertapenem', 'colistina',
+                'resistenza antibiotica', 'betalattamasi', 'penicillinasi', 'mrsa', 'vrea',
+                'antibiogramma', 'mic', 'sensibile', 'resistente'
+            ],
+            'FARMACOLOGIA_SISTEMA_NERVOSO': [
+                // Sistema Nervoso - più completo
+                'sistema nervoso', 'neurologico', 'neurotrasmettitore',
+                'antidepressivo', 'ssri', 'fluoxetina', 'sertralina', 'paroxetina', 'citalopram',
+                'escitalopram', 'fluvoxamina', 'snri', 'venlafaxina', 'duloxetina',
+                'triciclici', 'imipramina', 'amitriptilina', 'clomipramina', 'nortriptilina',
+                'ansiolitico', 'benzodiazepine', 'diazepam', 'lorazepam', 'alprazolam',
+                'clonazepam', 'oxazepam', 'temazepam', 'triazolam',
+                'antipsicotico', 'neurolettico', 'aloperidolo', 'risperidone', 'olanzapina',
+                'quetiapina', 'clozapina', 'aripiprazolo', 'ziprasidone', 'schizofrenia',
+                'antiepilettico', 'anticonvulsivante', 'fenitoina', 'carbamazepina', 'valproato',
+                'valproico', 'gabapentin', 'pregabalin', 'lamotrigina', 'topiramato',
+                'levetiracetam', 'fenobarbital', 'barbiturico',
+                'antiparkinson', 'levodopa', 'carbidopa', 'dopamina', 'dopaminergico',
+                'bromocriptina', 'ropinirolo', 'pramipexolo', 'selegilina', 'entacapone',
+                'atropina', 'scopolamina', 'anticolinergico', 'colinergico'
+            ],
+            'FARMACOLOGIA_ANTINFIAMMATORI': [
+                // Antinfiammatori, Analgesici, Altri
+                'antinfiammatorio', 'fans', 'ibuprofene', 'naprossene', 'ketoprofene',
+                'diclofenac', 'indometacina', 'piroxicam', 'meloxicam', 'celecoxib',
+                'cortisonico', 'corticosteroide', 'prednisone', 'prednisolone', 'idrocortisone',
+                'betametasone', 'desametasone', 'metilprednisolone', 'triamcinolone',
+                'analgesico', 'antidolorifico', 'paracetamolo', 'acetaminofene',
+                'morfina', 'oppioidi', 'fentanyl', 'ossicodone', 'codeina', 'tramadolo',
+                'buprenorfina', 'naltrexone', 'naloxone',
+                'antireumatico', 'metotrexato', 'sulfasalazina', 'leflunomide',
+                'antimalarico', 'clorochina', 'idrossiclorochina', 'meflochina',
+                'antivirale', 'aciclovir', 'valaciclovir', 'ganciclovir', 'oseltamivir',
+                'zanamivir', 'ribavirina', 'interferone',
+                'antifungino', 'fluconazolo', 'itraconazolo', 'voriconazolo', 'amfotericina',
+                'caspofungina', 'micafungina',
+                'antiparassitario', 'antielmintico', 'mebendazolo', 'albendazolo',
+                'antineoplastico', 'chemioterapico', 'topotecan', 'ciclofosfamide',
+                'cisplatino', 'carboplatino', 'doxorubicina', 'paclitaxel', 'docetaxel',
+                'biotrasformazione', 'metabolismo', 'eliminazione', 'escrezione',
+                'teratogeno', 'teratogeni', 'malformazioni fetali'
+            ]
+        },
+        'FARMACEUTICA': {
+            'FARMACEUTICA_SOLIDE': [
+                'forma farmaceutica solida', 'compressa', 'compresse', 'capsula', 'capsule',
+                'granulato', 'polvere', 'pastiglie', 'lozenge', 'gastroresistente',
+                'rivestimento', 'coating', 'film coating', 'enterico', 'disgregazione'
+            ],
+            'FARMACEUTICA_LIQUIDE': [
+                'forma farmaceutica liquida', 'sciroppo', 'sospensione', 'emulsione',
+                'soluzione', 'gocce', 'collirio', 'spray', 'aerosol', 'inalazione',
+                'viscosità', 'tensione superficiale', 'solubilità'
+            ],
+            'FARMACEUTICA_SEMISOLIDE': [
+                'forma farmaceutica semisolida', 'crema', 'unguento', 'pomata', 'gel',
+                'pasta', 'cerotto', 'transdermico', 'supposta', 'ovuli', 'pessari'
+            ],
+            'FARMACEUTICA_ECCIPIENTI': [
+                'eccipienti', 'lattosio', 'cellulosa', 'stearato', 'magnesio stearato',
+                'silice', 'talco', 'amido', 'gelatina', 'glicerina', 'conservanti',
+                'stabilità', 'conservazione', 'scadenza', 'shelf-life', 'liofilizzazione'
+            ]
+        },
+        'CHIMICA_FARMACEUTICA': {
+            'CHIMICA_FARMACEUTICA_STRUTTURA': [
+                'struttura molecolare', 'molecola', 'atomo', 'carbonio', 'legame chimico',
+                'gruppo funzionale', 'radicale', 'catena', 'anello', 'aromatico', 'benzene'
+            ],
+            'CHIMICA_FARMACEUTICA_ISOMERIA': [
+                'isomeria', 'isomero', 'stereoisomeria', 'enantiomero', 'diastereoisomero',
+                'chirale', 'asimmetrico', 'centro chirale', 'configurazione', 'conformazione',
+                'racemo', 'enantiomero puro'
+            ],
+            'CHIMICA_FARMACEUTICA_SINTESI': [
+                'sintesi', 'reazione', 'ossidazione', 'riduzione', 'idrolisi', 'esterificazione',
+                'amidazione', 'sostituzione', 'addizione', 'eliminazione', 'catalisi'
+            ],
+            'CHIMICA_FARMACEUTICA_ACIDI_BASI': [
+                'acido', 'base', 'sale', 'estere', 'ammide', 'chetone', 'aldeide',
+                'alcool', 'fenolo', 'ammina', 'carbossil', 'idrossil', 'ph', 'pka',
+                'ionizzazione', 'tampone', 'equilibrio'
+            ]
+        },
+        'LEGISLAZIONE': {
+            'LEGISLAZIONE_RICETTE': [
+                'ricetta', 'prescrizione', 'prescrivere', 'ricettario', 'validità',
+                'ripetibile', 'non ripetibile', 'ricetta bianca', 'ricetta rossa',
+                'ricetta limitativa', 'ricetta speciale'
+            ],
+            'LEGISLAZIONE_NORMATIVE': [
+                'legge', 'normativa', 'decreto', 'regolamento', 'dlgs', 'dpr',
+                'aifa', 'ministero', 'autorizzazione', 'aic', 'prontuario',
+                'classe a', 'classe c', 'classe h', 'tabella', 'stupefacenti', 'psicotropi'
+            ],
+            'LEGISLAZIONE_ETICHETTATURA': [
+                'etichetta', 'etichettatura', 'foglietto illustrativo', 'bugiardino',
+                'dispositivo medico', 'marcatura ce', 'lotto', 'scadenza',
+                'ssn', 'servizio sanitario', 'ticket', 'mutuabile'
+            ],
+            'LEGISLAZIONE_FARMACOVIGILANZA': [
+                'farmacovigilanza', 'reazione avversa', 'segnalazione', 'aifa',
+                'deontologia', 'codice deontologico', 'farmacista', 'camice',
+                'ordine', 'albo', 'professionale', 'titolare', 'direttore',
+                'responsabile', 'ispezione', 'vigilanza', 'sanzione'
+            ]
+        },
+        'CHIMICA_ANALITICA': {
+            'CHIMICA_ANALITICA_SPETTROSCOPIA': [
+                'spettroscopia', 'spettrofotometria', 'uv', 'visibile', 'infrarosso', 'ir',
+                'nmr', 'risonanza magnetica', 'massa', 'spettrometria', 'fluorescenza'
+            ],
+            'CHIMICA_ANALITICA_CROMATOGRAFIA': [
+                'cromatografia', 'hplc', 'gc-ms', 'tlc', 'gascromatografia',
+                'cromatografia liquida', 'fase mobile', 'fase stazionaria'
+            ],
+            'CHIMICA_ANALITICA_ANALISI': [
+                'analisi', 'dosaggio', 'titolazione', 'elettroforesi',
+                'concentrazione', 'molarità', 'normalità', 'diluizione'
+            ],
+            'CHIMICA_ANALITICA_VALIDAZIONE': [
+                'standard', 'calibrazione', 'curva', 'linearità',
+                'limiti di rivelabilità', 'sensibilità', 'specificità',
+                'validazione', 'metodo analitico', 'controllo qualità',
+                'tac', 'tomografia', 'radiazioni', 'raggi x', 'radioattiv'
+            ]
+        },
+        'FARMACOGNOSIA': {
+            'FARMACOGNOSIA_BOTANICA': [
+                'pianta', 'piante', 'droga', 'droghe vegetali', 'botanica',
+                'specie', 'genere', 'famiglia', 'nomenclatura', 'coltivazione',
+                'raccolta', 'essicazione', 'conservazione'
+            ],
+            'FARMACOGNOSIA_ESTRATTI': [
+                'estratto', 'estratti', 'tintura madre', 'macerato', 'infuso',
+                'decotto', 'oleolito', 'fitoterapia', 'principio attivo naturale'
+            ],
+            'FARMACOGNOSIA_PRINCIPI_ATTIVI': [
+                'alcaloide', 'alcaloidi', 'glucoside', 'glucosidi', 'tannin',
+                'flavonoide', 'flavonoidi', 'terpene', 'oli essenziali',
+                'resina', 'gomma', 'mucillagine', 'saponina'
+            ],
+            'FARMACOGNOSIA_OMEOPATIA': [
+                'omeopati', 'omeopatico', 'diluizione', 'dinamizzazione',
+                'centesimale', 'decimale', 'korsakoviana',
+                'guar', 'ginseng', 'valeriana', 'camomilla', 'echinacea',
+                'digitale', 'belladonna', 'segale cornuta', 'oppio', 'china'
+            ]
+        },
+        'COSMETOLOGIA': {
+            'COSMETOLOGIA_PRODOTTI': [
+                'cosmetico', 'cosmetici', 'cosmetica', 'dermocosmetico',
+                'crema viso', 'crema mani', 'lozione', 'shampoo', 'balsamo',
+                'trucco', 'makeup', 'smalto', 'profumo', 'deodorante'
+            ],
+            'COSMETOLOGIA_PROTEZIONE_SOLARE': [
+                'solare', 'protezione solare', 'spf', 'filtro solare',
+                'idratante', 'emolliente', 'nutriente', 'antiage', 'antirughe',
+                'schiarente', 'depigmentante', 'idrochinone', 'acido glicolico'
+            ],
+            'COSMETOLOGIA_INGREDIENTI': [
+                'conservante', 'parabeni', 'profumazione', 'colorante',
+                'tensioattivo', 'emulsionante', 'addensante', 'umettante'
+            ],
+            'COSMETOLOGIA_LEGISLAZIONE': [
+                'legge 713', '713/86', 'allegato', 'proibito', 'ammesso',
+                'concentrazione massima', 'etichettatura cosmetica',
+                'pao', 'period after opening', 'nickel tested', 'dermatologicamente',
+                'bambini', 'età inferiore', 'tre anni', 'pelle sensibile'
+            ]
+        },
+        'MICROBIOLOGIA': {
+            'MICROBIOLOGIA_BATTERI': [
+                'batterio', 'batteri', 'batteric', 'microbio', 'microbiologia',
+                'gram-positiv', 'gram-negativ', 'gram positiv', 'gram negativ',
+                'parete cellulare', 'peptidoglicano', 'lipopolisaccaride', 'lps',
+                'acidi micolici', 'capsula', 'flagello', 'pilo'
+            ],
+            'MICROBIOLOGIA_PATOGENI': [
+                'stafilococco', 'streptococco', 'enterococco', 'pneumococco',
+                'escherichia', 'e. coli', 'salmonella', 'pseudomonas',
+                'klebsiella', 'proteus', 'mycobacterium', 'micobatter',
+                'tubercolosi', 'tbc', 'lebbra', 'hansen'
+            ],
+            'MICROBIOLOGIA_RESISTENZA': [
+                'antibiotico', 'antibatterico', 'antimicrobico', 'antisettico',
+                'disinfettante', 'battericida', 'batteriostatico',
+                'resistenza', 'resistente', 'sensibile', 'sensibilità',
+                'beta-lattamasi', 'penicillinasi', 'betalattamina', 'beta-lattamin'
+            ],
+            'MICROBIOLOGIA_ANTIBIOTICI': [
+                'penicillina', 'cefalosporina', 'chinolone', 'fluorochinolone',
+                'tetracicline', 'macrolidi', 'amminoglicosidi', 'sulfamidici',
+                'infezione', 'infettivo', 'setticemia', 'endocardite', 'meningite',
+                'coltura', 'antibiogramma', 'mic', 'sterilizzazione', 'asettico'
+            ]
+        },
+        'ECONOMIA_FARMACEUTICA': {
+            'ECONOMIA_FARMACEUTICA_PREZZI': [
+                'prezzo', 'prezzi', 'costo', 'tariffa', 'margine', 'sconto',
+                'rimborso', 'rimborsabilità', 'compartecipazione', 'ticket'
+            ],
+            'ECONOMIA_FARMACEUTICA_PRONTUARIO': [
+                'prontuario', 'classe a', 'classe c', 'classe h',
+                'ddd', 'defined daily dose', 'dose definita giornaliera'
+            ],
+            'ECONOMIA_FARMACEUTICA_EQUIVALENTI': [
+                'equivalente', 'generico', 'biosimilare', 'farmaco equivalente',
+                'asl', 'regione', 'regionale', 'convenzione', 'convenzionato'
+            ],
+            'ECONOMIA_FARMACEUTICA_GESTIONE': [
+                'grossista', 'distribuzione', 'acquisto', 'approvvigionamento',
+                'gestione magazzino', 'stock', 'inventario', 'rotazione',
+                'farmacoeconomia', 'cost-effectiveness', 'budget', 'spesa',
+                'appropriatezza prescrittiva', 'consumo', 'utilizzazione'
+            ]
+        }
+    };
+    
     // Calcola il punteggio per ogni categoria
     const scores = {};
     
@@ -197,7 +447,45 @@ function categorizeQuiz(questionText, answersText) {
         bestCategory = 'ALTRO';
     }
     
-    return bestCategory;
+    // Calcola la sottocategoria per la categoria trovata
+    let bestSubcategory = null;
+    
+    if (bestCategory !== 'ALTRO' && subcategories[bestCategory]) {
+        const categorySubcategories = subcategories[bestCategory];
+        const subcategoryScores = {};
+        
+        for (const [subcategory, keywords] of Object.entries(categorySubcategories)) {
+            let score = 0;
+            for (const keyword of keywords) {
+                const regex = new RegExp(keyword, 'gi');
+                const matches = fullText.match(regex);
+                if (matches) {
+                    score += matches.length;
+                }
+            }
+            subcategoryScores[subcategory] = score;
+        }
+        
+        // Trova la sottocategoria con il punteggio più alto
+        let maxSubScore = 0;
+        for (const [subcategory, score] of Object.entries(subcategoryScores)) {
+            if (score > maxSubScore) {
+                maxSubScore = score;
+                bestSubcategory = subcategory;
+            }
+        }
+        
+        // Se nessuna sottocategoria ha un punteggio significativo, assegna alla prima
+        if (maxSubScore < 1) {
+            const subcategoryKeys = Object.keys(categorySubcategories);
+            bestSubcategory = subcategoryKeys[0] || null;
+        }
+    }
+    
+    return {
+        category: bestCategory,
+        subcategory: bestSubcategory
+    };
 }
 
 /**
@@ -521,12 +809,13 @@ function parseQuizSection(section, quizNumber) {
     
     // Categorizza il quiz in base al contenuto
     const answersText = answers.map(a => a.text).join(' ');
-    const category = categorizeQuiz(questionText, answersText);
+    const categorization = categorizeQuiz(questionText, answersText);
     
     return {
         id: quizNumber,
         question: questionText,
-        category: category,
+        category: categorization.category,
+        subcategory: categorization.subcategory,
         answers: answers,
         correctAnswer: correctAnswer || 'NON_TROVATA'
     };
@@ -577,6 +866,24 @@ async function main() {
         sortedCategories.forEach(([category, count]) => {
             const percentage = ((count / quizzes.length) * 100).toFixed(1);
             console.log(`   - ${category}: ${count} quiz (${percentage}%)`);
+        });
+        
+        // Statistiche per sottocategoria
+        console.log('\n📂 Distribuzione per sottocategoria:');
+        const subcategoryCount = {};
+        quizzes.forEach(quiz => {
+            if (quiz.subcategory) {
+                subcategoryCount[quiz.subcategory] = (subcategoryCount[quiz.subcategory] || 0) + 1;
+            }
+        });
+        
+        // Ordina le sottocategorie per numero di quiz (decrescente)
+        const sortedSubcategories = Object.entries(subcategoryCount)
+            .sort((a, b) => b[1] - a[1]);
+        
+        sortedSubcategories.forEach(([subcategory, count]) => {
+            const percentage = ((count / quizzes.length) * 100).toFixed(1);
+            console.log(`   - ${subcategory}: ${count} quiz (${percentage}%)`);
         });
         
         // Salva il JSON

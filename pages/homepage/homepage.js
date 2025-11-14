@@ -78,23 +78,12 @@ function countAvailableQuizzes(selectedCategories) {
             return true;
         }
         
-        // Controlla se una sottocategoria è selezionata
-        // Cerca pattern categoria_N (es. FARMACOLOGIA_1, FARMACOLOGIA_2, ecc.)
-        const subcategoryMatch = selectedCategories.find(cat => {
-            if (cat.includes('_') && cat.startsWith(quiz.category + '_')) {
-                const subcategoryNum = parseInt(cat.split('_')[1]);
-                if (!isNaN(subcategoryNum)) {
-                    // Calcola l'indice della sottocategoria basandosi sulla posizione del quiz nella categoria
-                    const categoryQuizzes = allQuizzes.filter(q => q.category === quiz.category).sort((a, b) => a.id - b.id);
-                    const quizIndex = categoryQuizzes.findIndex(q => q.id === quiz.id);
-                    const subcategoryIndex = Math.floor(quizIndex / 500);
-                    return subcategoryIndex === (subcategoryNum - 1);
-                }
-            }
-            return false;
-        });
+        // Controlla se una sottocategoria è selezionata (dal JSON)
+        if (quiz.subcategory && selectedCategories.includes(quiz.subcategory)) {
+            return true;
+        }
         
-        return !!subcategoryMatch;
+        return false;
     });
     
     return filtered.length;
@@ -231,7 +220,47 @@ const categoryNames = {
     'ALTRO': 'Altro'
 };
 
-// Genera dinamicamente le categorie nel dialog
+// Mappa dei nomi delle sottocategorie (per visualizzazione)
+const subcategoryDisplayNames = {
+    'FARMACOLOGIA_CARDIOVASCOLARE': 'Cardiovascolare',
+    'FARMACOLOGIA_ANTIBIOTICI': 'Antibiotici',
+    'FARMACOLOGIA_SISTEMA_NERVOSO': 'Sistema Nervoso',
+    'FARMACOLOGIA_ANTINFIAMMATORI': 'Antinfiammatori',
+    'FARMACEUTICA_SOLIDE': 'Forme Solide',
+    'FARMACEUTICA_LIQUIDE': 'Forme Liquide',
+    'FARMACEUTICA_SEMISOLIDE': 'Forme Semisolide',
+    'FARMACEUTICA_ECCIPIENTI': 'Eccipienti',
+    'CHIMICA_FARMACEUTICA_STRUTTURA': 'Struttura Molecolare',
+    'CHIMICA_FARMACEUTICA_ISOMERIA': 'Isomeria',
+    'CHIMICA_FARMACEUTICA_SINTESI': 'Sintesi',
+    'CHIMICA_FARMACEUTICA_ACIDI_BASI': 'Acidi e Basi',
+    'LEGISLAZIONE_RICETTE': 'Ricette',
+    'LEGISLAZIONE_NORMATIVE': 'Normative',
+    'LEGISLAZIONE_ETICHETTATURA': 'Etichettatura',
+    'LEGISLAZIONE_FARMACOVIGILANZA': 'Farmacovigilanza',
+    'CHIMICA_ANALITICA_SPETTROSCOPIA': 'Spettroscopia',
+    'CHIMICA_ANALITICA_CROMATOGRAFIA': 'Cromatografia',
+    'CHIMICA_ANALITICA_ANALISI': 'Analisi',
+    'CHIMICA_ANALITICA_VALIDAZIONE': 'Validazione',
+    'FARMACOGNOSIA_BOTANICA': 'Botanica',
+    'FARMACOGNOSIA_ESTRATTI': 'Estratti',
+    'FARMACOGNOSIA_PRINCIPI_ATTIVI': 'Principi Attivi',
+    'FARMACOGNOSIA_OMEOPATIA': 'Omeopatia',
+    'COSMETOLOGIA_PRODOTTI': 'Prodotti',
+    'COSMETOLOGIA_PROTEZIONE_SOLARE': 'Protezione Solare',
+    'COSMETOLOGIA_INGREDIENTI': 'Ingredienti',
+    'COSMETOLOGIA_LEGISLAZIONE': 'Legislazione',
+    'MICROBIOLOGIA_BATTERI': 'Batteri',
+    'MICROBIOLOGIA_PATOGENI': 'Patogeni',
+    'MICROBIOLOGIA_RESISTENZA': 'Resistenza',
+    'MICROBIOLOGIA_ANTIBIOTICI': 'Antibiotici',
+    'ECONOMIA_FARMACEUTICA_PREZZI': 'Prezzi',
+    'ECONOMIA_FARMACEUTICA_PRONTUARIO': 'Prontuario',
+    'ECONOMIA_FARMACEUTICA_EQUIVALENTI': 'Equivalenti',
+    'ECONOMIA_FARMACEUTICA_GESTIONE': 'Gestione'
+};
+
+// Genera dinamicamente le sottocategorie dal JSON
 function generateCategoryFilters() {
     const container = document.getElementById('categoriesDialogContent');
     if (!container) {
@@ -243,13 +272,33 @@ function generateCategoryFilters() {
         return;
     }
     
-    // Raggruppa i quiz per categoria
-    const categoryGroups = {};
+    // Raggruppa i quiz per sottocategoria (dal JSON)
+    const subcategoryGroups = {};
     allQuizzes.forEach(quiz => {
-        if (!categoryGroups[quiz.category]) {
-            categoryGroups[quiz.category] = [];
+        if (quiz.subcategory) {
+            if (!subcategoryGroups[quiz.subcategory]) {
+                subcategoryGroups[quiz.subcategory] = [];
+            }
+            subcategoryGroups[quiz.subcategory].push(quiz);
         }
-        categoryGroups[quiz.category].push(quiz);
+    });
+    
+    // Raggruppa le sottocategorie per categoria padre
+    const categoryToSubcategories = {};
+    Object.keys(subcategoryGroups).forEach(subcategory => {
+        const parentCategory = subcategory.split('_')[0] + (subcategory.includes('_') ? '_' + subcategory.split('_')[1] : '');
+        // Estrai la categoria principale (prima parte prima del secondo underscore)
+        const parts = subcategory.split('_');
+        let parentCat = parts[0];
+        if (parts.length > 2) {
+            // Se ci sono più di 2 parti, la categoria è la prima parte
+            parentCat = parts[0];
+        }
+        
+        if (!categoryToSubcategories[parentCat]) {
+            categoryToSubcategories[parentCat] = [];
+        }
+        categoryToSubcategories[parentCat].push(subcategory);
     });
     
     // Ordina le categorie
@@ -260,10 +309,11 @@ function generateCategoryFilters() {
     container.innerHTML = '';
     
     allCategories.forEach(category => {
-        const quizzes = categoryGroups[category] || [];
-        const quizCount = quizzes.length;
+        const subcategories = categoryToSubcategories[category] || [];
+        const categoryQuizzes = allQuizzes.filter(q => q.category === category);
+        const quizCount = categoryQuizzes.length;
         
-        // Crea la checkbox principale della categoria
+        // Mostra sempre la categoria principale
         const categoryLabel = document.createElement('label');
         categoryLabel.className = 'category-checkbox';
         categoryLabel.innerHTML = `
@@ -273,26 +323,22 @@ function generateCategoryFilters() {
         `;
         container.appendChild(categoryLabel);
         
-        // Se la categoria ha più di 500 quiz, crea le sottocategorie
-        if (quizCount > 500) {
-            const numSubcategories = Math.ceil(quizCount / 500);
-            const sortedQuizzes = quizzes.sort((a, b) => a.id - b.id);
-            
-            for (let i = 0; i < numSubcategories; i++) {
-                const startIndex = i * 500;
-                const endIndex = Math.min(startIndex + 500, quizCount);
-                const startId = sortedQuizzes[startIndex]?.id || (startIndex + 1);
-                const endId = sortedQuizzes[endIndex - 1]?.id || endIndex;
+        // Se la categoria ha più di 500 quiz, mostra anche le sottocategorie estratte dal JSON
+        if (quizCount > 500 && subcategories.length > 0) {
+            // Mostra le sottocategorie sotto la categoria principale
+            subcategories.sort().forEach(subcategory => {
+                const subcategoryQuizCount = subcategoryGroups[subcategory]?.length || 0;
+                const displayName = subcategoryDisplayNames[subcategory] || subcategory.replace(category + '_', '');
                 
                 const subcategoryLabel = document.createElement('label');
                 subcategoryLabel.className = 'category-checkbox subcategory';
                 subcategoryLabel.innerHTML = `
-                    <input type="checkbox" value="${category}_${i + 1}" checked>
-                    <span>📚 Parte ${i + 1}</span>
-                    <span class="category-stats" data-category="${category}_${i + 1}">-</span>
+                    <input type="checkbox" value="${subcategory}" checked>
+                    <span>${displayName}</span>
+                    <span class="category-stats" data-category="${subcategory}">-</span>
                 `;
                 container.appendChild(subcategoryLabel);
-            }
+            });
         }
     });
     
@@ -328,15 +374,23 @@ function setupCategorySyncListeners() {
         checkbox.addEventListener('change', (e) => {
             const checkboxValue = e.target.value;
             
-            // Gestione sincronizzazione FARMACOLOGIA e sottocategorie
-            const subcategoryCheckboxes = Array.from(categoryCheckboxes)
-                .filter(cb => cb.value.startsWith(checkboxValue + '_'));
+            // Estrai la categoria principale dalla sottocategoria (es. FARMACOLOGIA_CARDIOVASCOLARE -> FARMACOLOGIA)
+            const parts = checkboxValue.split('_');
+            const parentCategory = parts[0];
             
-            const parentCategory = checkboxValue.split('_')[0];
+            // Trova tutte le sottocategorie della stessa categoria padre
+            const subcategoryCheckboxes = Array.from(categoryCheckboxes)
+                .filter(cb => {
+                    const cbParts = cb.value.split('_');
+                    // Verifica che sia una sottocategoria (ha più di una parte) e che appartenga alla categoria padre
+                    return cbParts.length > 1 && cbParts[0] === parentCategory && cb.value !== parentCategory;
+                });
+            
             const parentCheckbox = Array.from(categoryCheckboxes)
                 .find(cb => cb.value === parentCategory);
             
-            if (checkboxValue === parentCategory && parentCheckbox) {
+            // Se è una categoria principale e ci sono sottocategorie
+            if (checkboxValue === parentCategory && parentCheckbox && subcategoryCheckboxes.length > 0) {
                 // Se viene spuntata la categoria principale, spunta tutte le sottocategorie
                 if (e.target.checked) {
                     subcategoryCheckboxes.forEach(sub => {
@@ -348,18 +402,16 @@ function setupCategorySyncListeners() {
                         sub.checked = false;
                     });
                 }
-            } else if (checkboxValue.includes('_') && parentCheckbox) {
-                // Se viene deselezionata una sottocategoria, deseleziona la categoria principale
-                if (!e.target.checked && parentCheckbox.checked) {
-                    parentCheckbox.checked = false;
-                }
+            } else if (parts.length > 1 && parentCheckbox && subcategoryCheckboxes.length > 0) {
+                // Se è una sottocategoria
                 
-                // Se tutte le sottocategorie sono spuntate, spunta la categoria principale
-                if (e.target.checked) {
+                // Caso 2: Se anche solo una sottocategoria è deselezionata, deseleziona la categoria padre
+                if (!e.target.checked) {
+                    parentCheckbox.checked = false;
+                } else {
+                    // Caso 1: Se tutte le sottocategorie sono selezionate, seleziona anche la categoria padre
                     const allSubcategoriesChecked = subcategoryCheckboxes.every(sub => sub.checked);
-                    if (allSubcategoriesChecked && !parentCheckbox.checked) {
-                        parentCheckbox.checked = true;
-                    }
+                    parentCheckbox.checked = allSubcategoriesChecked;
                 }
             }
             
@@ -502,21 +554,19 @@ function calculateCategoryStats() {
     const stats = JSON.parse(localStorage.getItem('quizStatistics') || '{"completed": 0, "history": []}');
     const categoryStats = {};
     
-    // Inizializza tutte le categorie a 0
+    // Inizializza tutte le categorie e sottocategorie a 0 (dal JSON)
     const allCategories = ['FARMACOLOGIA', 'CHIMICA_FARMACEUTICA', 'LEGISLAZIONE', 'MICROBIOLOGIA', 
                           'FARMACEUTICA', 'CHIMICA_ANALITICA', 'FARMACOGNOSIA', 'COSMETOLOGIA', 
                           'ECONOMIA_FARMACEUTICA', 'ALTRO'];
     
     allCategories.forEach(category => {
         categoryStats[category] = { correct: 0, total: 0 };
-        
-        // Aggiungi sottocategorie se la categoria ha più di 500 quiz
-        const categoryQuizzes = allQuizzes.filter(q => q.category === category);
-        if (categoryQuizzes.length > 500) {
-            const numSubcategories = Math.ceil(categoryQuizzes.length / 500);
-            for (let i = 1; i <= numSubcategories; i++) {
-                categoryStats[`${category}_${i}`] = { correct: 0, total: 0 };
-            }
+    });
+    
+    // Aggiungi tutte le sottocategorie presenti nel JSON
+    allQuizzes.forEach(quiz => {
+        if (quiz.subcategory) {
+            categoryStats[quiz.subcategory] = categoryStats[quiz.subcategory] || { correct: 0, total: 0 };
         }
     });
     
@@ -541,23 +591,15 @@ function calculateCategoryStats() {
         }
     }
     
-    // Calcola il totale di quiz disponibili per ogni categoria nel file quiz-data.json
+    // Calcola il totale di quiz disponibili per ogni categoria e sottocategoria nel file quiz-data.json
     allQuizzes.forEach(quiz => {
         if (quiz.category && categoryStats[quiz.category]) {
             categoryStats[quiz.category].total++;
         }
         
-        // Calcola anche i totali per le sottocategorie (se esistono)
-        const categoryQuizzes = allQuizzes.filter(q => q.category === quiz.category).sort((a, b) => a.id - b.id);
-        if (categoryQuizzes.length > 500) {
-            const quizIndex = categoryQuizzes.findIndex(q => q.id === quiz.id);
-            if (quizIndex >= 0) {
-                const subcategoryIndex = Math.floor(quizIndex / 500) + 1;
-                const subcategoryKey = `${quiz.category}_${subcategoryIndex}`;
-                if (categoryStats[subcategoryKey]) {
-                    categoryStats[subcategoryKey].total++;
-                }
-            }
+        // Calcola anche i totali per le sottocategorie (dal JSON)
+        if (quiz.subcategory && categoryStats[quiz.subcategory]) {
+            categoryStats[quiz.subcategory].total++;
         }
     });
     
@@ -587,15 +629,12 @@ function calculateCategoryStats() {
                         categoryStats[category] = categoryStats[category] || { correct: 0, total: 0 };
                         categoryStats[category].correct++;
                         
-                        // Conta anche per le sottocategorie (se esistono)
-                        const categoryQuizzes = allQuizzes.filter(q => q.category === category).sort((a, b) => a.id - b.id);
-                        if (categoryQuizzes.length > 500) {
-                            const quizIndex = categoryQuizzes.findIndex(q => q.id === detail.questionId);
-                            if (quizIndex >= 0) {
-                                const subcategoryIndex = Math.floor(quizIndex / 500) + 1;
-                                const subcategoryKey = `${category}_${subcategoryIndex}`;
-                                categoryStats[subcategoryKey] = categoryStats[subcategoryKey] || { correct: 0, total: 0 };
-                                categoryStats[subcategoryKey].correct++;
+                        // Conta anche per le sottocategorie (dal JSON)
+                        // Trova il quiz originale per ottenere la sottocategoria
+                        if (detail.questionId && allQuizzes.length > 0) {
+                            const originalQuiz = allQuizzes.find(q => q.id === detail.questionId);
+                            if (originalQuiz && originalQuiz.subcategory && categoryStats[originalQuiz.subcategory]) {
+                                categoryStats[originalQuiz.subcategory].correct++;
                             }
                         }
                     }

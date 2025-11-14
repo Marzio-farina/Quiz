@@ -149,23 +149,8 @@ function selectQuizzes() {
                 return true;
             }
             
-            // Controlla se una sottocategoria è selezionata
-            // Cerca pattern categoria_N (es. FARMACOLOGIA_1, FARMACOLOGIA_2, ecc.)
-            const subcategoryMatch = quizSettings.categories.find(cat => {
-                if (cat.includes('_') && cat.startsWith(quiz.category + '_')) {
-                    const subcategoryNum = parseInt(cat.split('_')[1]);
-                    if (!isNaN(subcategoryNum)) {
-                        // Calcola l'indice della sottocategoria basandosi sulla posizione del quiz nella categoria
-                        const categoryQuizzes = allQuizzes.filter(q => q.category === quiz.category).sort((a, b) => a.id - b.id);
-                        const quizIndex = categoryQuizzes.findIndex(q => q.id === quiz.id);
-                        const subcategoryIndex = Math.floor(quizIndex / 500);
-                        return subcategoryIndex === (subcategoryNum - 1);
-                    }
-                }
-                return false;
-            });
-            
-            if (subcategoryMatch) {
+            // Controlla se una sottocategoria è selezionata (dal JSON)
+            if (quiz.subcategory && quizSettings.categories.includes(quiz.subcategory)) {
                 return true;
             }
             
