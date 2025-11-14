@@ -196,7 +196,14 @@ if (optionsBtn) {
     optionsBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         if (categoriesDialog) {
+            const isHidden = categoriesDialog.classList.contains('hidden');
             categoriesDialog.classList.toggle('hidden');
+            // Se stiamo aprendo il dialog, aggiorna le statistiche
+            if (isHidden) {
+                setTimeout(() => {
+                    updateCategoryStats();
+                }, 50);
+            }
         }
     });
 }
@@ -219,6 +226,119 @@ document.addEventListener('click', (e) => {
     }
 });
 
+// Calcola le statistiche per categoria
+function calculateCategoryStats() {
+    const stats = JSON.parse(localStorage.getItem('quizStatistics') || '{"completed": 0, "history": []}');
+    const categoryStats = {};
+    
+    // Inizializza tutte le categorie a 0
+    const allCategories = ['FARMACOLOGIA', 'CHIMICA_FARMACEUTICA', 'LEGISLAZIONE', 'MICROBIOLOGIA', 
+                          'FARMACEUTICA', 'CHIMICA_ANALITICA', 'FARMACOGNOSIA', 'COSMETOLOGIA', 
+                          'ECONOMIA_FARMACEUTICA', 'ALTRO'];
+    
+    allCategories.forEach(category => {
+        categoryStats[category] = { correct: 0, total: 0 };
+    });
+    
+    // Se allQuizzes non è ancora caricato, caricalo ora
+    if (allQuizzes.length === 0) {
+        try {
+            // Prova prima con process.cwd() che è più affidabile nel renderer process
+            let dataPath = path.join(process.cwd(), 'quiz-data.json');
+            let rawData;
+            try {
+                rawData = fs.readFileSync(dataPath, 'utf8');
+            } catch (e) {
+                // Se fallisce, prova con __dirname
+                dataPath = path.join(__dirname, '..', '..', 'quiz-data.json');
+                rawData = fs.readFileSync(dataPath, 'utf8');
+            }
+            const data = JSON.parse(rawData);
+            allQuizzes = data.quizzes;
+        } catch (error) {
+            console.error('Errore nel caricamento dei quiz per le statistiche:', error);
+            return categoryStats; // Ritorna statistiche vuote se non riesce a caricare i quiz
+        }
+    }
+    
+    // Calcola il totale di quiz disponibili per ogni categoria nel file quiz-data.json
+    allQuizzes.forEach(quiz => {
+        if (quiz.category && categoryStats[quiz.category]) {
+            categoryStats[quiz.category].total++;
+        }
+    });
+    
+    // Calcola le risposte corrette per categoria da tutti i quiz completati
+    if (stats.history && Array.isArray(stats.history)) {
+        let updated = false;
+        stats.history.forEach((quiz) => {
+            if (quiz.details && Array.isArray(quiz.details)) {
+                quiz.details.forEach((detail) => {
+                    let category = detail.category;
+                    
+                    // Se la categoria non è presente, cerca il quiz originale usando questionId
+                    if (!category && detail.questionId) {
+                        if (allQuizzes.length > 0) {
+                            const originalQuiz = allQuizzes.find(q => q.id === detail.questionId);
+                            if (originalQuiz && originalQuiz.category) {
+                                category = originalQuiz.category;
+                                // Aggiorna il dettaglio con la categoria trovata (per future chiamate)
+                                detail.category = category;
+                                updated = true;
+                            }
+                        }
+                    }
+                    
+                    // Conta solo le risposte corrette
+                    if (category && detail.isCorrect) {
+                        categoryStats[category] = categoryStats[category] || { correct: 0, total: 0 };
+                        categoryStats[category].correct++;
+                    }
+                });
+            }
+        });
+        
+        // Salva le statistiche aggiornate con le categorie recuperate solo se abbiamo fatto aggiornamenti
+        if (updated) {
+            localStorage.setItem('quizStatistics', JSON.stringify(stats));
+        }
+    }
+    
+    return categoryStats;
+}
+
+// Aggiorna le statistiche visualizzate nel dialog
+function updateCategoryStats() {
+    const categoryStats = calculateCategoryStats();
+    const statsElements = document.querySelectorAll('.category-stats');
+    
+    console.log('Statistiche calcolate:', categoryStats);
+    console.log('Elementi trovati:', statsElements.length);
+    
+    if (statsElements.length === 0) {
+        console.warn('Nessun elemento .category-stats trovato');
+        return;
+    }
+    
+    statsElements.forEach(element => {
+        const category = element.getAttribute('data-category');
+        if (category && categoryStats[category]) {
+            const stats = categoryStats[category];
+            if (stats.total > 0) {
+                element.textContent = `${stats.correct}/${stats.total}`;
+                console.log(`Categoria ${category}: ${stats.correct}/${stats.total}`);
+            } else {
+                element.textContent = '-';
+            }
+        } else {
+            element.textContent = '-';
+            if (category) {
+                console.log(`Categoria ${category}: nessuna statistica (total: ${categoryStats[category]?.total || 0})`);
+            }
+        }
+    });
+}
+
 // Carica le categorie selezionate dal localStorage
 function loadSelectedCategories() {
     const savedCategories = localStorage.getItem('selectedCategories');
@@ -228,6 +348,9 @@ function loadSelectedCategories() {
             checkbox.checked = categories.includes(checkbox.value);
         });
     }
+    
+    // Aggiorna anche le statistiche dopo che i quiz sono stati caricati
+    // Non chiamare updateCategoryStats qui, verrà chiamata in init() dopo loadQuizData()
 }
 
 // Salva le categorie selezionate nel localStorage
@@ -239,6 +362,9 @@ function saveSelectedCategories() {
     
     // Aggiorna i pulsanti delle quantità
     updateQuestionCountButtons();
+    
+    // Aggiorna le statistiche (potrebbero essere cambiate dopo un quiz)
+    updateCategoryStats();
 }
 
 // Carica le categorie all'avvio
@@ -273,6 +399,21 @@ if (deselectAllBtn) {
     });
 }
 
+// Aggiorna le statistiche quando si apre il dialog
+if (categoriesDialog) {
+    // Usa MutationObserver per rilevare quando il dialog viene mostrato
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                if (!categoriesDialog.classList.contains('hidden')) {
+                    updateCategoryStats();
+                }
+            }
+        });
+    });
+    observer.observe(categoriesDialog, { attributes: true, attributeFilter: ['class'] });
+}
+
 // Gestione versione applicazione
 ipcRenderer.on('app-version', (event, version) => {
     const versionElement = document.getElementById('appVersion');
@@ -291,6 +432,8 @@ async function init() {
     if (loaded) {
         // Aggiorna i pulsanti in base alle categorie caricate
         updateQuestionCountButtons();
+        // Aggiorna anche le statistiche ora che i quiz sono caricati
+        updateCategoryStats();
     }
 }
 

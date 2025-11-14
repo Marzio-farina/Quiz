@@ -357,10 +357,32 @@ body.dark-theme .category-checkbox input[type="checkbox"] {
     font-weight: 500;
     color: #333;
     user-select: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Il primo span (testo categoria) può andare a capo se necessario */
+.category-checkbox span:not(.category-stats) {
+    white-space: normal;
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
 }
 
 body.dark-theme .category-checkbox span {
     color: #e0e0e0;
+}
+
+.category-stats {
+    margin-left: auto;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #667eea;
+    opacity: 0.8;
+}
+
+body.dark-theme .category-stats {
+    color: #64b5f6;
 }
 
 .categories-dialog-footer {

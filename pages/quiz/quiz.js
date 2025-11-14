@@ -389,6 +389,7 @@ function saveStatistics(correctCount, totalQuestions, percentage, timeSpent) {
     const quizDetails = currentQuizzes.map((quiz, index) => ({
         questionId: quiz.id,
         question: quiz.question,
+        category: quiz.category, // Aggiungi la categoria
         userAnswer: userAnswers[index],
         correctAnswer: quiz.correctAnswer,
         isCorrect: userAnswers[index] === quiz.correctAnswer,
