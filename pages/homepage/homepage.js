@@ -435,7 +435,7 @@ let categoryCheckboxes = [];
 
 // Gestione pulsante Filtri - Toggle dialog categorie
 if (filterBtn) {
-    filterBtn.addEventListener('click', (e) => {
+    filterBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
         if (categoriesDialog) {
             const isHidden = categoriesDialog.classList.contains('hidden');
@@ -443,17 +443,16 @@ if (filterBtn) {
             // Se stiamo aprendo il dialog, assicurati che gli elementi siano stati generati
             if (isHidden) {
                 const container = document.getElementById('categoriesDialogContent');
+                
+                // Se i quiz non sono ancora caricati, caricali prima
+                if (allQuizzes.length === 0) {
+                    await loadQuizData();
+                }
+                
                 // Se il container è vuoto o non ci sono elementi, genera le categorie
                 if (!container || container.children.length === 0 || document.querySelectorAll('.category-stats').length === 0) {
                     if (allQuizzes.length > 0) {
                         generateCategoryFilters();
-                    } else {
-                        // Se i quiz non sono ancora caricati, aspetta un po'
-                        setTimeout(() => {
-                            if (allQuizzes.length > 0) {
-                                generateCategoryFilters();
-                            }
-                        }, 100);
                     }
                 } else {
                     // Gli elementi esistono già, aggiorna solo le statistiche
@@ -591,22 +590,6 @@ if (excludeCompletedToggle) {
         const excludeMode = e.target.checked ? 'passed' : 'answered';
         localStorage.setItem('excludeMode', excludeMode);
         updateExcludeLabels();
-    });
-}
-
-// Pulsante per aprire DevTools (debug)
-const openDevToolsBtn = document.getElementById('openDevToolsBtn');
-if (openDevToolsBtn) {
-    openDevToolsBtn.addEventListener('click', () => {
-        ipcRenderer.send('open-devtools');
-    });
-}
-
-// Pulsante per controllare aggiornamenti manualmente
-const checkUpdatesBtn = document.getElementById('checkUpdatesBtn');
-if (checkUpdatesBtn) {
-    checkUpdatesBtn.addEventListener('click', () => {
-        ipcRenderer.send('check-for-updates');
     });
 }
 
