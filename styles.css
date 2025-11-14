@@ -700,10 +700,20 @@ body.dark-theme .categories-dialog-content::-webkit-scrollbar-thumb:hover {
     color: white;
     font-size: 0.85rem;
     opacity: 0.9;
+    position: relative;
 }
 
 .home-footer p {
     margin: 0;
+}
+
+.home-footer .app-version {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    margin: 0;
+    font-size: 0.75rem;
+    opacity: 0.8;
 }
 
 body.dark-theme .home-footer {

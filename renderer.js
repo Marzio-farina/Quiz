@@ -252,6 +252,14 @@ async function init() {
 // Avvia l'inizializzazione
 init();
 
+// Gestione versione applicazione
+ipcRenderer.on('app-version', (event, version) => {
+    const versionElement = document.getElementById('appVersion');
+    if (versionElement) {
+        versionElement.textContent = version;
+    }
+});
+
 // Gestione aggiornamenti
 const updateDialog = document.getElementById('updateDialog');
 const updateVersion = document.getElementById('updateVersion');

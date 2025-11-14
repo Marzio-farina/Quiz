@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
+const fs = require('fs');
 
 // Abilita hot-reload in modalità sviluppo
 if (process.argv.includes('--dev')) {
@@ -44,10 +45,21 @@ function createWindow() {
     // Carica il file index.html dell'app
     mainWindow.loadFile('index.html');
 
-    // Apri gli strumenti di sviluppo SOLO in modalità sviluppo
-    if (process.argv.includes('--dev')) {
-        mainWindow.webContents.openDevTools();
-    }
+    // Invia la versione dell'applicazione al renderer quando è pronta
+    mainWindow.webContents.once('did-finish-load', () => {
+        try {
+            const packagePath = path.join(__dirname, 'package.json');
+            const packageData = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+            const appVersion = packageData.version || '1.0.0';
+            mainWindow.webContents.send('app-version', appVersion);
+        } catch (error) {
+            console.error('Errore nel leggere la versione:', error);
+            mainWindow.webContents.send('app-version', '1.0.0');
+        }
+    });
+
+    // Apri gli strumenti di sviluppo (sempre aperto per lo sviluppo)
+    mainWindow.webContents.openDevTools();
 
     // Emesso quando la finestra viene chiusa
     mainWindow.on('closed', function () {
