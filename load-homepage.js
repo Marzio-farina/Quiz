@@ -1,11 +1,11 @@
 // Carica il contenuto della homepage
-fetch('components/homepage/homepage.html')
+fetch('pages/homepage/homepage.html')
     .then(response => response.text())
     .then(html => {
         document.getElementById('homepage-container').innerHTML = html;
         // Carica homepage.js dopo che la homepage HTML è stata caricata
         const homepageScript = document.createElement('script');
-        homepageScript.src = 'components/homepage/homepage.js';
+        homepageScript.src = 'pages/homepage/homepage.js';
         document.body.appendChild(homepageScript);
         
         // Carica renderer.js per la gestione degli aggiornamenti (globale)
