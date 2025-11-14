@@ -545,7 +545,152 @@ function previousQuestion() {
     }
 }
 
+// Variabile globale per gestire il listener del feedback
+let currentFeedbackKeydownHandler = null;
+
+// Mostra feedback in modalità Studio
+function showStudyFeedback() {
+    const currentQuiz = currentQuizzes[currentQuestionIndex];
+    const userAnswer = userAnswers[currentQuestionIndex];
+    const correctAnswer = currentQuiz.correctAnswer;
+    
+    // Rimuovi listener precedente se esiste
+    if (currentFeedbackKeydownHandler) {
+        document.removeEventListener('keydown', currentFeedbackKeydownHandler);
+        currentFeedbackKeydownHandler = null;
+    }
+    
+    // Calcola larghezza scrollbar e blocca lo scroll del body
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+    document.body.classList.add('dialog-open');
+    
+    const dialog = document.getElementById('studyFeedbackDialog');
+    const header = document.getElementById('studyFeedbackHeader');
+    const title = document.getElementById('studyFeedbackTitle');
+    
+    // Nascondi tutti i tipi di feedback
+    document.getElementById('studyFeedbackCorrect').style.display = 'none';
+    document.getElementById('studyFeedbackWrong').style.display = 'none';
+    document.getElementById('studyFeedbackUnanswered').style.display = 'none';
+    
+    // Funzione per chiudere il feedback e procedere
+    const closeFeedback = () => {
+        dialog.style.display = 'none';
+        document.body.classList.remove('dialog-open');
+        if (currentFeedbackKeydownHandler) {
+            document.removeEventListener('keydown', currentFeedbackKeydownHandler);
+            currentFeedbackKeydownHandler = null;
+        }
+        proceedToNextQuestion();
+    };
+    
+    // Determina il tipo di feedback
+    if (userAnswer === null || userAnswer === undefined) {
+        // Non risposta
+        header.style.background = 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)';
+        title.textContent = '⚠️ Risposta Mancante';
+        
+        document.getElementById('studyFeedbackUnanswered').style.display = 'block';
+        document.getElementById('studyFeedbackUnansweredQuestionText').textContent = currentQuiz.question;
+        
+        // Trova il testo della risposta corretta
+        const correctAnswerObj = currentQuiz.answers.find(a => a.letter === correctAnswer);
+        const correctAnswerText = correctAnswerObj ? `${correctAnswerObj.letter}) ${correctAnswerObj.text}` : correctAnswer;
+        document.getElementById('studyFeedbackUnansweredCorrectAnswer').textContent = correctAnswerText;
+        
+        // Mostra il dialog
+        dialog.style.display = 'flex';
+        
+        // Chiudi il dialog quando si clicca fuori
+        dialog.onclick = (e) => {
+            if (e.target === dialog) {
+                closeFeedback();
+            }
+        };
+        
+        // Listener per tasti
+        currentFeedbackKeydownHandler = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                closeFeedback();
+            }
+        };
+        document.addEventListener('keydown', currentFeedbackKeydownHandler);
+        
+    } else if (userAnswer === correctAnswer) {
+        // Risposta corretta
+        header.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+        title.textContent = '✅ Risposta Esatta!';
+        
+        document.getElementById('studyFeedbackCorrect').style.display = 'block';
+        
+        // Mostra il dialog
+        dialog.style.display = 'flex';
+        
+        // Chiudi automaticamente dopo 2 secondi
+        setTimeout(() => {
+            closeFeedback();
+        }, 2000);
+        
+    } else {
+        // Risposta sbagliata
+        header.style.background = 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)';
+        title.textContent = '❌ Risposta Errata';
+        
+        document.getElementById('studyFeedbackWrong').style.display = 'block';
+        document.getElementById('studyFeedbackQuestionText').textContent = currentQuiz.question;
+        
+        // Trova il testo delle risposte
+        const userAnswerObj = currentQuiz.answers.find(a => a.letter === userAnswer);
+        const correctAnswerObj = currentQuiz.answers.find(a => a.letter === correctAnswer);
+        
+        const userAnswerText = userAnswerObj ? `${userAnswerObj.letter}) ${userAnswerObj.text}` : userAnswer;
+        const correctAnswerText = correctAnswerObj ? `${correctAnswerObj.letter}) ${correctAnswerObj.text}` : correctAnswer;
+        
+        document.getElementById('studyFeedbackUserAnswer').textContent = userAnswerText;
+        document.getElementById('studyFeedbackCorrectAnswer').textContent = correctAnswerText;
+        
+        // Mostra il dialog
+        dialog.style.display = 'flex';
+        
+        // Chiudi il dialog quando si clicca fuori
+        dialog.onclick = (e) => {
+            if (e.target === dialog) {
+                closeFeedback();
+            }
+        };
+        
+        // Listener per tasti
+        currentFeedbackKeydownHandler = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                closeFeedback();
+            }
+        };
+        document.addEventListener('keydown', currentFeedbackKeydownHandler);
+    }
+}
+
+// Procede alla domanda successiva dopo il feedback
+function proceedToNextQuestion() {
+    if (currentQuestionIndex < currentQuizzes.length - 1) {
+        currentQuestionIndex++;
+        displayQuestion(currentQuestionIndex);
+    } else {
+        // Fine quiz
+        finishQuiz();
+    }
+}
+
 function nextQuestion() {
+    // Se siamo in modalità Studio, mostra il feedback prima di passare alla domanda successiva
+    if (quizSettings.studyMode === 'study' && currentQuestionIndex < currentQuizzes.length) {
+        showStudyFeedback();
+        return; // La funzione showStudyFeedback gestirà il passaggio alla domanda successiva
+    }
+    
+    // Comportamento normale per modalità Quiz
     if (currentQuestionIndex < currentQuizzes.length - 1) {
         currentQuestionIndex++;
         displayQuestion(currentQuestionIndex);

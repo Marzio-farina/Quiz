@@ -104,6 +104,47 @@
         </div>
     </div>
 
+    <!-- Dialog feedback modalità Studio -->
+    <div id="studyFeedbackDialog" class="dialog-overlay" style="display: none;">
+        <div class="dialog-box study-feedback-dialog">
+            <div class="dialog-header" id="studyFeedbackHeader">
+                <h3 id="studyFeedbackTitle">Feedback</h3>
+            </div>
+            <div class="dialog-body study-feedback-body">
+                <div id="studyFeedbackCorrect" class="study-feedback-correct" style="display: none;">
+                    <div class="feedback-icon">✅</div>
+                    <p class="feedback-message">Risposta esatta!</p>
+                </div>
+                <div id="studyFeedbackWrong" class="study-feedback-wrong" style="display: none;">
+                    <div class="feedback-question">
+                        <h4>Domanda:</h4>
+                        <p id="studyFeedbackQuestionText"></p>
+                    </div>
+                    <div class="feedback-answers">
+                        <div class="feedback-answer wrong-answer">
+                            <h4>La tua risposta:</h4>
+                            <p id="studyFeedbackUserAnswer"></p>
+                        </div>
+                        <div class="feedback-answer correct-answer">
+                            <h4>Risposta corretta:</h4>
+                            <p id="studyFeedbackCorrectAnswer"></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="studyFeedbackUnanswered" class="study-feedback-unanswered" style="display: none;">
+                    <div class="feedback-question">
+                        <h4>Domanda:</h4>
+                        <p id="studyFeedbackUnansweredQuestionText"></p>
+                    </div>
+                    <div class="feedback-answer correct-answer">
+                        <h4>Risposta corretta:</h4>
+                        <p id="studyFeedbackUnansweredCorrectAnswer"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="quiz.js"></script>
 </body>
 </html>

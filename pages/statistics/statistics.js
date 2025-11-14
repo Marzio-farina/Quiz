@@ -3,8 +3,9 @@ const { ipcRenderer } = require('electron');
 const { Chart, registerables } = require('chart.js');
 Chart.register(...registerables);
 
-// Variabile globale per il grafico
+// Variabili globali per i grafici
 let performanceChart = null;
+let categoryRadarChart = null;
 
 // Carica il tema salvato
 function initTheme() {
@@ -200,6 +201,295 @@ function createPerformanceChart(history) {
     });
 }
 
+// Mappa dei nomi categoria per visualizzazione
+const categoryDisplayNames = {
+    'FARMACOLOGIA': 'Farmacologia',
+    'CHIMICA_FARMACEUTICA': 'Chimica Farmaceutica',
+    'LEGISLAZIONE': 'Legislazione',
+    'MICROBIOLOGIA': 'Microbiologia',
+    'FARMACEUTICA': 'Farmaceutica',
+    'CHIMICA_ANALITICA': 'Chimica Analitica',
+    'FARMACOGNOSIA': 'Farmacognosia',
+    'COSMETOLOGIA': 'Cosmetologia',
+    'ECONOMIA_FARMACEUTICA': 'Economia Farmaceutica',
+    'ALTRO': 'Altro',
+    // Sottocategorie Farmacologia
+    'FARMACOLOGIA_CARDIOVASCOLARE': 'Farmacologia - Cardiovascolare',
+    'FARMACOLOGIA_ANTIBIOTICI': 'Farmacologia - Antibiotici',
+    'FARMACOLOGIA_SISTEMA_NERVOSO': 'Farmacologia - Sistema Nervoso',
+    'FARMACOLOGIA_ANTINFIAMMATORI': 'Farmacologia - Antinfiammatori',
+    // Sottocategorie altre categorie (se presenti)
+    'FARMACEUTICA_SOLIDE': 'Farmaceutica - Forme Solide',
+    'FARMACEUTICA_LIQUIDE': 'Farmaceutica - Forme Liquide',
+    'FARMACEUTICA_SEMISOLIDE': 'Farmaceutica - Forme Semisolide',
+    'FARMACEUTICA_ECCIPIENTI': 'Farmaceutica - Eccipienti'
+};
+
+// Funzione per ottenere il nome visualizzato di una categoria
+function getCategoryDisplayName(categoryCode) {
+    return categoryDisplayNames[categoryCode] || categoryCode;
+}
+
+// Lista di tutte le categorie principali
+const allMainCategories = [
+    'FARMACOLOGIA',
+    'CHIMICA_FARMACEUTICA',
+    'LEGISLAZIONE',
+    'MICROBIOLOGIA',
+    'FARMACEUTICA',
+    'CHIMICA_ANALITICA',
+    'FARMACOGNOSIA',
+    'COSMETOLOGIA',
+    'ECONOMIA_FARMACEUTICA',
+    'ALTRO'
+];
+
+// Calcola le statistiche per categoria
+function calculateCategoryStats(history) {
+    const categoryStats = {};
+    
+    // Inizializza tutte le categorie principali con 0
+    allMainCategories.forEach(category => {
+        categoryStats[category] = {
+            correct: 0,
+            wrong: 0,
+            unanswered: 0,
+            total: 0
+        };
+    });
+    
+    // Itera attraverso tutti i quiz nella history
+    history.forEach(quiz => {
+        if (quiz.details && Array.isArray(quiz.details)) {
+            quiz.details.forEach(detail => {
+                const category = detail.category;
+                if (category) {
+                    // Se è una sottocategoria, usa la categoria principale
+                    let mainCategory = category;
+                    if (category.includes('_')) {
+                        // Estrai la categoria principale (prima parte prima del primo underscore)
+                        const parts = category.split('_');
+                        // Verifica se la prima parte è una categoria principale
+                        if (allMainCategories.includes(parts[0])) {
+                            mainCategory = parts[0];
+                        } else {
+                            // Se non è una categoria principale nota, usa la categoria così com'è
+                            mainCategory = category;
+                        }
+                    }
+                    
+                    // Inizializza la categoria se non esiste (per sottocategorie non mappate)
+                    if (!categoryStats[mainCategory]) {
+                        categoryStats[mainCategory] = {
+                            correct: 0,
+                            wrong: 0,
+                            unanswered: 0,
+                            total: 0
+                        };
+                    }
+                    
+                    // Incrementa il totale
+                    categoryStats[mainCategory].total++;
+                    
+                    // Classifica la risposta
+                    if (detail.userAnswer === null || detail.userAnswer === undefined) {
+                        // Risposta non data
+                        categoryStats[mainCategory].unanswered++;
+                    } else if (detail.isCorrect === true) {
+                        // Risposta corretta
+                        categoryStats[mainCategory].correct++;
+                    } else {
+                        // Risposta errata
+                        categoryStats[mainCategory].wrong++;
+                    }
+                }
+            });
+        }
+    });
+    
+    return categoryStats;
+}
+
+// Crea il grafico radar per categoria
+function createCategoryRadarChart(history) {
+    const canvas = document.getElementById('categoryRadarChart');
+    const ctx = canvas.getContext('2d');
+    
+    // Distruggi il grafico esistente se presente
+    if (categoryRadarChart) {
+        categoryRadarChart.destroy();
+    }
+    
+    if (history.length === 0) {
+        // Mostra messaggio se non ci sono dati
+        ctx.font = '18px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+        ctx.fillStyle = document.body.classList.contains('dark-theme') ? '#b0b0b0' : '#999';
+        ctx.textAlign = 'center';
+        ctx.fillText('Nessun dato disponibile', canvas.width / 2, canvas.height / 2);
+        return;
+    }
+    
+    // Calcola le statistiche per categoria
+    const categoryStats = calculateCategoryStats(history);
+    
+    // Usa tutte le categorie principali (anche quelle con 0 statistiche)
+    const categories = allMainCategories.filter(cat => categoryStats[cat] !== undefined);
+    
+    if (categories.length === 0) {
+        ctx.font = '18px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+        ctx.fillStyle = document.body.classList.contains('dark-theme') ? '#b0b0b0' : '#999';
+        ctx.textAlign = 'center';
+        ctx.fillText('Nessun dato per categoria disponibile', canvas.width / 2, canvas.height / 2);
+        return;
+    }
+    
+    // Calcola le percentuali corrette, errate e non date per ogni categoria
+    const correctPercentages = categories.map(category => {
+        const stats = categoryStats[category];
+        if (stats.total === 0) return 0; // Se non ci sono domande, percentuale = 0
+        return parseFloat(((stats.correct / stats.total) * 100).toFixed(1));
+    });
+    
+    const wrongPercentages = categories.map(category => {
+        const stats = categoryStats[category];
+        if (stats.total === 0) return 0; // Se non ci sono domande, percentuale = 0
+        return parseFloat(((stats.wrong / stats.total) * 100).toFixed(1));
+    });
+    
+    const unansweredPercentages = categories.map(category => {
+        const stats = categoryStats[category];
+        if (stats.total === 0) return 0; // Se non ci sono domande, percentuale = 0
+        return parseFloat(((stats.unanswered / stats.total) * 100).toFixed(1));
+    });
+    
+    // Converti i codici categoria in nomi visualizzati
+    const categoryLabels = categories.map(cat => getCategoryDisplayName(cat));
+    
+    console.log(`Categorie trovate: ${categories.length}`, categories);
+    console.log(`Percentuali corrette:`, correctPercentages);
+    console.log(`Percentuali errate:`, wrongPercentages);
+    console.log(`Percentuali non date:`, unansweredPercentages);
+    
+    // Determina i colori in base al tema
+    const isDarkTheme = document.body.classList.contains('dark-theme');
+    const gridColor = isDarkTheme ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+    const textColor = isDarkTheme ? '#e0e0e0' : '#666';
+    const correctPointColor = isDarkTheme ? '#64b5f6' : '#667eea';
+    const correctFillColor = isDarkTheme ? 'rgba(100, 181, 246, 0.2)' : 'rgba(102, 126, 234, 0.2)';
+    const correctBorderColor = isDarkTheme ? '#64b5f6' : '#667eea';
+    const wrongPointColor = isDarkTheme ? '#e63946' : '#dc3545';
+    const wrongFillColor = isDarkTheme ? 'rgba(230, 57, 70, 0.2)' : 'rgba(220, 53, 69, 0.2)';
+    const wrongBorderColor = isDarkTheme ? '#e63946' : '#dc3545';
+    const unansweredPointColor = isDarkTheme ? '#ffa726' : '#ff9800';
+    const unansweredFillColor = isDarkTheme ? 'rgba(255, 167, 38, 0.2)' : 'rgba(255, 152, 0, 0.2)';
+    const unansweredBorderColor = isDarkTheme ? '#ffa726' : '#ff9800';
+    
+    // Crea il grafico radar
+    categoryRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: categoryLabels,
+            datasets: [{
+                label: '% Risposte Corrette',
+                data: correctPercentages,
+                borderColor: correctBorderColor,
+                backgroundColor: correctFillColor,
+                borderWidth: 3,
+                pointBackgroundColor: correctPointColor,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }, {
+                label: '% Risposte Errate',
+                data: wrongPercentages,
+                borderColor: wrongBorderColor,
+                backgroundColor: wrongFillColor,
+                borderWidth: 3,
+                pointBackgroundColor: wrongPointColor,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }, {
+                label: '% Risposte Non Date',
+                data: unansweredPercentages,
+                borderColor: unansweredBorderColor,
+                backgroundColor: unansweredFillColor,
+                borderWidth: 3,
+                pointBackgroundColor: unansweredPointColor,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        color: textColor,
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        padding: 15,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    padding: 12,
+                    callbacks: {
+                        label: function(context) {
+                            const category = categories[context.dataIndex];
+                            const stats = categoryStats[category];
+                            const datasetLabel = context.dataset.label;
+                            return [
+                                `Categoria: ${getCategoryDisplayName(category)}`,
+                                `${datasetLabel}: ${context.parsed.r}%`,
+                                `Corrette: ${stats.correct}`,
+                                `Errate: ${stats.wrong}`,
+                                `Non date: ${stats.unanswered}`,
+                                `Totali: ${stats.total}`
+                            ];
+                        }
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        stepSize: 33,
+                        color: textColor,
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    },
+                    grid: {
+                        color: gridColor
+                    },
+                    pointLabels: {
+                        color: textColor,
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
 // Visualizza le statistiche
 function displayStatistics() {
     const stats = loadStatistics();
@@ -213,6 +503,9 @@ function displayStatistics() {
 
     // Crea il grafico delle performance
     createPerformanceChart(stats.history);
+    
+    // Crea il grafico radar per categoria
+    createCategoryRadarChart(stats.history);
     
     // Visualizza lo storico
     displayHistory(stats.history);
