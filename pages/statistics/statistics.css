@@ -322,6 +322,7 @@ body.dark-theme .history-score {
 
 .stats-footer .btn {
     padding: 12px 30px;
+    cursor: pointer;
 }
 
 /* Blocca lo scroll quando il dialog è aperto */
@@ -718,6 +719,7 @@ body.dark-theme .btn-danger {
 .dialog-footer .btn-secondary {
     padding: 12px 30px;
     font-size: 1rem;
+    cursor: pointer;
 }
 
 /* Responsive */

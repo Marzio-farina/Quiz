@@ -71,9 +71,6 @@ function createWindow() {
         sendAppVersion();
     });
 
-    // Apri gli strumenti di sviluppo (sempre aperto per lo sviluppo)
-    mainWindow.webContents.openDevTools();
-
     // Emesso quando la finestra viene chiusa
     mainWindow.on('closed', function () {
         mainWindow = null;

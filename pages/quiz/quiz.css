@@ -518,6 +518,7 @@ body.dialog-open {
 .dialog-footer .btn {
     flex: 1;
     padding: 12px 20px;
+    cursor: pointer;
 }
 
 .btn-danger {
