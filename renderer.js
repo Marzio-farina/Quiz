@@ -65,6 +65,8 @@ if (document.readyState === 'loading') {
 
 // Quando c'è un aggiornamento disponibile
 getIpcRenderer().on('update-available', (event, info) => {
+    console.log('[RENDERER] Update available ricevuto:', info);
+    
     const elements = getUpdateElements();
     if (elements.updateVersion) {
         elements.updateVersion.textContent = info.version;
@@ -73,6 +75,11 @@ getIpcRenderer().on('update-available', (event, info) => {
     // Mostra le release notes se disponibili
     const releaseNotesDiv = document.getElementById('updateReleaseNotes');
     const releaseNotesContent = document.getElementById('releaseNotesContent');
+    
+    console.log('[RENDERER] Release notes div trovato:', !!releaseNotesDiv);
+    console.log('[RENDERER] Release notes content trovato:', !!releaseNotesContent);
+    console.log('[RENDERER] Release notes presenti:', !!info.releaseNotes);
+    console.log('[RENDERER] Release notes valore:', info.releaseNotes);
     
     if (info.releaseNotes && info.releaseNotes.trim()) {
         // Le release notes possono essere HTML o testo semplice
@@ -140,15 +147,29 @@ getIpcRenderer().on('update-available', (event, info) => {
 
 // Progresso download
 getIpcRenderer().on('download-progress', (event, percent) => {
+    console.log('[RENDERER] Download progress ricevuto:', percent + '%');
+    
     const elements = getUpdateElements();
+    
     if (elements.downloadProgress) {
         elements.downloadProgress.style.display = 'block';
+        console.log('[RENDERER] Progress bar mostrata');
+    } else {
+        console.warn('[RENDERER] downloadProgress element non trovato!');
     }
+    
     if (elements.progressFill) {
         elements.progressFill.style.width = `${percent}%`;
+        console.log('[RENDERER] Progress fill aggiornato a:', percent + '%');
+    } else {
+        console.warn('[RENDERER] progressFill element non trovato!');
     }
+    
     if (elements.progressPercent) {
         elements.progressPercent.textContent = Math.round(percent) + '%';
+        console.log('[RENDERER] Progress percent aggiornato');
+    } else {
+        console.warn('[RENDERER] progressPercent element non trovato!');
     }
     
     // Aggiorna anche il testo del pulsante

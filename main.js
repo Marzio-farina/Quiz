@@ -113,10 +113,42 @@ try {
     };
 }
 
+// Funzione per recuperare le release notes da GitHub se non sono disponibili
+async function fetchReleaseNotesFromGitHub(version) {
+    try {
+        const https = require('https');
+        const url = `https://api.github.com/repos/Marzio-farina/Quiz/releases/tags/v${version}`;
+        
+        return new Promise((resolve, reject) => {
+            https.get(url, {
+                headers: {
+                    'User-Agent': 'Quiz-App-Updater'
+                }
+            }, (res) => {
+                let data = '';
+                res.on('data', (chunk) => { data += chunk; });
+                res.on('end', () => {
+                    try {
+                        const release = JSON.parse(data);
+                        resolve(release.body || null);
+                    } catch (e) {
+                        reject(e);
+                    }
+                });
+            }).on('error', reject);
+        });
+    } catch (error) {
+        autoUpdater.logger.error('Errore nel recupero release notes da GitHub:', error);
+        return null;
+    }
+}
+
 // Eventi auto-updater
-autoUpdater.on('update-available', (info) => {
-    autoUpdater.logger.info('Aggiornamento disponibile:', info.version);
-    autoUpdater.logger.info('Release notes:', info.releaseNotes);
+autoUpdater.on('update-available', async (info) => {
+    autoUpdater.logger.info('=== AGGIORNAMENTO DISPONIBILE ===');
+    autoUpdater.logger.info('Versione:', info.version);
+    autoUpdater.logger.info('Tipo releaseNotes:', typeof info.releaseNotes);
+    autoUpdater.logger.info('Release notes raw:', info.releaseNotes);
     autoUpdater.logger.info('Info completo:', JSON.stringify(info, null, 2));
     
     // Estrai le release notes - possono essere in diversi formati
@@ -125,21 +157,39 @@ autoUpdater.on('update-available', (info) => {
         // Se è una stringa, usala direttamente
         if (typeof info.releaseNotes === 'string') {
             releaseNotes = info.releaseNotes;
+            autoUpdater.logger.info('Release notes estratte (stringa):', releaseNotes.substring(0, 200));
         } 
         // Se è un oggetto con una proprietà 'content' o 'body'
         else if (info.releaseNotes.content) {
             releaseNotes = info.releaseNotes.content;
+            autoUpdater.logger.info('Release notes estratte (content):', releaseNotes.substring(0, 200));
         } else if (info.releaseNotes.body) {
             releaseNotes = info.releaseNotes.body;
+            autoUpdater.logger.info('Release notes estratte (body):', releaseNotes.substring(0, 200));
+        } else {
+            autoUpdater.logger.warn('Release notes non in formato riconosciuto:', Object.keys(info.releaseNotes));
+        }
+    } else {
+        autoUpdater.logger.warn('Nessuna release notes trovata in info, provo a recuperarle da GitHub...');
+        // Prova a recuperarle direttamente da GitHub
+        releaseNotes = await fetchReleaseNotesFromGitHub(info.version);
+        if (releaseNotes) {
+            autoUpdater.logger.info('Release notes recuperate da GitHub:', releaseNotes.substring(0, 200));
+        } else {
+            autoUpdater.logger.warn('Impossibile recuperare release notes da GitHub');
         }
     }
     
+    const updateInfo = {
+        version: info.version,
+        releaseNotes: releaseNotes,
+        releaseDate: info.releaseDate
+    };
+    
+    autoUpdater.logger.info('Invio al renderer:', JSON.stringify(updateInfo, null, 2));
+    
     if (mainWindow) {
-        mainWindow.webContents.send('update-available', {
-            version: info.version,
-            releaseNotes: releaseNotes,
-            releaseDate: info.releaseDate
-        });
+        mainWindow.webContents.send('update-available', updateInfo);
     }
 });
 
@@ -148,9 +198,15 @@ autoUpdater.on('update-not-available', (info) => {
 });
 
 autoUpdater.on('download-progress', (progressObj) => {
-    autoUpdater.logger.info('Progresso download:', Math.round(progressObj.percent) + '%');
+    const percent = Math.round(progressObj.percent || 0);
+    autoUpdater.logger.info('=== PROGRESSO DOWNLOAD ===');
+    autoUpdater.logger.info('Percentuale:', percent + '%');
+    autoUpdater.logger.info('Bytes per secondo:', progressObj.bytesPerSecond);
+    autoUpdater.logger.info('Totale:', progressObj.total);
+    autoUpdater.logger.info('Trasferiti:', progressObj.transferred);
+    
     if (mainWindow) {
-        mainWindow.webContents.send('download-progress', progressObj.percent);
+        mainWindow.webContents.send('download-progress', percent);
     }
 });
 
