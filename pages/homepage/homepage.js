@@ -56,13 +56,39 @@ if (closeAppBtn) {
 // Carica i quiz dal JSON
 async function loadQuizData() {
     try {
-        const dataPath = path.join(__dirname, '..', '..', 'quiz-data.json');
+        let dataPath;
+        
+        // Prova a ottenere il percorso tramite IPC (più affidabile)
+        try {
+            dataPath = ipcRenderer.sendSync('get-quiz-data-path');
+        } catch (ipcError) {
+            // Se IPC fallisce, usa il percorso diretto
+            if (process.resourcesPath) {
+                // App distribuita: quiz-data.json è in resources/
+                dataPath = path.join(process.resourcesPath, 'quiz-data.json');
+            } else {
+                // Sviluppo: quiz-data.json è nella root del progetto
+                dataPath = path.join(__dirname, '..', '..', 'quiz-data.json');
+            }
+        }
+        
         const rawData = fs.readFileSync(dataPath, 'utf8');
         const data = JSON.parse(rawData);
         allQuizzes = data.quizzes;
         return true;
     } catch (error) {
-        return false;
+        // Se il primo percorso fallisce, prova l'altro come fallback
+        try {
+            const fallbackPath = process.resourcesPath 
+                ? path.join(__dirname, '..', '..', 'quiz-data.json')
+                : path.join(process.resourcesPath || __dirname, 'quiz-data.json');
+            const rawData = fs.readFileSync(fallbackPath, 'utf8');
+            const data = JSON.parse(rawData);
+            allQuizzes = data.quizzes;
+            return true;
+        } catch (fallbackError) {
+            return false;
+        }
     }
 }
 

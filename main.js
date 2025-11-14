@@ -106,6 +106,23 @@ ipcMain.on('minimize-window', () => {
     }
 });
 
+// Gestione IPC per ottenere il percorso del file quiz-data.json
+ipcMain.on('get-quiz-data-path', (event) => {
+    let dataPath;
+    
+    // In produzione, usa process.resourcesPath (dove extraResources vengono copiati)
+    // In sviluppo, usa __dirname
+    if (process.resourcesPath) {
+        // App distribuita: quiz-data.json è in resources/
+        dataPath = path.join(process.resourcesPath, 'quiz-data.json');
+    } else {
+        // Sviluppo: quiz-data.json è nella root del progetto
+        dataPath = path.join(__dirname, 'quiz-data.json');
+    }
+    
+    event.returnValue = dataPath;
+});
+
 // Configurazione auto-updater
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;

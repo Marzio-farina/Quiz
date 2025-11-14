@@ -9,6 +9,10 @@ let currentQuizzes = [];
 let currentQuestionIndex = 0;
 let userAnswers = [];
 let quizSettings = {};
+let isAnswerHighlighted = false; // Traccia se l'evidenziazione è già stata mostrata per la domanda corrente
+let highlightedQuestions = new Set(); // Traccia quali domande hanno già mostrato l'evidenziazione
+let lastViewedQuestionIndex = -1; // Traccia l'ultima domanda visualizzata
+let lastNonDisabledQuestionIndex = -1; // Traccia l'ultima domanda non disabilitata (a cui si può ancora rispondere)
 
 // Timer
 let quizStartTime = null;
@@ -115,15 +119,40 @@ ipcRenderer.on('start-quiz', (event, settings) => {
 // Carica i quiz dal JSON
 async function loadQuizData() {
     try {
-        // Path relativo dalla cartella pages/quiz alla root
-        const dataPath = path.join(__dirname, '..', '..', 'quiz-data.json');
+        let dataPath;
+        
+        // Prova a ottenere il percorso tramite IPC (più affidabile)
+        try {
+            dataPath = ipcRenderer.sendSync('get-quiz-data-path');
+        } catch (ipcError) {
+            // Se IPC fallisce, usa il percorso diretto
+            if (process.resourcesPath) {
+                // App distribuita: quiz-data.json è in resources/
+                dataPath = path.join(process.resourcesPath, 'quiz-data.json');
+            } else {
+                // Sviluppo: quiz-data.json è nella root del progetto
+                dataPath = path.join(__dirname, '..', '..', 'quiz-data.json');
+            }
+        }
+        
         const rawData = fs.readFileSync(dataPath, 'utf8');
         const data = JSON.parse(rawData);
         allQuizzes = data.quizzes;
         return true;
     } catch (error) {
-        alert('Errore nel caricamento dei quiz. Verifica che il file quiz-data.json esista.');
-        return false;
+        // Se il primo percorso fallisce, prova l'altro come fallback
+        try {
+            const fallbackPath = process.resourcesPath 
+                ? path.join(__dirname, '..', '..', 'quiz-data.json')
+                : path.join(process.resourcesPath || __dirname, 'quiz-data.json');
+            const rawData = fs.readFileSync(fallbackPath, 'utf8');
+            const data = JSON.parse(rawData);
+            allQuizzes = data.quizzes;
+            return true;
+        } catch (fallbackError) {
+            alert('Errore nel caricamento dei quiz. Verifica che il file quiz-data.json esista.');
+            return false;
+        }
     }
 }
 
@@ -375,6 +404,8 @@ async function initQuiz() {
     
     currentQuestionIndex = 0;
     userAnswers = new Array(currentQuizzes.length).fill(null);
+    lastViewedQuestionIndex = -1; // Reset dell'ultima domanda visualizzata
+    lastNonDisabledQuestionIndex = -1; // Reset dell'ultima domanda non disabilitata
     
     // Calcola le dimensioni minime necessarie
     calculateMinContentSize();
@@ -432,8 +463,13 @@ function displayQuestion(index) {
     if (imagePath) {
         imageElement.src = imagePath;
         imageContainer.style.display = 'block';
+        
+        // Aggiungi event listener per aprire il dialog quando si clicca sull'immagine
+        imageElement.style.cursor = 'pointer';
+        imageElement.onclick = () => showImageDialog(imagePath);
     } else {
         imageContainer.style.display = 'none';
+        imageElement.onclick = null;
     }
     
     // Mostra risposte - rimuove solo le risposte precedenti, non il badge categoria
@@ -452,7 +488,16 @@ function displayQuestion(index) {
             answerDiv.classList.add('selected');
         }
         
-        answerDiv.addEventListener('click', () => selectAnswer(index, answer.letter));
+        // Se l'evidenziazione è già stata mostrata per questa domanda (in modalità Studio), disabilita il click
+        const canChangeAnswer = !(quizSettings.studyMode === 'study' && highlightedQuestions.has(index));
+        
+        if (canChangeAnswer) {
+            answerDiv.style.cursor = 'pointer';
+            answerDiv.addEventListener('click', () => selectAnswer(index, answer.letter));
+        } else {
+            answerDiv.style.cursor = 'not-allowed';
+            answerDiv.style.opacity = '0.7';
+        }
         
         answersContainer.appendChild(answerDiv);
     });
@@ -461,21 +506,93 @@ function displayQuestion(index) {
     document.getElementById('prevBtn').disabled = index === 0;
     document.getElementById('nextBtn').textContent = 
         index === currentQuizzes.length - 1 ? 'Termina Quiz' : 'Prossima →';
+    
+    // Verifica se si sta tornando indietro (l'indice è minore dell'ultima domanda visualizzata)
+    const isGoingBackward = lastViewedQuestionIndex !== -1 && index < lastViewedQuestionIndex;
+    
+    // Aggiorna l'ultima domanda visualizzata
+    lastViewedQuestionIndex = index;
+    
+    // Se siamo in modalità Studio, mostra automaticamente l'evidenziazione se:
+    // 1. C'è già una risposta, OPPURE
+    // 2. Non c'è risposta E si sta tornando indietro E non è l'ultima domanda non disabilitata
+    if (quizSettings.studyMode === 'study') {
+        const hasAnswer = userAnswers[index] !== null && userAnswers[index] !== undefined;
+        const isNotLastNonDisabled = lastNonDisabledQuestionIndex !== -1 && index !== lastNonDisabledQuestionIndex;
+        
+        if (hasAnswer || (!hasAnswer && isGoingBackward && isNotLastNonDisabled)) {
+            // Piccolo delay per assicurarsi che il DOM sia aggiornato
+            setTimeout(() => {
+                highlightAnswers(index);
+                isAnswerHighlighted = true;
+                if (hasAnswer) {
+                    highlightedQuestions.add(index); // Marca come evidenziata solo se c'è risposta
+                }
+            }, 50);
+        } else {
+            // Reset dello stato di evidenziazione per la nuova domanda
+            isAnswerHighlighted = false;
+        }
+        
+        // Aggiorna l'ultima domanda non disabilitata (quella a cui si può ancora rispondere)
+        if (!highlightedQuestions.has(index)) {
+            lastNonDisabledQuestionIndex = index;
+        }
+    } else {
+        // Reset dello stato di evidenziazione per la nuova domanda
+        isAnswerHighlighted = false;
+    }
+}
+
+// Evidenzia i bordi delle risposte (verde per corretta, rosso per sbagliata)
+function highlightAnswers(questionIndex) {
+    const quiz = currentQuizzes[questionIndex];
+    const userAnswer = userAnswers[questionIndex];
+    const correctAnswer = quiz.correctAnswer;
+    
+    // Rimuovi tutte le evidenziazioni precedenti
+    const answerOptions = document.querySelectorAll('.answer-option');
+    answerOptions.forEach(option => {
+        option.classList.remove('answer-correct', 'answer-wrong');
+    });
+    
+    // Evidenzia la risposta corretta in verde
+    const correctOption = document.querySelector(`.answer-option[data-letter="${correctAnswer}"]`);
+    if (correctOption) {
+        correctOption.classList.add('answer-correct');
+    }
+    
+    // Se l'utente ha dato una risposta sbagliata, evidenzia anche quella in rosso
+    if (userAnswer && userAnswer !== correctAnswer) {
+        const wrongOption = document.querySelector(`.answer-option[data-letter="${userAnswer}"]`);
+        if (wrongOption) {
+            wrongOption.classList.add('answer-wrong');
+        }
+    }
 }
 
 // Seleziona una risposta
 function selectAnswer(questionIndex, letter) {
+    // Se l'evidenziazione è già stata mostrata per questa domanda (in modalità Studio), non permettere di cambiare risposta
+    if (quizSettings.studyMode === 'study' && highlightedQuestions.has(questionIndex)) {
+        return;
+    }
+    
     // Salva la risposta
     userAnswers[questionIndex] = letter;
     
-    // Aggiorna UI
+    // Rimuovi evidenziazioni precedenti
     const answerOptions = document.querySelectorAll('.answer-option');
     answerOptions.forEach(option => {
-        option.classList.remove('selected');
+        option.classList.remove('selected', 'answer-correct', 'answer-wrong');
         if (option.dataset.letter === letter) {
             option.classList.add('selected');
         }
     });
+    
+    // Reset dello stato di evidenziazione quando si cambia risposta
+    isAnswerHighlighted = false;
+    highlightedQuestions.delete(questionIndex); // Rimuovi dal Set se si cambia risposta
 }
 
 // Mostra dialog conferma uscita
@@ -511,18 +628,40 @@ function exitQuiz() {
 
 // Navigazione quiz
 function previousQuestion() {
-    // Se siamo in modalità Studio, mostra il feedback della domanda precedente prima di tornare
-    if (quizSettings.studyMode === 'study' && currentQuestionIndex > 0) {
-        // Prima vai alla domanda precedente per vedere il suo feedback
-        currentQuestionIndex--;
-        showStudyFeedback(true); // true = andare indietro (ma l'indice è già decrementato)
-        return; // La funzione showStudyFeedback gestirà la visualizzazione della domanda
-    }
-    
-    // Comportamento normale per modalità Quiz
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        displayQuestion(currentQuestionIndex);
+    // Se siamo in modalità Studio, applica la logica di evidenziazione
+    if (quizSettings.studyMode === 'study') {
+        // Se l'evidenziazione è già stata mostrata, cambia domanda
+        if (isAnswerHighlighted) {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion(currentQuestionIndex);
+                isAnswerHighlighted = false; // Reset per la nuova domanda
+            }
+        } else {
+            // Se c'è già una risposta, mostra l'evidenziazione
+            // Altrimenti torna semplicemente alla domanda precedente
+            const hasAnswer = userAnswers[currentQuestionIndex] !== null && userAnswers[currentQuestionIndex] !== undefined;
+            
+            if (hasAnswer) {
+                // Mostra l'evidenziazione solo se c'è una risposta
+                highlightAnswers(currentQuestionIndex);
+                isAnswerHighlighted = true;
+                highlightedQuestions.add(currentQuestionIndex); // Marca questa domanda come già evidenziata
+            } else {
+                // Se non c'è risposta, torna semplicemente alla domanda precedente
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    displayQuestion(currentQuestionIndex);
+                    isAnswerHighlighted = false; // Reset per la nuova domanda
+                }
+            }
+        }
+    } else {
+        // Comportamento normale per modalità Quiz
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            displayQuestion(currentQuestionIndex);
+        }
     }
 }
 
@@ -677,19 +816,33 @@ function proceedToPreviousQuestion() {
 }
 
 function nextQuestion() {
-    // Se siamo in modalità Studio, mostra il feedback prima di passare alla domanda successiva
-    if (quizSettings.studyMode === 'study' && currentQuestionIndex < currentQuizzes.length) {
-        showStudyFeedback();
-        return; // La funzione showStudyFeedback gestirà il passaggio alla domanda successiva
-    }
-    
-    // Comportamento normale per modalità Quiz
-    if (currentQuestionIndex < currentQuizzes.length - 1) {
-        currentQuestionIndex++;
-        displayQuestion(currentQuestionIndex);
+    // Se siamo in modalità Studio, applica la logica di evidenziazione
+    if (quizSettings.studyMode === 'study') {
+        // Se l'evidenziazione è già stata mostrata, cambia domanda
+        if (isAnswerHighlighted) {
+            if (currentQuestionIndex < currentQuizzes.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion(currentQuestionIndex);
+                isAnswerHighlighted = false; // Reset per la nuova domanda
+            } else {
+                // Fine quiz
+                finishQuiz();
+            }
+        } else {
+            // Altrimenti mostra l'evidenziazione
+            highlightAnswers(currentQuestionIndex);
+            isAnswerHighlighted = true;
+            highlightedQuestions.add(currentQuestionIndex); // Marca questa domanda come già evidenziata
+        }
     } else {
-        // Fine quiz
-        finishQuiz();
+        // Comportamento normale per modalità Quiz
+        if (currentQuestionIndex < currentQuizzes.length - 1) {
+            currentQuestionIndex++;
+            displayQuestion(currentQuestionIndex);
+        } else {
+            // Fine quiz
+            finishQuiz();
+        }
     }
 }
 
@@ -801,6 +954,23 @@ function finishQuiz() {
     showCompletionDialog(correctCount, currentQuizzes.length, percentage, elapsedSeconds);
 }
 
+// Mostra dialog immagine ingrandita
+function showImageDialog(imagePath) {
+    const dialog = document.getElementById('imageDialog');
+    const enlargedImage = document.getElementById('enlargedImage');
+    
+    enlargedImage.src = imagePath;
+    dialog.style.display = 'flex';
+    document.body.classList.add('dialog-open');
+}
+
+// Nascondi dialog immagine ingrandita
+function hideImageDialog() {
+    const dialog = document.getElementById('imageDialog');
+    dialog.style.display = 'none';
+    document.body.classList.remove('dialog-open');
+}
+
 // Event Listeners
 // Pulsante minimize applicazione
 const minimizeAppBtn = document.getElementById('minimizeAppBtn');
@@ -836,5 +1006,13 @@ document.getElementById('exitDialog').addEventListener('click', (e) => {
 document.getElementById('pauseDialog').addEventListener('click', (e) => {
     // Il dialog pausa richiede una scelta esplicita
     e.stopPropagation();
+});
+
+// Event Listeners per il dialog immagine
+document.getElementById('closeImageDialogBtn').addEventListener('click', hideImageDialog);
+document.getElementById('imageDialog').addEventListener('click', (e) => {
+    if (e.target.id === 'imageDialog') {
+        hideImageDialog();
+    }
 });
 
