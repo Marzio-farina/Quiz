@@ -13,19 +13,28 @@ let availableQuizCount = 0;
 
 // Gestione tema
 function initTheme() {
-    // Carica il tema salvato dal localStorage
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-theme');
+    try {
+        // Carica il tema salvato dal localStorage
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+    } catch (error) {
+        // Se localStorage non è disponibile, usa il tema di default
+        console.warn('Impossibile caricare il tema salvato:', error);
     }
 }
 
 function toggleTheme() {
     document.body.classList.toggle('dark-theme');
     
-    // Salva la preferenza
-    const isDark = document.body.classList.contains('dark-theme');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    try {
+        // Salva la preferenza
+        const isDark = document.body.classList.contains('dark-theme');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    } catch (error) {
+        console.warn('Impossibile salvare il tema:', error);
+    }
 }
 
 // Inizializza il tema all'avvio
@@ -92,36 +101,205 @@ async function loadQuizData() {
     }
 }
 
-// Conta i quiz disponibili per le categorie selezionate
-function countAvailableQuizzes(selectedCategories) {
-    if (!selectedCategories || selectedCategories.length === 0) {
-        return allQuizzes.length;
+// Funzioni helper per modalità Studio (stesso codice di quiz.js)
+// Ottieni tutte le domande superate (stato 'passed')
+// IMPORTANTE: Le chiavi in studyModeStatus sono salvate come STRINGHE
+function getPassedQuestionIds() {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        const passedIds = new Set();
+        
+        Object.keys(studyStatus).forEach(idStr => {
+            const id = Number(idStr);
+            // Verifica che sia un numero valido e che lo stato sia 'passed'
+            if (!isNaN(id) && studyStatus[idStr] === 'passed') {
+                passedIds.add(id);
+            }
+        });
+        
+        return passedIds;
+    } catch (error) {
+        console.error('Errore nel recupero dei quiz superati:', error);
+        return new Set();
+    }
+}
+
+// Ottieni tutte le domande risposte (solo quelle con risposta data: 'passed' o 'wrong', NON 'unanswered')
+function getAnsweredQuestionIds() {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        const answeredIds = new Set();
+        
+        Object.keys(studyStatus).forEach(idStr => {
+            const id = Number(idStr);
+            const status = studyStatus[idStr];
+            if (!isNaN(id) && status !== null && status !== undefined && status !== 'unanswered') {
+                // Include solo le domande con risposta data (passed o wrong), NON quelle non risposte
+                answeredIds.add(id);
+            }
+        });
+        
+        return answeredIds;
+    } catch (error) {
+        return new Set();
+    }
+}
+
+// Ottieni tutte le domande sbagliate (stato 'wrong')
+// IMPORTANTE: Le chiavi in studyModeStatus sono salvate come STRINGHE
+function getWrongQuestionIds() {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        const wrongIds = new Set();
+        
+        Object.keys(studyStatus).forEach(idStr => {
+            const id = Number(idStr);
+            // Verifica che sia un numero valido e che lo stato sia 'wrong'
+            if (!isNaN(id) && studyStatus[idStr] === 'wrong') {
+                wrongIds.add(id);
+            }
+        });
+        
+        return wrongIds;
+    } catch (error) {
+        console.error('Errore nel recupero dei quiz sbagliati:', error);
+        return new Set();
+    }
+}
+
+// Ottieni tutte le domande non risposte (stato 'unanswered' o non presenti in studyModeStatus)
+// Nota: questa funzione restituisce gli ID dei quiz che NON sono in studyModeStatus o hanno stato 'unanswered'
+// IMPORTANTE: esclude i quiz che hanno già uno stato diverso da 'unanswered' (es. 'passed', 'wrong')
+function getUnansweredQuestionIds(allQuizIds) {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        const unansweredIds = new Set();
+        
+        // Aggiungi tutti i quiz che non sono presenti in studyModeStatus
+        // O che hanno esplicitamente stato 'unanswered'
+        allQuizIds.forEach(quizId => {
+            const idStr = String(quizId);
+            const status = studyStatus[idStr];
+            
+            // Se non è presente in studyModeStatus, è non risposto
+            if (!status) {
+                unansweredIds.add(quizId);
+            } 
+            // Se ha esplicitamente stato 'unanswered', è non risposto
+            else if (status === 'unanswered') {
+                unansweredIds.add(quizId);
+            }
+            // Se ha altri stati ('passed', 'wrong'), NON è non risposto, quindi non lo includiamo
+        });
+        
+        return unansweredIds;
+    } catch (error) {
+        return new Set();
+    }
+}
+
+// Conta i quiz disponibili per le categorie selezionate, considerando anche modalità Studio e esclusioni
+function countAvailableQuizzes(selectedCategories, studyMode = null, excludeMode = null) {
+    let filtered = allQuizzes;
+    
+    // Filtra per categorie
+    if (selectedCategories && selectedCategories.length > 0) {
+        filtered = allQuizzes.filter(quiz => {
+            // Priorità 1: Se una sottocategoria è selezionata, usa solo quella
+            if (quiz.subcategory && selectedCategories.includes(quiz.subcategory)) {
+                return true;
+            }
+            
+            // Priorità 2: Se la categoria principale è selezionata (senza sottocategorie specifiche)
+            if (selectedCategories.includes(quiz.category)) {
+                // Verifica che non ci siano sottocategorie selezionate per questa categoria
+                const hasSubcategoriesForThisCategory = selectedCategories.some(cat => 
+                    cat.startsWith(quiz.category + '_') && cat !== quiz.category
+                );
+                
+                // Se non ci sono sottocategorie selezionate per questa categoria, includi tutti i quiz
+                if (!hasSubcategoriesForThisCategory) {
+                    return true;
+                }
+            }
+            
+            return false;
+        });
     }
     
-    const filtered = allQuizzes.filter(quiz => {
-        // Se la categoria principale è selezionata, includi tutti i quiz di quella categoria
-        if (selectedCategories.includes(quiz.category)) {
-            return true;
+    // Filtra i quiz in base alla modalità Studio e alle esclusioni
+    if (studyMode === 'study') {
+        if (excludeMode === 'answered') {
+            // Opzione "risposti": mostra solo i quiz sbagliati (wrong)
+            // Escludi: superati (passed) + non risposti (unanswered)
+            const wrongIds = getWrongQuestionIds();
+            const allQuizIds = filtered.map(quiz => Number(quiz.id)).filter(id => !isNaN(id));
+            
+            // Includi solo quelli sbagliati
+            filtered = filtered.filter(quiz => {
+                const quizId = Number(quiz.id);
+                return !isNaN(quizId) && wrongIds.has(quizId);
+            });
+        } else if (excludeMode === 'passed') {
+            // Opzione "Non risposti": mostra quiz sbagliati (wrong) + non risposti (unanswered)
+            // Escludi solo: superati (passed)
+            const passedIds = getPassedQuestionIds();
+            const allQuizIds = filtered.map(quiz => Number(quiz.id)).filter(id => !isNaN(id));
+            const wrongIds = getWrongQuestionIds();
+            const unansweredIds = getUnansweredQuestionIds(allQuizIds);
+            
+            // Includi solo quelli sbagliati o non risposti (escludi quelli superati)
+            // Un quiz può essere solo wrong O unanswered, non entrambi
+            filtered = filtered.filter(quiz => {
+                const quizId = Number(quiz.id);
+                if (isNaN(quizId)) return false;
+                
+                // PRIMA: escludi quelli superati (priorità massima)
+                if (passedIds.has(quizId)) return false;
+                
+                // POI: includi solo quelli sbagliati O non risposti (non entrambi)
+                // Priorità: se è wrong, includilo (anche se fosse anche in unanswered, che non può succedere)
+                if (wrongIds.has(quizId)) return true;
+                
+                // Se non è wrong, controlla se è unanswered
+                if (unansweredIds.has(quizId)) return true;
+                
+                // Se non è né wrong né unanswered né passed, non includerlo
+                return false;
+            });
+        } else {
+            // Se non c'è esclusione specifica, comportamento di default: mostra wrong + unanswered
+            const passedIds = getPassedQuestionIds();
+            const allQuizIds = filtered.map(quiz => Number(quiz.id)).filter(id => !isNaN(id));
+            const wrongIds = getWrongQuestionIds();
+            const unansweredIds = getUnansweredQuestionIds(allQuizIds);
+            
+            filtered = filtered.filter(quiz => {
+                const quizId = Number(quiz.id);
+                if (isNaN(quizId)) return false;
+                if (passedIds.has(quizId)) return false;
+                return wrongIds.has(quizId) || unansweredIds.has(quizId);
+            });
         }
-        
-        // Controlla se una sottocategoria è selezionata (dal JSON)
-        if (quiz.subcategory && selectedCategories.includes(quiz.subcategory)) {
-            return true;
-        }
-        
-        return false;
-    });
+    }
     
     return filtered.length;
 }
 
-// Aggiorna dinamicamente i pulsanti delle quantità in base alle categorie
+// Aggiorna dinamicamente i pulsanti delle quantità in base alle categorie e modalità Studio
 function updateQuestionCountButtons() {
     const selectedCategories = Array.from(categoryCheckboxes)
         .filter(cb => cb.checked)
         .map(cb => cb.value);
     
-    availableQuizCount = countAvailableQuizzes(selectedCategories);
+    // Ottieni la modalità Studio e le impostazioni di esclusione (stesso codice del pulsante Inizia)
+    const studyMode = studyModeToggle ? (studyModeToggle.checked ? 'study' : 'quiz') : 'quiz';
+    const excludeMode = excludeCompletedToggle && studyMode === 'study' 
+        ? (excludeCompletedToggle.checked ? 'passed' : 'answered')
+        : null;
+    
+    // Conta i quiz disponibili considerando anche modalità Studio e esclusioni
+    availableQuizCount = countAvailableQuizzes(selectedCategories, studyMode, excludeMode);
     
     // Valori standard dei pulsanti
     const standardButtons = [10, 20, 50, 100];
@@ -129,15 +307,24 @@ function updateQuestionCountButtons() {
     // Determina quali pulsanti mostrare
     let buttonsToShow = standardButtons.filter(count => count <= availableQuizCount);
     
-    // Se il massimo disponibile non è tra i valori standard, aggiungilo
-    if (availableQuizCount > 20 && availableQuizCount < 100 && !standardButtons.includes(availableQuizCount)) {
+    // Se ci sono meno di 10 quiz disponibili, mostra solo il numero esatto disponibile
+    if (availableQuizCount > 0 && availableQuizCount < 10) {
+        buttonsToShow = [availableQuizCount];
+    }
+    // Se il massimo disponibile non è tra i valori standard e è tra 10 e 100, aggiungilo
+    else if (availableQuizCount > 20 && availableQuizCount < 100 && !standardButtons.includes(availableQuizCount)) {
+        buttonsToShow = buttonsToShow.filter(count => count < availableQuizCount);
+        buttonsToShow.push(availableQuizCount);
+    }
+    // Se il massimo disponibile è tra 10 e 20 e non è 10 o 20, aggiungilo
+    else if (availableQuizCount > 10 && availableQuizCount < 20 && !standardButtons.includes(availableQuizCount)) {
         buttonsToShow = buttonsToShow.filter(count => count < availableQuizCount);
         buttonsToShow.push(availableQuizCount);
     }
     
-    // Assicurati che ci sia almeno un pulsante
+    // Assicurati che ci sia almeno un pulsante (anche se 0 quiz disponibili, mostra 0)
     if (buttonsToShow.length === 0) {
-        buttonsToShow = [Math.min(10, availableQuizCount)];
+        buttonsToShow = [Math.max(0, Math.min(10, availableQuizCount))];
     }
     
     // Se la selezione corrente è maggiore del massimo disponibile, seleziona il massimo
@@ -559,6 +746,8 @@ if (studyModeToggle) {
         localStorage.setItem('studyMode', mode);
         updateModeLabels();
         updateExcludeSectionVisibility();
+        // Aggiorna i pulsanti delle quantità quando cambia la modalità
+        updateQuestionCountButtons();
     });
 }
 
@@ -616,6 +805,8 @@ if (excludeCompletedToggle) {
         const excludeMode = e.target.checked ? 'passed' : 'answered';
         localStorage.setItem('excludeMode', excludeMode);
         updateExcludeLabels();
+        // Aggiorna i pulsanti delle quantità quando cambia l'esclusione
+        updateQuestionCountButtons();
     });
 }
 

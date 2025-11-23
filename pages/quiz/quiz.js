@@ -20,12 +20,18 @@ let timerInterval = null;
 let elapsedSeconds = 0;
 let isPaused = false;
 let pausedTime = 0;
+let pauseStartTime = 0;
 
 // Carica il tema salvato (mantiene il tema scelto nella home)
 function initTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-theme');
+    try {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+    } catch (error) {
+        // Se localStorage non è disponibile, usa il tema di default
+        console.warn('Impossibile caricare il tema salvato:', error);
     }
 }
 
@@ -94,8 +100,6 @@ function exitQuizFromPause() {
     hidePauseDialog();
     exitQuiz();
 }
-
-let pauseStartTime = 0;
 
 function updateTimerDisplay() {
     const display = document.getElementById('timerDisplay');
@@ -169,32 +173,73 @@ function shuffleArray(array) {
 // Sistema di tracciamento stato domande per modalità Studio
 // Stato: 'passed' (superata), 'unanswered' (non risposta), 'wrong' (errata), null (mai vista)
 
+// Migra le chiavi numeriche in stringhe per consistenza
+function migrateStudyModeStatus() {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        let migrated = false;
+        const migratedStatus = {};
+        
+        Object.keys(studyStatus).forEach(key => {
+            // Se la chiave è un numero (non una stringa numerica), migra
+            const numKey = Number(key);
+            if (!isNaN(numKey) && key !== String(numKey)) {
+                // Chiave numerica, converti in stringa
+                migratedStatus[String(numKey)] = studyStatus[key];
+                migrated = true;
+            } else {
+                // Già stringa, mantieni
+                migratedStatus[key] = studyStatus[key];
+            }
+        });
+        
+        if (migrated) {
+            localStorage.setItem('studyModeStatus', JSON.stringify(migratedStatus));
+            console.log('[STUDY MODE] Migrazione chiavi completata');
+        }
+    } catch (error) {
+        console.error('[STUDY MODE] Errore nella migrazione:', error);
+    }
+}
+
+// Esegui la migrazione all'avvio
+migrateStudyModeStatus();
+
 // Ottieni lo stato di una domanda in modalità Studio
+// IMPORTANTE: Le chiavi vengono lette come STRINGHE per consistenza con JSON
 function getQuestionStudyStatus(questionId) {
     try {
         const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
         const id = Number(questionId);
-        return studyStatus[id] || null;
+        if (isNaN(id)) return null;
+        // Leggi come stringa per consistenza
+        const idStr = String(id);
+        return studyStatus[idStr] || null;
     } catch (error) {
         return null;
     }
 }
 
 // Aggiorna lo stato di una domanda in modalità Studio
+// IMPORTANTE: Le chiavi vengono salvate come STRINGHE per consistenza con JSON
 function updateQuestionStudyStatus(questionId, status) {
     try {
         const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
         const id = Number(questionId);
         if (!isNaN(id)) {
-            studyStatus[id] = status;
+            // Salva come stringa per consistenza (JSON converte le chiavi numeriche in stringhe)
+            const idStr = String(id);
+            studyStatus[idStr] = status;
             localStorage.setItem('studyModeStatus', JSON.stringify(studyStatus));
         }
     } catch (error) {
         // Errore silenzioso
+        console.error('Errore nell\'aggiornamento dello stato:', error);
     }
 }
 
 // Ottieni tutte le domande superate (stato 'passed')
+// IMPORTANTE: Le chiavi in studyModeStatus sono salvate come STRINGHE
 function getPassedQuestionIds() {
     try {
         const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
@@ -202,6 +247,7 @@ function getPassedQuestionIds() {
         
         Object.keys(studyStatus).forEach(idStr => {
             const id = Number(idStr);
+            // Verifica che sia un numero valido e che lo stato sia 'passed'
             if (!isNaN(id) && studyStatus[idStr] === 'passed') {
                 passedIds.add(id);
             }
@@ -209,6 +255,7 @@ function getPassedQuestionIds() {
         
         return passedIds;
     } catch (error) {
+        console.error('Errore nel recupero dei quiz superati:', error);
         return new Set();
     }
 }
@@ -229,6 +276,50 @@ function getAnsweredQuestionIds() {
         });
         
         return answeredIds;
+    } catch (error) {
+        return new Set();
+    }
+}
+
+// Ottieni tutte le domande sbagliate (stato 'wrong')
+// IMPORTANTE: Le chiavi in studyModeStatus sono salvate come STRINGHE
+function getWrongQuestionIds() {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        const wrongIds = new Set();
+        
+        Object.keys(studyStatus).forEach(idStr => {
+            const id = Number(idStr);
+            // Verifica che sia un numero valido e che lo stato sia 'wrong'
+            if (!isNaN(id) && studyStatus[idStr] === 'wrong') {
+                wrongIds.add(id);
+            }
+        });
+        
+        return wrongIds;
+    } catch (error) {
+        console.error('Errore nel recupero dei quiz sbagliati:', error);
+        return new Set();
+    }
+}
+
+// Ottieni tutte le domande non risposte (stato 'unanswered' o non presenti in studyModeStatus)
+function getUnansweredQuestionIds(allQuizIds) {
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        const unansweredIds = new Set();
+        
+        // Aggiungi tutti i quiz che non sono presenti in studyModeStatus
+        allQuizIds.forEach(quizId => {
+            const idStr = String(quizId);
+            if (!studyStatus[idStr]) {
+                unansweredIds.add(quizId);
+            } else if (studyStatus[idStr] === 'unanswered') {
+                unansweredIds.add(quizId);
+            }
+        });
+        
+        return unansweredIds;
     } catch (error) {
         return new Set();
     }
@@ -299,22 +390,34 @@ function selectQuizzes() {
     }
     
     // Filtra i quiz in base alla modalità Studio e alle esclusioni
-    if (quizSettings.studyMode === 'study' && quizSettings.excludeMode) {
-        let excludeIds;
+    // IMPORTANTE: In modalità Studio, SEMPRE escludi i quiz superati (passed)
+    if (quizSettings.studyMode === 'study') {
+        const passedIds = getPassedQuestionIds();
+        const allQuizIds = filteredQuizzes.map(quiz => Number(quiz.id)).filter(id => !isNaN(id));
+        const wrongIds = getWrongQuestionIds();
+        const unansweredIds = getUnansweredQuestionIds(allQuizIds);
         
         if (quizSettings.excludeMode === 'answered') {
-            // Escludi tutte le domande risposte (qualsiasi stato)
-            excludeIds = getAnsweredQuestionIds();
-        } else if (quizSettings.excludeMode === 'passed') {
-            // Escludi solo le domande superate (risposte correttamente)
-            excludeIds = getPassedQuestionIds();
-        }
-        
-        if (excludeIds && excludeIds.size > 0) {
-            // Escludi le domande in base alla selezione
+            // Opzione "risposti": mostra solo i quiz sbagliati (wrong)
+            // Escludi: superati (passed) + non risposti (unanswered)
             filteredQuizzes = filteredQuizzes.filter(quiz => {
                 const quizId = Number(quiz.id);
-                return !isNaN(quizId) && !excludeIds.has(quizId);
+                if (isNaN(quizId)) return false;
+                // Escludi quelli superati
+                if (passedIds.has(quizId)) return false;
+                // Includi solo quelli sbagliati
+                return wrongIds.has(quizId);
+            });
+        } else {
+            // Opzione "Non risposti" o default: mostra quiz sbagliati (wrong) + non risposti (unanswered)
+            // Escludi solo: superati (passed)
+            filteredQuizzes = filteredQuizzes.filter(quiz => {
+                const quizId = Number(quiz.id);
+                if (isNaN(quizId)) return false;
+                // PRIMA: escludi quelli superati (priorità massima)
+                if (passedIds.has(quizId)) return false;
+                // POI: includi solo quelli sbagliati o non risposti
+                return wrongIds.has(quizId) || unansweredIds.has(quizId);
             });
         }
     }
@@ -626,6 +729,11 @@ function exitQuiz() {
     window.location.href = '../../index.html';
 }
 
+// Cleanup quando la pagina viene scaricata
+window.addEventListener('beforeunload', () => {
+    stopTimer();
+});
+
 // Navigazione quiz
 function previousQuestion() {
     // Se siamo in modalità Studio, applica la logica di evidenziazione
@@ -873,7 +981,7 @@ function saveStatistics(correctCount, totalQuestions, percentage, timeSpent) {
         percentage: parseFloat(percentage),
         random: quizSettings.random || false,
         timeSpent: timeSpent,
-        studyMode: quizSettings.studyMode || 'quiz',
+        studyMode: quizSettings.studyMode || 'quiz', // 'study' o 'quiz' - distingue le sessioni
         details: quizDetails
     });
     
@@ -881,12 +989,26 @@ function saveStatistics(correctCount, totalQuestions, percentage, timeSpent) {
     localStorage.setItem('quizStatistics', JSON.stringify(stats));
     
     // Se siamo in modalità Studio, aggiorna lo stato delle domande
+    // IMPORTANTE: Questo aggiorna solo studyModeStatus, non lo storico
+    // Lo stato finale di ogni quiz è quello dell'ultima sessione di studio
     if (quizSettings.studyMode === 'study') {
-        updateStudyModeStatus();
+        try {
+            updateStudyModeStatus();
+            // Debug: verifica che lo stato sia stato aggiornato
+            const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+            const passedCount = Object.keys(studyStatus).filter(id => studyStatus[id] === 'passed').length;
+            const wrongCount = Object.keys(studyStatus).filter(id => studyStatus[id] === 'wrong').length;
+            console.log('[STUDY MODE] Stato aggiornato - Passed:', passedCount, 'Wrong:', wrongCount);
+        } catch (error) {
+            console.error('[STUDY MODE] Errore nell\'aggiornamento dello stato:', error);
+        }
     }
 }
 
 // Aggiorna lo stato delle domande in modalità Studio
+// IMPORTANTE: Lo stato viene aggiornato con priorità: passed > wrong > unanswered
+// Se una domanda è già 'passed', non può tornare a 'wrong' o 'unanswered'
+// Se una domanda è 'wrong' e viene risposta correttamente, diventa 'passed'
 function updateStudyModeStatus() {
     currentQuizzes.forEach((quiz, index) => {
         const questionId = Number(quiz.id);
@@ -894,16 +1016,40 @@ function updateStudyModeStatus() {
         
         if (isNaN(questionId)) return;
         
+        // Ottieni lo stato attuale
+        const currentStatus = getQuestionStudyStatus(questionId);
+        
+        // Se è già 'passed', non aggiornare (una volta superata, rimane superata)
+        if (currentStatus === 'passed') {
+            return;
+        }
+        
+        // Determina il nuovo stato
+        let newStatus;
         if (userAnswer === null || userAnswer === undefined) {
             // Domanda non risposta → stato 'unanswered' (verrà riproposta)
-            updateQuestionStudyStatus(questionId, 'unanswered');
+            // Ma solo se non è già 'wrong' (se è già wrong, mantieni wrong)
+            if (currentStatus === 'wrong') {
+                newStatus = 'wrong'; // Mantieni wrong se era già sbagliata
+            } else {
+                newStatus = 'unanswered';
+            }
         } else if (userAnswer === quiz.correctAnswer) {
             // Domanda risposta correttamente → stato 'passed' (non verrà più riproposta)
-            updateQuestionStudyStatus(questionId, 'passed');
+            // Questo sovrascrive qualsiasi stato precedente (wrong o unanswered)
+            newStatus = 'passed';
         } else {
             // Domanda sbagliata → stato 'wrong' (verrà riproposta)
-            updateQuestionStudyStatus(questionId, 'wrong');
+            // Ma solo se non è già 'passed' (se è già passed, mantieni passed)
+            if (currentStatus === 'passed') {
+                newStatus = 'passed'; // Non tornare indietro da passed
+            } else {
+                newStatus = 'wrong';
+            }
         }
+        
+        // Aggiorna solo se il nuovo stato è diverso o migliore
+        updateQuestionStudyStatus(questionId, newStatus);
     });
 }
 
