@@ -457,6 +457,16 @@ function updateQuestionCountButtons() {
     
     container.innerHTML = '';
     
+    // Se non ci sono categorie selezionate o non ci sono quiz disponibili, mostra il messaggio
+    if (selectedCategories.length === 0 || availableQuizCount === 0) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'no-quiz-message';
+        messageDiv.style.cssText = 'padding: 15px; text-align: center; color: #666; font-size: 17px; line-height: 1.5; font-style: italic;';
+        messageDiv.textContent = 'Non ci sono quiz, selezionare un\'altra categoria';
+        container.appendChild(messageDiv);
+        return;
+    }
+    
     // Crea i nuovi pulsanti
     buttonsToShow.forEach(count => {
         const button = document.createElement('button');
@@ -765,6 +775,12 @@ if (filterBtn) {
         e.stopPropagation();
         if (categoriesDialog) {
             const isHidden = categoriesDialog.classList.contains('hidden');
+            
+            // Chiudi l'altro dialog se è aperto
+            if (optionsDialog && !optionsDialog.classList.contains('hidden')) {
+                optionsDialog.classList.add('hidden');
+            }
+            
             categoriesDialog.classList.toggle('hidden');
             // Se stiamo aprendo il dialog, assicurati che gli elementi siano stati generati
             if (isHidden) {
@@ -801,6 +817,12 @@ if (optionsBtn) {
         e.stopPropagation();
         if (optionsDialog) {
             const isHidden = optionsDialog.classList.contains('hidden');
+            
+            // Chiudi l'altro dialog se è aperto
+            if (categoriesDialog && !categoriesDialog.classList.contains('hidden')) {
+                categoriesDialog.classList.add('hidden');
+            }
+            
             optionsDialog.classList.toggle('hidden');
         }
     });
