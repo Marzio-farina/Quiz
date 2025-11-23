@@ -64,12 +64,14 @@ if (closeAppBtn) {
 
 // Carica i quiz dal JSON
 async function loadQuizData() {
+    console.log('[loadQuizData] INIZIO');
     try {
         let dataPath;
         
         // Prova a ottenere il percorso tramite IPC (più affidabile)
         try {
             dataPath = ipcRenderer.sendSync('get-quiz-data-path');
+            console.log('[loadQuizData] Percorso ottenuto via IPC:', dataPath);
         } catch (ipcError) {
             // Se IPC fallisce, usa il percorso diretto
             if (process.resourcesPath) {
@@ -79,23 +81,35 @@ async function loadQuizData() {
                 // Sviluppo: quiz-data.json è nella root del progetto
                 dataPath = path.join(__dirname, '..', '..', 'quiz-data.json');
             }
+            console.log('[loadQuizData] Percorso calcolato:', dataPath);
         }
         
         const rawData = fs.readFileSync(dataPath, 'utf8');
         const data = JSON.parse(rawData);
         allQuizzes = data.quizzes;
+        console.log('[loadQuizData] Quiz caricati:', {
+            count: allQuizzes.length,
+            firstQuizId: allQuizzes[0]?.id,
+            firstQuizCategory: allQuizzes[0]?.category
+        });
         return true;
     } catch (error) {
+        console.error('[loadQuizData] Errore primo tentativo:', error);
         // Se il primo percorso fallisce, prova l'altro come fallback
+        // In sviluppo, __dirname è pages/homepage/, quindi devi salire di 2 livelli per raggiungere la root
         try {
-            const fallbackPath = process.resourcesPath 
-                ? path.join(__dirname, '..', '..', 'quiz-data.json')
-                : path.join(process.resourcesPath || __dirname, 'quiz-data.json');
+            // Prova prima con il percorso relativo dalla root del progetto
+            const fallbackPath = path.join(__dirname, '..', '..', 'quiz-data.json');
+            console.log('[loadQuizData] Tentativo fallback con percorso:', fallbackPath);
             const rawData = fs.readFileSync(fallbackPath, 'utf8');
             const data = JSON.parse(rawData);
             allQuizzes = data.quizzes;
+            console.log('[loadQuizData] Quiz caricati da fallback:', {
+                count: allQuizzes.length
+            });
             return true;
         } catch (fallbackError) {
+            console.error('[loadQuizData] Errore anche nel fallback:', fallbackError);
             return false;
         }
     }
@@ -115,6 +129,12 @@ function getPassedQuestionIds() {
             if (!isNaN(id) && studyStatus[idStr] === 'passed') {
                 passedIds.add(id);
             }
+        });
+        
+        console.log('[getPassedQuestionIds] Quiz superati (passed):', {
+            count: passedIds.size,
+            ids: Array.from(passedIds).slice(0, 20), // Mostra solo i primi 20 per non intasare
+            totalInStatus: Object.keys(studyStatus).length
         });
         
         return passedIds;
@@ -160,6 +180,11 @@ function getWrongQuestionIds() {
             }
         });
         
+        console.log('[getWrongQuestionIds] Quiz sbagliati (wrong):', {
+            count: wrongIds.size,
+            ids: Array.from(wrongIds).slice(0, 20) // Mostra solo i primi 20 per non intasare
+        });
+        
         return wrongIds;
     } catch (error) {
         console.error('Errore nel recupero dei quiz sbagliati:', error);
@@ -174,6 +199,8 @@ function getUnansweredQuestionIds(allQuizIds) {
     try {
         const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
         const unansweredIds = new Set();
+        let notInStatus = 0;
+        let explicitUnanswered = 0;
         
         // Aggiungi tutti i quiz che non sono presenti in studyModeStatus
         // O che hanno esplicitamente stato 'unanswered'
@@ -184,111 +211,184 @@ function getUnansweredQuestionIds(allQuizIds) {
             // Se non è presente in studyModeStatus, è non risposto
             if (!status) {
                 unansweredIds.add(quizId);
+                notInStatus++;
             } 
             // Se ha esplicitamente stato 'unanswered', è non risposto
             else if (status === 'unanswered') {
                 unansweredIds.add(quizId);
+                explicitUnanswered++;
             }
             // Se ha altri stati ('passed', 'wrong'), NON è non risposto, quindi non lo includiamo
         });
         
+        console.log('[getUnansweredQuestionIds] Quiz non risposti (unanswered):', {
+            count: unansweredIds.size,
+            notInStatus: notInStatus,
+            explicitUnanswered: explicitUnanswered,
+            totalQuizIds: allQuizIds.length,
+            ids: Array.from(unansweredIds).slice(0, 20) // Mostra solo i primi 20 per non intasare
+        });
+        
         return unansweredIds;
     } catch (error) {
+        console.error('[getUnansweredQuestionIds] Errore:', error);
         return new Set();
     }
 }
 
 // Conta i quiz disponibili per le categorie selezionate, considerando anche modalità Studio e esclusioni
 function countAvailableQuizzes(selectedCategories, studyMode = null, excludeMode = null) {
+    console.log('[countAvailableQuizzes] INIZIO:', {
+        selectedCategories: selectedCategories,
+        selectedCategoriesCount: selectedCategories?.length || 0,
+        studyMode: studyMode,
+        excludeMode: excludeMode,
+        totalQuizzes: allQuizzes.length
+    });
+    
+    // Se non ci sono categorie selezionate, restituisci 0
+    if (!selectedCategories || selectedCategories.length === 0) {
+        console.log('[countAvailableQuizzes] Nessuna categoria selezionata, restituisco 0');
+        return 0;
+    }
+    
     let filtered = allQuizzes;
     
     // Filtra per categorie
-    if (selectedCategories && selectedCategories.length > 0) {
-        filtered = allQuizzes.filter(quiz => {
-            // Priorità 1: Se una sottocategoria è selezionata, usa solo quella
-            if (quiz.subcategory && selectedCategories.includes(quiz.subcategory)) {
+    filtered = allQuizzes.filter(quiz => {
+        // Priorità 1: Se una sottocategoria è selezionata, usa solo quella
+        if (quiz.subcategory && selectedCategories.includes(quiz.subcategory)) {
+            return true;
+        }
+        
+        // Priorità 2: Se la categoria principale è selezionata (senza sottocategorie specifiche)
+        if (selectedCategories.includes(quiz.category)) {
+            // Verifica che non ci siano sottocategorie selezionate per questa categoria
+            const hasSubcategoriesForThisCategory = selectedCategories.some(cat => 
+                cat.startsWith(quiz.category + '_') && cat !== quiz.category
+            );
+            
+            // Se non ci sono sottocategorie selezionate per questa categoria, includi tutti i quiz
+            if (!hasSubcategoriesForThisCategory) {
                 return true;
             }
-            
-            // Priorità 2: Se la categoria principale è selezionata (senza sottocategorie specifiche)
-            if (selectedCategories.includes(quiz.category)) {
-                // Verifica che non ci siano sottocategorie selezionate per questa categoria
-                const hasSubcategoriesForThisCategory = selectedCategories.some(cat => 
-                    cat.startsWith(quiz.category + '_') && cat !== quiz.category
-                );
-                
-                // Se non ci sono sottocategorie selezionate per questa categoria, includi tutti i quiz
-                if (!hasSubcategoriesForThisCategory) {
-                    return true;
-                }
-            }
-            
-            return false;
-        });
-    }
+        }
+        
+        return false;
+    });
+    
+    console.log('[countAvailableQuizzes] Dopo filtro categorie:', {
+        filteredCount: filtered.length,
+        filteredIds: filtered.map(q => q.id).slice(0, 20) // Mostra solo i primi 20
+    });
     
     // Filtra i quiz in base alla modalità Studio e alle esclusioni
+    // IMPORTANTE: In modalità Studio, SEMPRE escludi i quiz superati (passed)
     if (studyMode === 'study') {
+        console.log('[countAvailableQuizzes] Modalità Studio attiva, applicando filtri...');
+        
+        const passedIds = getPassedQuestionIds();
+        const allQuizIds = filtered.map(quiz => Number(quiz.id)).filter(id => !isNaN(id));
+        const wrongIds = getWrongQuestionIds();
+        const unansweredIds = getUnansweredQuestionIds(allQuizIds);
+        
+        // Calcola quanti ID di ogni tipo sono nelle categorie selezionate
+        const passedInCategories = allQuizIds.filter(id => passedIds.has(id));
+        const wrongInCategories = allQuizIds.filter(id => wrongIds.has(id));
+        const unansweredInCategories = allQuizIds.filter(id => unansweredIds.has(id));
+        
+        console.log('[countAvailableQuizzes] Set di ID:', {
+            passedIdsCount: passedIds.size,
+            wrongIdsCount: wrongIds.size,
+            unansweredIdsCount: unansweredIds.size,
+            allQuizIdsCount: allQuizIds.length,
+            passedInCategoriesCount: passedInCategories.length,
+            wrongInCategoriesCount: wrongInCategories.length,
+            unansweredInCategoriesCount: unansweredInCategories.length,
+            passedIdsSample: Array.from(passedIds).slice(0, 10),
+            wrongIdsSample: Array.from(wrongIds).slice(0, 10),
+            unansweredIdsSample: Array.from(unansweredIds).slice(0, 10),
+            passedInCategoriesSample: passedInCategories.slice(0, 10),
+            wrongInCategoriesSample: wrongInCategories.slice(0, 10),
+            unansweredInCategoriesSample: unansweredInCategories.slice(0, 10)
+        });
+        
+        const beforeFilterCount = filtered.length;
+        
         if (excludeMode === 'answered') {
-            // Opzione "risposti": mostra solo i quiz sbagliati (wrong)
+            // Opzione "Solo sbagliati": mostra solo i quiz sbagliati (wrong)
             // Escludi: superati (passed) + non risposti (unanswered)
-            const wrongIds = getWrongQuestionIds();
-            const allQuizIds = filtered.map(quiz => Number(quiz.id)).filter(id => !isNaN(id));
-            
-            // Includi solo quelli sbagliati
-            filtered = filtered.filter(quiz => {
-                const quizId = Number(quiz.id);
-                return !isNaN(quizId) && wrongIds.has(quizId);
-            });
-        } else if (excludeMode === 'passed') {
-            // Opzione "Non risposti": mostra quiz sbagliati (wrong) + non risposti (unanswered)
-            // Escludi solo: superati (passed)
-            const passedIds = getPassedQuestionIds();
-            const allQuizIds = filtered.map(quiz => Number(quiz.id)).filter(id => !isNaN(id));
-            const wrongIds = getWrongQuestionIds();
-            const unansweredIds = getUnansweredQuestionIds(allQuizIds);
-            
-            // Includi solo quelli sbagliati o non risposti (escludi quelli superati)
-            // Un quiz può essere solo wrong O unanswered, non entrambi
+            console.log('[countAvailableQuizzes] Opzione "Solo sbagliati": mostra solo wrong');
             filtered = filtered.filter(quiz => {
                 const quizId = Number(quiz.id);
                 if (isNaN(quizId)) return false;
-                
-                // PRIMA: escludi quelli superati (priorità massima)
+                // Escludi quelli superati
                 if (passedIds.has(quizId)) return false;
-                
-                // POI: includi solo quelli sbagliati O non risposti (non entrambi)
-                // Priorità: se è wrong, includilo (anche se fosse anche in unanswered, che non può succedere)
-                if (wrongIds.has(quizId)) return true;
-                
-                // Se non è wrong, controlla se è unanswered
-                if (unansweredIds.has(quizId)) return true;
-                
-                // Se non è né wrong né unanswered né passed, non includerlo
-                return false;
+                // Includi solo quelli sbagliati
+                const isWrong = wrongIds.has(quizId);
+                return isWrong;
             });
         } else {
-            // Se non c'è esclusione specifica, comportamento di default: mostra wrong + unanswered
-            const passedIds = getPassedQuestionIds();
-            const allQuizIds = filtered.map(quiz => Number(quiz.id)).filter(id => !isNaN(id));
-            const wrongIds = getWrongQuestionIds();
-            const unansweredIds = getUnansweredQuestionIds(allQuizIds);
-            
+            // Opzione "Tutti da fare" o default: mostra quiz sbagliati (wrong) + non risposti (unanswered)
+            // Escludi solo: superati (passed)
+            console.log('[countAvailableQuizzes] Opzione "Tutti da fare" o default: mostra wrong + unanswered');
             filtered = filtered.filter(quiz => {
                 const quizId = Number(quiz.id);
                 if (isNaN(quizId)) return false;
+                // PRIMA: escludi quelli superati (priorità massima)
                 if (passedIds.has(quizId)) return false;
-                return wrongIds.has(quizId) || unansweredIds.has(quizId);
+                // POI: includi solo quelli sbagliati o non risposti
+                const isWrong = wrongIds.has(quizId);
+                const isUnanswered = unansweredIds.has(quizId);
+                const included = isWrong || isUnanswered;
+                return included;
             });
         }
+        
+        console.log('[countAvailableQuizzes] Dopo filtro Studio:', {
+            beforeFilter: beforeFilterCount,
+            afterFilter: filtered.length,
+            excluded: beforeFilterCount - filtered.length,
+            finalIds: filtered.map(q => q.id).slice(0, 20)
+        });
+    } else {
+        console.log('[countAvailableQuizzes] Modalità Quiz (non Studio), nessun filtro aggiuntivo');
     }
     
-    return filtered.length;
+    const finalCount = filtered.length;
+    console.log('[countAvailableQuizzes] RISULTATO FINALE:', {
+        count: finalCount,
+        studyMode: studyMode,
+        excludeMode: excludeMode
+    });
+    
+    return finalCount;
 }
 
 // Aggiorna dinamicamente i pulsanti delle quantità in base alle categorie e modalità Studio
 function updateQuestionCountButtons() {
-    const selectedCategories = Array.from(categoryCheckboxes)
+    console.log('[updateQuestionCountButtons] INIZIO');
+    console.log('[updateQuestionCountButtons] Stato iniziale:', {
+        allQuizzesLength: allQuizzes.length,
+        categoryCheckboxesLength: categoryCheckboxes.length,
+        categoryCheckboxesType: Array.isArray(categoryCheckboxes) ? 'array' : typeof categoryCheckboxes,
+        categoryCheckboxesNodeList: categoryCheckboxes instanceof NodeList
+    });
+    
+    // Verifica se categoryCheckboxes è un NodeList o un array
+    const checkboxesArray = categoryCheckboxes instanceof NodeList 
+        ? Array.from(categoryCheckboxes)
+        : Array.isArray(categoryCheckboxes) 
+            ? categoryCheckboxes 
+            : [];
+    
+    console.log('[updateQuestionCountButtons] Checkbox trovati:', {
+        count: checkboxesArray.length,
+        checked: checkboxesArray.filter(cb => cb.checked).length,
+        allValues: checkboxesArray.map(cb => ({ value: cb.value, checked: cb.checked }))
+    });
+    
+    const selectedCategories = checkboxesArray
         .filter(cb => cb.checked)
         .map(cb => cb.value);
     
@@ -298,8 +398,21 @@ function updateQuestionCountButtons() {
         ? (excludeCompletedToggle.checked ? 'passed' : 'answered')
         : null;
     
+    console.log('[updateQuestionCountButtons] Impostazioni:', {
+        selectedCategories: selectedCategories,
+        selectedCategoriesCount: selectedCategories.length,
+        studyMode: studyMode,
+        excludeMode: excludeMode,
+        studyModeToggleExists: !!studyModeToggle,
+        studyModeToggleChecked: studyModeToggle?.checked,
+        excludeCompletedToggleExists: !!excludeCompletedToggle,
+        excludeCompletedToggleChecked: excludeCompletedToggle?.checked
+    });
+    
     // Conta i quiz disponibili considerando anche modalità Studio e esclusioni
     availableQuizCount = countAvailableQuizzes(selectedCategories, studyMode, excludeMode);
+    
+    console.log('[updateQuestionCountButtons] availableQuizCount:', availableQuizCount);
     
     // Valori standard dei pulsanti
     const standardButtons = [10, 20, 50, 100];
@@ -1086,6 +1199,14 @@ ipcRenderer.on('app-version', (event, version) => {
 
 // Richiedi la versione se non è ancora stata inviata
 ipcRenderer.send('request-app-version');
+
+// Funzione per aprire i DevTools (disponibile globalmente)
+window.openDevTools = function() {
+    ipcRenderer.send('open-devtools');
+};
+
+// Apri automaticamente i DevTools
+window.openDevTools();
 
 // Inizializzazione all'avvio
 async function init() {

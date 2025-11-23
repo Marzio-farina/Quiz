@@ -110,14 +110,22 @@ ipcMain.on('minimize-window', () => {
 ipcMain.on('get-quiz-data-path', (event) => {
     let dataPath;
     
-    // In produzione, usa process.resourcesPath (dove extraResources vengono copiati)
-    // In sviluppo, usa __dirname
-    if (process.resourcesPath) {
+    // Prova prima con __dirname (sviluppo: root del progetto)
+    const devPath = path.join(__dirname, 'quiz-data.json');
+    if (fs.existsSync(devPath)) {
+        dataPath = devPath;
+    } else if (process.resourcesPath) {
         // App distribuita: quiz-data.json è in resources/
-        dataPath = path.join(process.resourcesPath, 'quiz-data.json');
+        const prodPath = path.join(process.resourcesPath, 'quiz-data.json');
+        if (fs.existsSync(prodPath)) {
+            dataPath = prodPath;
+        } else {
+            // Fallback: usa __dirname anche se il file non esiste (per errori più chiari)
+            dataPath = devPath;
+        }
     } else {
-        // Sviluppo: quiz-data.json è nella root del progetto
-        dataPath = path.join(__dirname, 'quiz-data.json');
+        // Fallback: usa __dirname
+        dataPath = devPath;
     }
     
     event.returnValue = dataPath;
