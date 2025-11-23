@@ -881,48 +881,80 @@ function calculateCategoryStats() {
         }
     });
     
-    // Calcola le risposte corrette per categoria da tutti i quiz completati
-    if (stats.history && Array.isArray(stats.history)) {
-        let updated = false;
-        stats.history.forEach((quiz) => {
-            if (quiz.details && Array.isArray(quiz.details)) {
-                quiz.details.forEach((detail) => {
-                    let category = detail.category;
-                    
-                    // Se la categoria non è presente, cerca il quiz originale usando questionId
-                    if (!category && detail.questionId) {
-                        if (allQuizzes.length > 0) {
-                            const originalQuiz = allQuizzes.find(q => q.id === detail.questionId);
-                            if (originalQuiz && originalQuiz.category) {
-                                category = originalQuiz.category;
-                                // Aggiorna il dettaglio con la categoria trovata (per future chiamate)
-                                detail.category = category;
-                                updated = true;
-                            }
-                        }
-                    }
-                    
-                    // Conta solo le risposte corrette
-                    if (category && detail.isCorrect) {
-                        categoryStats[category] = categoryStats[category] || { correct: 0, total: 0 };
-                        categoryStats[category].correct++;
-                        
-                        // Conta anche per le sottocategorie (dal JSON)
-                        // Trova il quiz originale per ottenere la sottocategoria
-                        if (detail.questionId && allQuizzes.length > 0) {
-                            const originalQuiz = allQuizzes.find(q => q.id === detail.questionId);
-                            if (originalQuiz && originalQuiz.subcategory && categoryStats[originalQuiz.subcategory]) {
-                                categoryStats[originalQuiz.subcategory].correct++;
-                            }
-                        }
-                    }
-                });
+    // Calcola le risposte corrette per categoria usando studyModeStatus (stato finale)
+    // IMPORTANTE: Conta solo lo stato finale, non tutte le occorrenze nello storico
+    // Questo evita di contare più volte la stessa domanda se appare in più sessioni
+    try {
+        const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
+        
+        // Itera su tutti i quiz e controlla lo stato finale in studyModeStatus
+        allQuizzes.forEach(quiz => {
+            const questionId = Number(quiz.id);
+            if (isNaN(questionId)) return;
+            
+            // Leggi lo stato come stringa per consistenza
+            const idStr = String(questionId);
+            const finalStatus = studyStatus[idStr];
+            
+            // Conta solo se lo stato finale è 'passed' (superata)
+            if (finalStatus === 'passed') {
+                const category = quiz.category;
+                const subcategory = quiz.subcategory;
+                
+                // Conta per la categoria principale
+                if (category && categoryStats[category]) {
+                    categoryStats[category].correct++;
+                }
+                
+                // Conta anche per la sottocategoria se presente
+                if (subcategory && categoryStats[subcategory]) {
+                    categoryStats[subcategory].correct++;
+                }
             }
         });
-        
-        // Salva le statistiche aggiornate con le categorie recuperate solo se abbiamo fatto aggiornamenti
-        if (updated) {
-            localStorage.setItem('quizStatistics', JSON.stringify(stats));
+    } catch (error) {
+        console.error('Errore nel calcolo statistiche categoria da studyModeStatus:', error);
+        // Fallback: usa il metodo vecchio se studyModeStatus non è disponibile
+        if (stats.history && Array.isArray(stats.history)) {
+            // Usa solo le sessioni di studio (non quelle di quiz)
+            const studySessions = stats.history.filter(session => session.studyMode === 'study');
+            const questionIdsCounted = new Set(); // Evita doppi conteggi
+            
+            studySessions.forEach((quiz) => {
+                if (quiz.details && Array.isArray(quiz.details)) {
+                    quiz.details.forEach((detail) => {
+                        const questionId = Number(detail.questionId);
+                        if (isNaN(questionId)) return;
+                        
+                        // Conta solo se non è già stato contato e se è corretta
+                        if (!questionIdsCounted.has(questionId) && detail.isCorrect) {
+                            questionIdsCounted.add(questionId);
+                            
+                            let category = detail.category;
+                            
+                            // Se la categoria non è presente, cerca il quiz originale
+                            if (!category && allQuizzes.length > 0) {
+                                const originalQuiz = allQuizzes.find(q => q.id === questionId);
+                                if (originalQuiz && originalQuiz.category) {
+                                    category = originalQuiz.category;
+                                }
+                            }
+                            
+                            if (category && categoryStats[category]) {
+                                categoryStats[category].correct++;
+                            }
+                            
+                            // Conta anche per la sottocategoria
+                            if (allQuizzes.length > 0) {
+                                const originalQuiz = allQuizzes.find(q => q.id === questionId);
+                                if (originalQuiz && originalQuiz.subcategory && categoryStats[originalQuiz.subcategory]) {
+                                    categoryStats[originalQuiz.subcategory].correct++;
+                                }
+                            }
+                        }
+                    });
+                }
+            });
         }
     }
     
