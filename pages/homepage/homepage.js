@@ -21,7 +21,6 @@ function initTheme() {
         }
     } catch (error) {
         // Se localStorage non è disponibile, usa il tema di default
-        console.warn('Impossibile caricare il tema salvato:', error);
     }
 }
 
@@ -33,7 +32,6 @@ function toggleTheme() {
         const isDark = document.body.classList.contains('dark-theme');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
     } catch (error) {
-        console.warn('Impossibile salvare il tema:', error);
     }
 }
 
@@ -64,14 +62,12 @@ if (closeAppBtn) {
 
 // Carica i quiz dal JSON
 async function loadQuizData() {
-    console.log('[loadQuizData] INIZIO');
     try {
         let dataPath;
         
         // Prova a ottenere il percorso tramite IPC (più affidabile)
         try {
             dataPath = ipcRenderer.sendSync('get-quiz-data-path');
-            console.log('[loadQuizData] Percorso ottenuto via IPC:', dataPath);
         } catch (ipcError) {
             // Se IPC fallisce, usa il percorso diretto
             if (process.resourcesPath) {
@@ -81,35 +77,23 @@ async function loadQuizData() {
                 // Sviluppo: quiz-data.json è nella root del progetto
                 dataPath = path.join(__dirname, '..', '..', 'quiz-data.json');
             }
-            console.log('[loadQuizData] Percorso calcolato:', dataPath);
         }
         
         const rawData = fs.readFileSync(dataPath, 'utf8');
         const data = JSON.parse(rawData);
         allQuizzes = data.quizzes;
-        console.log('[loadQuizData] Quiz caricati:', {
-            count: allQuizzes.length,
-            firstQuizId: allQuizzes[0]?.id,
-            firstQuizCategory: allQuizzes[0]?.category
-        });
         return true;
     } catch (error) {
-        console.error('[loadQuizData] Errore primo tentativo:', error);
         // Se il primo percorso fallisce, prova l'altro come fallback
         // In sviluppo, __dirname è pages/homepage/, quindi devi salire di 2 livelli per raggiungere la root
         try {
             // Prova prima con il percorso relativo dalla root del progetto
             const fallbackPath = path.join(__dirname, '..', '..', 'quiz-data.json');
-            console.log('[loadQuizData] Tentativo fallback con percorso:', fallbackPath);
             const rawData = fs.readFileSync(fallbackPath, 'utf8');
             const data = JSON.parse(rawData);
             allQuizzes = data.quizzes;
-            console.log('[loadQuizData] Quiz caricati da fallback:', {
-                count: allQuizzes.length
-            });
             return true;
         } catch (fallbackError) {
-            console.error('[loadQuizData] Errore anche nel fallback:', fallbackError);
             return false;
         }
     }
@@ -131,15 +115,8 @@ function getPassedQuestionIds() {
             }
         });
         
-        console.log('[getPassedQuestionIds] Quiz superati (passed):', {
-            count: passedIds.size,
-            ids: Array.from(passedIds).slice(0, 20), // Mostra solo i primi 20 per non intasare
-            totalInStatus: Object.keys(studyStatus).length
-        });
-        
         return passedIds;
     } catch (error) {
-        console.error('Errore nel recupero dei quiz superati:', error);
         return new Set();
     }
 }
@@ -180,14 +157,8 @@ function getWrongQuestionIds() {
             }
         });
         
-        console.log('[getWrongQuestionIds] Quiz sbagliati (wrong):', {
-            count: wrongIds.size,
-            ids: Array.from(wrongIds).slice(0, 20) // Mostra solo i primi 20 per non intasare
-        });
-        
         return wrongIds;
     } catch (error) {
-        console.error('Errore nel recupero dei quiz sbagliati:', error);
         return new Set();
     }
 }
@@ -199,56 +170,39 @@ function getUnansweredQuestionIds(allQuizIds) {
     try {
         const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
         const unansweredIds = new Set();
-        let notInStatus = 0;
-        let explicitUnanswered = 0;
         
         // Aggiungi tutti i quiz che non sono presenti in studyModeStatus
         // O che hanno esplicitamente stato 'unanswered'
         allQuizIds.forEach(quizId => {
-            const idStr = String(quizId);
-            const status = studyStatus[idStr];
+            // Assicurati che quizId sia un numero valido
+            const numId = Number(quizId);
+            if (isNaN(numId)) return;
+            
+            // Usa la stringa per la ricerca in studyModeStatus (le chiavi sono stringhe)
+            const idStr = String(numId);
             
             // Se non è presente in studyModeStatus, è non risposto
-            if (!status) {
-                unansweredIds.add(quizId);
-                notInStatus++;
+            if (!studyStatus[idStr]) {
+                unansweredIds.add(numId);
             } 
             // Se ha esplicitamente stato 'unanswered', è non risposto
-            else if (status === 'unanswered') {
-                unansweredIds.add(quizId);
-                explicitUnanswered++;
+            else if (studyStatus[idStr] === 'unanswered') {
+                unansweredIds.add(numId);
             }
             // Se ha altri stati ('passed', 'wrong'), NON è non risposto, quindi non lo includiamo
         });
         
-        console.log('[getUnansweredQuestionIds] Quiz non risposti (unanswered):', {
-            count: unansweredIds.size,
-            notInStatus: notInStatus,
-            explicitUnanswered: explicitUnanswered,
-            totalQuizIds: allQuizIds.length,
-            ids: Array.from(unansweredIds).slice(0, 20) // Mostra solo i primi 20 per non intasare
-        });
-        
         return unansweredIds;
     } catch (error) {
-        console.error('[getUnansweredQuestionIds] Errore:', error);
+        console.error('Errore in getUnansweredQuestionIds:', error);
         return new Set();
     }
 }
 
 // Conta i quiz disponibili per le categorie selezionate, considerando anche modalità Studio e esclusioni
 function countAvailableQuizzes(selectedCategories, studyMode = null, excludeMode = null) {
-    console.log('[countAvailableQuizzes] INIZIO:', {
-        selectedCategories: selectedCategories,
-        selectedCategoriesCount: selectedCategories?.length || 0,
-        studyMode: studyMode,
-        excludeMode: excludeMode,
-        totalQuizzes: allQuizzes.length
-    });
-    
     // Se non ci sono categorie selezionate, restituisci 0
     if (!selectedCategories || selectedCategories.length === 0) {
-        console.log('[countAvailableQuizzes] Nessuna categoria selezionata, restituisco 0');
         return 0;
     }
     
@@ -277,48 +231,25 @@ function countAvailableQuizzes(selectedCategories, studyMode = null, excludeMode
         return false;
     });
     
-    console.log('[countAvailableQuizzes] Dopo filtro categorie:', {
-        filteredCount: filtered.length,
-        filteredIds: filtered.map(q => q.id).slice(0, 20) // Mostra solo i primi 20
-    });
-    
     // Filtra i quiz in base alla modalità Studio e alle esclusioni
     // IMPORTANTE: In modalità Studio, SEMPRE escludi i quiz superati (passed)
     if (studyMode === 'study') {
-        console.log('[countAvailableQuizzes] Modalità Studio attiva, applicando filtri...');
         
         const passedIds = getPassedQuestionIds();
-        const allQuizIds = filtered.map(quiz => Number(quiz.id)).filter(id => !isNaN(id));
         const wrongIds = getWrongQuestionIds();
+        
+        // IMPORTANTE: Per getUnansweredQuestionIds, dobbiamo passare TUTTI gli ID dei quiz filtrati per categoria
+        // La funzione controllerà se sono presenti in studyModeStatus
+        const allQuizIds = filtered.map(quiz => {
+            const id = Number(quiz.id);
+            return isNaN(id) ? null : id;
+        }).filter(id => id !== null);
+        
         const unansweredIds = getUnansweredQuestionIds(allQuizIds);
-        
-        // Calcola quanti ID di ogni tipo sono nelle categorie selezionate
-        const passedInCategories = allQuizIds.filter(id => passedIds.has(id));
-        const wrongInCategories = allQuizIds.filter(id => wrongIds.has(id));
-        const unansweredInCategories = allQuizIds.filter(id => unansweredIds.has(id));
-        
-        console.log('[countAvailableQuizzes] Set di ID:', {
-            passedIdsCount: passedIds.size,
-            wrongIdsCount: wrongIds.size,
-            unansweredIdsCount: unansweredIds.size,
-            allQuizIdsCount: allQuizIds.length,
-            passedInCategoriesCount: passedInCategories.length,
-            wrongInCategoriesCount: wrongInCategories.length,
-            unansweredInCategoriesCount: unansweredInCategories.length,
-            passedIdsSample: Array.from(passedIds).slice(0, 10),
-            wrongIdsSample: Array.from(wrongIds).slice(0, 10),
-            unansweredIdsSample: Array.from(unansweredIds).slice(0, 10),
-            passedInCategoriesSample: passedInCategories.slice(0, 10),
-            wrongInCategoriesSample: wrongInCategories.slice(0, 10),
-            unansweredInCategoriesSample: unansweredInCategories.slice(0, 10)
-        });
-        
-        const beforeFilterCount = filtered.length;
         
         if (excludeMode === 'answered') {
             // Opzione "Solo sbagliati": mostra solo i quiz sbagliati (wrong)
             // Escludi: superati (passed) + non risposti (unanswered)
-            console.log('[countAvailableQuizzes] Opzione "Solo sbagliati": mostra solo wrong');
             filtered = filtered.filter(quiz => {
                 const quizId = Number(quiz.id);
                 if (isNaN(quizId)) return false;
@@ -331,7 +262,6 @@ function countAvailableQuizzes(selectedCategories, studyMode = null, excludeMode
         } else {
             // Opzione "Tutti da fare" o default: mostra quiz sbagliati (wrong) + non risposti (unanswered)
             // Escludi solo: superati (passed)
-            console.log('[countAvailableQuizzes] Opzione "Tutti da fare" o default: mostra wrong + unanswered');
             filtered = filtered.filter(quiz => {
                 const quizId = Number(quiz.id);
                 if (isNaN(quizId)) return false;
@@ -345,48 +275,19 @@ function countAvailableQuizzes(selectedCategories, studyMode = null, excludeMode
             });
         }
         
-        console.log('[countAvailableQuizzes] Dopo filtro Studio:', {
-            beforeFilter: beforeFilterCount,
-            afterFilter: filtered.length,
-            excluded: beforeFilterCount - filtered.length,
-            finalIds: filtered.map(q => q.id).slice(0, 20)
-        });
-    } else {
-        console.log('[countAvailableQuizzes] Modalità Quiz (non Studio), nessun filtro aggiuntivo');
     }
     
-    const finalCount = filtered.length;
-    console.log('[countAvailableQuizzes] RISULTATO FINALE:', {
-        count: finalCount,
-        studyMode: studyMode,
-        excludeMode: excludeMode
-    });
-    
-    return finalCount;
+    return filtered.length;
 }
 
 // Aggiorna dinamicamente i pulsanti delle quantità in base alle categorie e modalità Studio
 function updateQuestionCountButtons() {
-    console.log('[updateQuestionCountButtons] INIZIO');
-    console.log('[updateQuestionCountButtons] Stato iniziale:', {
-        allQuizzesLength: allQuizzes.length,
-        categoryCheckboxesLength: categoryCheckboxes.length,
-        categoryCheckboxesType: Array.isArray(categoryCheckboxes) ? 'array' : typeof categoryCheckboxes,
-        categoryCheckboxesNodeList: categoryCheckboxes instanceof NodeList
-    });
-    
     // Verifica se categoryCheckboxes è un NodeList o un array
     const checkboxesArray = categoryCheckboxes instanceof NodeList 
         ? Array.from(categoryCheckboxes)
         : Array.isArray(categoryCheckboxes) 
             ? categoryCheckboxes 
             : [];
-    
-    console.log('[updateQuestionCountButtons] Checkbox trovati:', {
-        count: checkboxesArray.length,
-        checked: checkboxesArray.filter(cb => cb.checked).length,
-        allValues: checkboxesArray.map(cb => ({ value: cb.value, checked: cb.checked }))
-    });
     
     const selectedCategories = checkboxesArray
         .filter(cb => cb.checked)
@@ -398,21 +299,8 @@ function updateQuestionCountButtons() {
         ? (excludeCompletedToggle.checked ? 'passed' : 'answered')
         : null;
     
-    console.log('[updateQuestionCountButtons] Impostazioni:', {
-        selectedCategories: selectedCategories,
-        selectedCategoriesCount: selectedCategories.length,
-        studyMode: studyMode,
-        excludeMode: excludeMode,
-        studyModeToggleExists: !!studyModeToggle,
-        studyModeToggleChecked: studyModeToggle?.checked,
-        excludeCompletedToggleExists: !!excludeCompletedToggle,
-        excludeCompletedToggleChecked: excludeCompletedToggle?.checked
-    });
-    
     // Conta i quiz disponibili considerando anche modalità Studio e esclusioni
     availableQuizCount = countAvailableQuizzes(selectedCategories, studyMode, excludeMode);
-    
-    console.log('[updateQuestionCountButtons] availableQuizCount:', availableQuizCount);
     
     // Valori standard dei pulsanti
     const standardButtons = [10, 20, 50, 100];
@@ -1048,7 +936,6 @@ function calculateCategoryStats() {
             }
         });
     } catch (error) {
-        console.error('Errore nel calcolo statistiche categoria da studyModeStatus:', error);
         // Fallback: usa il metodo vecchio se studyModeStatus non è disponibile
         if (stats.history && Array.isArray(stats.history)) {
             // Usa solo le sessioni di studio (non quelle di quiz)
@@ -1222,13 +1109,6 @@ ipcRenderer.on('app-version', (event, version) => {
 // Richiedi la versione se non è ancora stata inviata
 ipcRenderer.send('request-app-version');
 
-// Funzione per aprire i DevTools (disponibile globalmente)
-window.openDevTools = function() {
-    ipcRenderer.send('open-devtools');
-};
-
-// Apri automaticamente i DevTools
-window.openDevTools();
 
 // Inizializzazione all'avvio
 async function init() {
