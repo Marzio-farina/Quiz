@@ -48,6 +48,30 @@
       {
         "from": "quiz-data.json",
         "to": "quiz-data.json"
+      },
+      {
+        "from": "new-quiz-data.json",
+        "to": "new-quiz-data.json"
+      },
+      {
+        "from": "modello3-quiz-data.json",
+        "to": "modello3-quiz-data.json"
+      },
+      {
+        "from": "modello4-quiz-data.json",
+        "to": "modello4-quiz-data.json"
+      },
+      {
+        "from": "modello5-quiz-data.json",
+        "to": "modello5-quiz-data.json"
+      },
+      {
+        "from": "modello6-quiz-data.json",
+        "to": "modello6-quiz-data.json"
+      },
+      {
+        "from": "modello7-quiz-data.json",
+        "to": "modello7-quiz-data.json"
       }
     ],
     "win": {

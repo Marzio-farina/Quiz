@@ -75,6 +75,11 @@ function createWindow() {
         setTimeout(() => {
             sendAppVersion();
         }, 100);
+        
+        // Apri automaticamente DevTools in modalità sviluppo
+        if (process.argv.includes('--dev') || !process.resourcesPath) {
+            mainWindow.webContents.openDevTools();
+        }
     });
 
     // IPC handler per richiedere la versione

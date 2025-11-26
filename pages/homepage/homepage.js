@@ -60,42 +60,105 @@ if (closeAppBtn) {
     });
 }
 
-// Carica i quiz dal JSON
+// Carica i quiz da tutti i file JSON disponibili
 async function loadQuizData() {
     try {
-        let dataPath;
+        // Determina la directory base per i file JSON
+        let baseDir;
         
         // Prova a ottenere il percorso tramite IPC (più affidabile)
         try {
-            dataPath = ipcRenderer.sendSync('get-quiz-data-path');
+            const dataPath = ipcRenderer.sendSync('get-quiz-data-path');
+            // Estrai la directory base dal percorso (rimuovi il nome del file)
+            baseDir = path.dirname(dataPath);
+            console.log(`📁 Directory base da IPC: ${baseDir}`);
         } catch (ipcError) {
             // Se IPC fallisce, usa il percorso diretto
             if (process.resourcesPath) {
-                // App distribuita: quiz-data.json è in resources/
-                dataPath = path.join(process.resourcesPath, 'quiz-data.json');
+                // App distribuita: i file JSON sono in resources/
+                baseDir = process.resourcesPath;
+                console.log(`📁 Directory base (produzione): ${baseDir}`);
             } else {
-                // Sviluppo: quiz-data.json è nella root del progetto
-                dataPath = path.join(__dirname, '..', '..', 'quiz-data.json');
+                // Sviluppo: i file JSON sono nella root del progetto
+                baseDir = path.join(__dirname, '..', '..');
+                console.log(`📁 Directory base (sviluppo): ${baseDir}`);
             }
         }
         
-        const rawData = fs.readFileSync(dataPath, 'utf8');
-        const data = JSON.parse(rawData);
-        allQuizzes = data.quizzes;
-        return true;
-    } catch (error) {
-        // Se il primo percorso fallisce, prova l'altro come fallback
-        // In sviluppo, __dirname è pages/homepage/, quindi devi salire di 2 livelli per raggiungere la root
-        try {
-            // Prova prima con il percorso relativo dalla root del progetto
-            const fallbackPath = path.join(__dirname, '..', '..', 'quiz-data.json');
-            const rawData = fs.readFileSync(fallbackPath, 'utf8');
-            const data = JSON.parse(rawData);
-            allQuizzes = data.quizzes;
-            return true;
-        } catch (fallbackError) {
+        // Lista di tutti i file JSON da caricare
+        const jsonFiles = [
+            'quiz-data.json',
+            'new-quiz-data.json',
+            'modello3-quiz-data.json',
+            'modello4-quiz-data.json',
+            'modello5-quiz-data.json',
+            'modello6-quiz-data.json',
+            'modello7-quiz-data.json'
+        ];
+        
+        // Carica tutti i file JSON e unisci i quiz
+        allQuizzes = [];
+        let loadedCount = 0;
+        
+        console.log(`\n📚 Inizio caricamento quiz da ${jsonFiles.length} file...`);
+        
+        for (const fileName of jsonFiles) {
+            try {
+                const filePath = path.join(baseDir, fileName);
+                console.log(`🔍 Tentativo di caricare: ${filePath}`);
+                
+                if (fs.existsSync(filePath)) {
+                    const rawData = fs.readFileSync(filePath, 'utf8');
+                    const data = JSON.parse(rawData);
+                    if (data.quizzes && Array.isArray(data.quizzes)) {
+                        const previousCount = allQuizzes.length;
+                        allQuizzes = allQuizzes.concat(data.quizzes);
+                        loadedCount++;
+                        console.log(`✅ Caricato ${fileName}: ${data.quizzes.length} quiz (totale: ${allQuizzes.length})`);
+                    } else {
+                        console.warn(`⚠️  ${fileName}: struttura dati non valida (manca 'quizzes' o non è un array)`);
+                    }
+                } else {
+                    console.log(`⚠️  File non trovato: ${filePath}`);
+                }
+            } catch (fileError) {
+                console.error(`❌ Errore nel caricamento di ${fileName}:`, fileError.message);
+                console.error(`   Stack:`, fileError.stack);
+                // Continua con gli altri file anche se uno fallisce
+            }
+        }
+        
+        if (allQuizzes.length === 0) {
+            console.error('❌ Nessun quiz caricato da nessun file JSON');
             return false;
         }
+        
+        console.log(`\n✅ CARICAMENTO COMPLETATO:`);
+        console.log(`   - File caricati: ${loadedCount}/${jsonFiles.length}`);
+        console.log(`   - Totale quiz: ${allQuizzes.length}`);
+        console.log(`   - Directory: ${baseDir}\n`);
+        
+        return true;
+    } catch (error) {
+        console.error('❌ Errore generale nel caricamento dei quiz:', error);
+        console.error('   Stack:', error.stack);
+        // Fallback: prova a caricare almeno quiz-data.json
+        try {
+            const fallbackPath = path.join(__dirname, '..', '..', 'quiz-data.json');
+            console.log(`🔄 Tentativo fallback: ${fallbackPath}`);
+            if (fs.existsSync(fallbackPath)) {
+                const rawData = fs.readFileSync(fallbackPath, 'utf8');
+                const data = JSON.parse(rawData);
+                allQuizzes = data.quizzes || [];
+                console.log(`⚠️  Caricato solo quiz-data.json come fallback: ${allQuizzes.length} quiz`);
+                return allQuizzes.length > 0;
+            } else {
+                console.error(`❌ Anche il file fallback non esiste: ${fallbackPath}`);
+            }
+        } catch (fallbackError) {
+            console.error('❌ Errore anche nel fallback:', fallbackError);
+        }
+        return false;
     }
 }
 
@@ -872,27 +935,15 @@ function calculateCategoryStats() {
         }
     });
     
-    // Se allQuizzes non è ancora caricato, caricalo ora
+    // Se allQuizzes non è ancora caricato, ritorna statistiche vuote
+    // (allQuizzes dovrebbe essere già caricato da loadQuizData() prima di chiamare questa funzione)
     if (allQuizzes.length === 0) {
-        try {
-            // Prova prima con process.cwd() che è più affidabile nel renderer process
-            let dataPath = path.join(process.cwd(), 'quiz-data.json');
-            let rawData;
-            try {
-                rawData = fs.readFileSync(dataPath, 'utf8');
-            } catch (e) {
-                // Se fallisce, prova con __dirname
-                dataPath = path.join(__dirname, '..', '..', 'quiz-data.json');
-                rawData = fs.readFileSync(dataPath, 'utf8');
-            }
-            const data = JSON.parse(rawData);
-            allQuizzes = data.quizzes;
-        } catch (error) {
-            return categoryStats; // Ritorna statistiche vuote se non riesce a caricare i quiz
-        }
+        console.warn('⚠️  allQuizzes è vuoto in calculateCategoryStats(). Assicurati che loadQuizData() sia stato chiamato prima.');
+        return categoryStats; // Ritorna statistiche vuote se i quiz non sono ancora caricati
     }
     
-    // Calcola il totale di quiz disponibili per ogni categoria e sottocategoria nel file quiz-data.json
+    // Calcola il totale di quiz disponibili per ogni categoria e sottocategoria
+    // (ora include tutti i quiz da tutti i file JSON, senza duplicati)
     allQuizzes.forEach(quiz => {
         if (quiz.category && categoryStats[quiz.category]) {
             categoryStats[quiz.category].total++;
