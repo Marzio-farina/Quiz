@@ -1,0 +1,1797 @@
+{
+  "source": "ssfo-quiz-modello6.pdf",
+  "totalModello6Questions": 69,
+  "totalExistingQuestions": 2990,
+  "totalNewQuestions": 70,
+  "totalModello3Questions": 90,
+  "totalModello4Questions": 54,
+  "totalModello5Questions": 71,
+  "duplicates": [
+    {
+      "modello6Id": 4,
+      "modello6Question": "La calcineurina è il target di quale farmaco:",
+      "existingMatches": [
+        {
+          "id": 2,
+          "question": "La calcineurina è il target di quale farmaco:",
+          "category": "FARMACOLOGIA",
+          "source": "new-quiz-data.json"
+        }
+      ]
+    },
+    {
+      "modello6Id": 64,
+      "modello6Question": "Tra i seguenti corticosteroidi; la più potente attività sodio-ritentiva è svolta da:",
+      "existingMatches": [
+        {
+          "id": 13,
+          "question": "Tra i seguenti corticosteroidi, la più potente attività sodio-ritentiva è svolta da:",
+          "category": "FARMACOLOGIA",
+          "source": "new-quiz-data.json"
+        }
+      ]
+    },
+    {
+      "modello6Id": 65,
+      "modello6Question": "Gli inibitori non selettivi della ricaptazione della noradrenalina e della serotonina:",
+      "existingMatches": [
+        {
+          "id": 39,
+          "question": "Gli inibitori non selettivi della ricaptazione della noradrenalina e della serotonina:",
+          "category": "FARMACOLOGIA",
+          "source": "new-quiz-data.json"
+        }
+      ]
+    },
+    {
+      "modello6Id": 67,
+      "modello6Question": "Il nucleo biciclico dell'acido clavulanico è:",
+      "existingMatches": [
+        {
+          "id": 33,
+          "question": "Il nucleo biciclico dell’acido clavulanico è:",
+          "category": "CHIMICA_FARMACEUTICA",
+          "source": "new-quiz-data.json"
+        }
+      ]
+    }
+  ],
+  "unique": [
+    {
+      "id": 1,
+      "question": "Quale è il recettore per l'azione dei farmaci antinfiammatori non steroidei (FANS)?:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "lipossigenasi"
+        },
+        {
+          "letter": "B",
+          "text": "citocromo P450 reduttasi"
+        },
+        {
+          "letter": "C",
+          "text": "fosfolipasi A2"
+        },
+        {
+          "letter": "D",
+          "text": "NFkB"
+        },
+        {
+          "letter": "E",
+          "text": "Nessuna delle risposte"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "L'AMP ciclico è: innescato da monossido di azoto",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "costituito da adenina; D-ribosio ed acido fosforico"
+        },
+        {
+          "letter": "B",
+          "text": "inibisce la protein chinasi A (PKA)"
+        },
+        {
+          "letter": "C",
+          "text": "attiva la protein chinasi C"
+        },
+        {
+          "letter": "D",
+          "text": "è inibito dall'adenilato ciclasi"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "L'azatioprina:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "inibizione della timidilato sintetatasi"
+        },
+        {
+          "letter": "B",
+          "text": "inibizione della sintesi delle pirimidine"
+        },
+        {
+          "letter": "C",
+          "text": "legame covalente al DNA; RNA e proteine"
+        },
+        {
+          "letter": "D",
+          "text": "è un profarmaco"
+        },
+        {
+          "letter": "E",
+          "text": "inibizione della inosino-monofosfato deidrogenasi"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "Quale dei seguenti corticosteroidi ha una emivita breve?:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "cortisolo"
+        },
+        {
+          "letter": "B",
+          "text": "desametasone"
+        },
+        {
+          "letter": "C",
+          "text": "prednisone"
+        },
+        {
+          "letter": "D",
+          "text": "metilprednisolone"
+        },
+        {
+          "letter": "E",
+          "text": "betametasone"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "Nel trattamento dell'apnea nei neonati prematuri la caffeina viene somministrata:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "per via inalatoria"
+        },
+        {
+          "letter": "B",
+          "text": "per via endovenosa per via intramuscolare"
+        },
+        {
+          "letter": "C",
+          "text": "per via rettale"
+        },
+        {
+          "letter": "D",
+          "text": "per via sottocutanea"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "Il beclometasone dipropionato è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "non è un profarmaco"
+        },
+        {
+          "letter": "B",
+          "text": "non è un glucocorticoide"
+        },
+        {
+          "letter": "C",
+          "text": "ha attività mineralcorticoide"
+        },
+        {
+          "letter": "D",
+          "text": "è somministrato per via endovenosa"
+        },
+        {
+          "letter": "E",
+          "text": "è somministrato per via inalatoria"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "Il clembuterolo è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un antagonista sui recettori B2-adrenergici"
+        },
+        {
+          "letter": "B",
+          "text": "riduce l'AMP ciclico"
+        },
+        {
+          "letter": "C",
+          "text": "inibisce la PKA"
+        },
+        {
+          "letter": "D",
+          "text": "inibisce la fosforilazione della miosina"
+        },
+        {
+          "letter": "E",
+          "text": "aumenta le concentrazioni di calcio"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "Roflumilast è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Un inibitore selettivo della fosfodiesterasi 2"
+        },
+        {
+          "letter": "B",
+          "text": "Un inibitore selettivo della fosfodiesterasi 4"
+        },
+        {
+          "letter": "C",
+          "text": "Un inibitore selettivo della fosfodiesterasi 5"
+        },
+        {
+          "letter": "D",
+          "text": "Un inibitore selettivo della fosfodiesterasi 3"
+        },
+        {
+          "letter": "E",
+          "text": "Un inibitore selettivo della fosfodiesterasi 1"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "Omalizumab, utilizzato nella terapia biologica dell'asma allergica grave, è un anticorpo monoclonale:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "anti-IgG"
+        },
+        {
+          "letter": "B",
+          "text": "anti-IgA"
+        },
+        {
+          "letter": "C",
+          "text": "anti-IgE"
+        },
+        {
+          "letter": "D",
+          "text": "anti-IgM"
+        },
+        {
+          "letter": "E",
+          "text": "nessuna delle risposte è corretta"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "Indicare il tipo di recettore con il quale si lega il esomeprazolo:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "recettore di membrana accoppiato ad una proteina Gi"
+        },
+        {
+          "letter": "B",
+          "text": "recettore citoplasmatico"
+        },
+        {
+          "letter": "C",
+          "text": "pompa protonica K+/H+ -ATPasi"
+        },
+        {
+          "letter": "D",
+          "text": "canale ionico per il Ca++"
+        },
+        {
+          "letter": "E",
+          "text": "canale ionico per il Na+"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "Le seguenti affermazioni sull'esomeprazolo sono tutte corrette tranne:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "è IR-enantiomero dell'omeprazolo"
+        },
+        {
+          "letter": "B",
+          "text": "è metabolizzato nel fegato"
+        },
+        {
+          "letter": "C",
+          "text": "è impiegato nel trattamento dell'ulcera gastrica"
+        },
+        {
+          "letter": "D",
+          "text": "inibisce la pompa protonica gastrica"
+        },
+        {
+          "letter": "E",
+          "text": "è impiegato nella malattia da reflusso gastroesofageo"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "Quale tra questi è un inibitore della pompa protonica?:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "fluconazolo"
+        },
+        {
+          "letter": "B",
+          "text": "cimetidina"
+        },
+        {
+          "letter": "C",
+          "text": "pantoprazolo"
+        },
+        {
+          "letter": "D",
+          "text": "metildopa"
+        },
+        {
+          "letter": "E",
+          "text": "atropina"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "Quale delle seguenti affermazioni sulla betaistina è falsa?:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "agisce sui recettori H2"
+        },
+        {
+          "letter": "B",
+          "text": "trova indicazione nella terapia della vertigine"
+        },
+        {
+          "letter": "C",
+          "text": "agisce sui recettori H3"
+        },
+        {
+          "letter": "D",
+          "text": "determina vasodilatazione locale Eviene assunta per via orale"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "La cimetidina; quale affermazione è falsa:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "attiva il citocromo P450"
+        },
+        {
+          "letter": "B",
+          "text": "si usa per trattare ulcere duodenali"
+        },
+        {
+          "letter": "C",
+          "text": "si usa per trattare la malattia da reflusso gastroesofageo"
+        },
+        {
+          "letter": "D",
+          "text": "presenta nella sua struttura un atomo di zolfo"
+        },
+        {
+          "letter": "E",
+          "text": "antagonista del recettore istaminico H2"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "essere somministrata per via?",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "sottocutanea"
+        },
+        {
+          "letter": "B",
+          "text": "inalatoria"
+        },
+        {
+          "letter": "C",
+          "text": "intramuscolo"
+        },
+        {
+          "letter": "D",
+          "text": "endovenosa"
+        },
+        {
+          "letter": "E",
+          "text": "tutte le risposte sono corrette"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "La finasteride è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "utilizzata per il trattamento del cancro alla prostata"
+        },
+        {
+          "letter": "B",
+          "text": "un diuretico un analogo del GN-RH"
+        },
+        {
+          "letter": "C",
+          "text": "un inibitore delle protein chinasi Eè un composto di natura peptidica"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "Quale tra questi non è un effetto collaterale dei corticosteroidi:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "ritenzione idrica"
+        },
+        {
+          "letter": "B",
+          "text": "aumento del peso"
+        },
+        {
+          "letter": "C",
+          "text": "ipertensione"
+        },
+        {
+          "letter": "D",
+          "text": "ipoglicemia"
+        },
+        {
+          "letter": "E",
+          "text": "edema"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "Indicare quale fra le seguenti NON è una sulfanilurea di prima generazione:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "tolazamide"
+        },
+        {
+          "letter": "B",
+          "text": "acetoesamide"
+        },
+        {
+          "letter": "C",
+          "text": "clorpropamide"
+        },
+        {
+          "letter": "D",
+          "text": "glipizide"
+        },
+        {
+          "letter": "E",
+          "text": "tolbutamide"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "L'effetto tossico principale delle statine è rappresentato da:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "gravi aritmie cardiache"
+        },
+        {
+          "letter": "B",
+          "text": "epatotossicità"
+        },
+        {
+          "letter": "C",
+          "text": "calcoli biliari"
+        },
+        {
+          "letter": "D",
+          "text": "euforia"
+        },
+        {
+          "letter": "E",
+          "text": "pancreatite acuta"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "question": "Indicare la risposta corretta. Il cotrimossazolo è un:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "una combinazione di sulfasalazina e trimetoprim"
+        },
+        {
+          "letter": "B",
+          "text": "una combinazione di sulfametossazolo e trimetoprim"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "question": "una combinazione di sulfatiazolo e trimetoprim",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "una combinazione di sulfanilamide e trimetoprim"
+        },
+        {
+          "letter": "B",
+          "text": "una combinazione di sulfaguanidina e trimetoprim"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "question": "Il tiabendazolo è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un composto eterociclico aromatico"
+        },
+        {
+          "letter": "B",
+          "text": "usato come fungicida usato come additivo alimentare"
+        },
+        {
+          "letter": "C",
+          "text": "usato come antiparassitario"
+        },
+        {
+          "letter": "D",
+          "text": "tutte le indicazioni fornite sono corrette Quale; tra"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "question": "seguenti farmaci; NON determina un'inibizione irreversibile delle beta-lattamasi?",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "sulbactam"
+        },
+        {
+          "letter": "B",
+          "text": "acido clavulanico"
+        },
+        {
+          "letter": "C",
+          "text": "tazobactam"
+        },
+        {
+          "letter": "D",
+          "text": "carbapenam"
+        },
+        {
+          "letter": "E",
+          "text": "nessuna delle indicazioni fornite è corretta"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "question": "fluorochinoloni:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "inibiscono le topoisomerasi batteriche"
+        },
+        {
+          "letter": "B",
+          "text": "hanno attività concentrazione-dipendente con marcato effetto post-antibiotic"
+        },
+        {
+          "letter": "C",
+          "text": "possono antagonizzare il GABA sul recettore di tipo A"
+        },
+        {
+          "letter": "D",
+          "text": "innescano fenomeni di resistenza per competenza batterica"
+        },
+        {
+          "letter": "E",
+          "text": "tutte le indicazioni fornite sono corrette"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "question": "La vancomicina:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "è un glicopeptide biiciclico"
+        },
+        {
+          "letter": "B",
+          "text": "è un glicopeptide triciclico"
+        },
+        {
+          "letter": "C",
+          "text": "lega il dipeptide D-Asp-D-Asp"
+        },
+        {
+          "letter": "D",
+          "text": "lega il dipeptide D-Arg-D-Arg"
+        },
+        {
+          "letter": "E",
+          "text": "lega il dipeptide D-Asn-D-Asn"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "question": "Gli esteri del sorbitano (Span)",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Hanno approssimativamente lo stesso valore di HLB dei tensioattivi anionici"
+        },
+        {
+          "letter": "B",
+          "text": "Hanno valore di HLB minore di quello dei polisorbati (Tween)"
+        },
+        {
+          "letter": "C",
+          "text": "Sono adatti come detergenti"
+        },
+        {
+          "letter": "D",
+          "text": "Sono adatti per stabilizzare emulsioni OIA"
+        },
+        {
+          "letter": "E",
+          "text": "Sono stabili ad elevato valore di pH"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "question": "Quale dato; tra",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Durezza"
+        },
+        {
+          "letter": "B",
+          "text": "Peso specifico"
+        },
+        {
+          "letter": "C",
+          "text": "Punto di fusione"
+        },
+        {
+          "letter": "D",
+          "text": "Forma cristallina"
+        },
+        {
+          "letter": "E",
+          "text": "nessuna delle precedenti"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "question": "Due soluzioni acquose del medesimo soluto presentano valori diversi del punto di ebollizione. Se la prima",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Isosmotica"
+        },
+        {
+          "letter": "B",
+          "text": "Isotonica"
+        },
+        {
+          "letter": "C",
+          "text": "ipertonica"
+        },
+        {
+          "letter": "D",
+          "text": "a concentrazione minore di soluto Ea identica concentrazione di soluto"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "question": "Quali delle seguenti soluzioni è isotonica con il sangue:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "una soluzione di NaCl al 59"
+        },
+        {
+          "letter": "B",
+          "text": "una soluzione glucosata al 5% una soluzione glucosata allo 0,9%"
+        },
+        {
+          "letter": "C",
+          "text": "una soluzione di NaCl al 9%"
+        },
+        {
+          "letter": "D",
+          "text": "nessuna delle precedenti"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "question": "Quale dei seguenti tensioattivi è anfiionico:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Monostearato di glicerile"
+        },
+        {
+          "letter": "B",
+          "text": "Fosfatidilcolina"
+        },
+        {
+          "letter": "C",
+          "text": "Cetrimide"
+        },
+        {
+          "letter": "D",
+          "text": "Cetilsolfato di sodio"
+        },
+        {
+          "letter": "E",
+          "text": "Polietilenglicole 400 monostearato"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "question": "processo di diffusione passiva attraverso una membrana avviene:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "senza utilizzo di energia"
+        },
+        {
+          "letter": "B",
+          "text": "Attraverso pori della membrana"
+        },
+        {
+          "letter": "C",
+          "text": "contro gradiente di concentrazione"
+        },
+        {
+          "letter": "D",
+          "text": "Contro un gradiente elettrico"
+        },
+        {
+          "letter": "E",
+          "text": "Per catalisi enzimatica"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "question": "Quale caratteristica di un farmaco facilita lattraversamento della barriera emato-encefalica:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "una idrofilia troppo bassa"
+        },
+        {
+          "letter": "B",
+          "text": "una lipofilia troppo elevata"
+        },
+        {
+          "letter": "C",
+          "text": "lassenza di una carica permanente"
+        },
+        {
+          "letter": "D",
+          "text": "la scarsa tendenza a dare legami idrogeno"
+        },
+        {
+          "letter": "E",
+          "text": "più di una delle caratteristiche indicate"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "question": "Nella preparazione di forme orali solide sono generalmente aggiunte sostanze \"diluenti\" . Quale tra le sostanze sotto indicate è un diluente:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Biossido di titanio"
+        },
+        {
+          "letter": "B",
+          "text": "Lattosio"
+        },
+        {
+          "letter": "C",
+          "text": "saccarosio"
+        },
+        {
+          "letter": "D",
+          "text": "Gelatina"
+        },
+        {
+          "letter": "E",
+          "text": "Tutte le sostanze indicate"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "question": "Le proprietà \"barriera\" delle mucose possono essere alterate attraverso luso di opportuni mezzi chimici (enhancers) . Quale tra",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Tensioattivi"
+        },
+        {
+          "letter": "B",
+          "text": "Modificatori reologici"
+        },
+        {
+          "letter": "C",
+          "text": "Modificatori della partizione"
+        },
+        {
+          "letter": "D",
+          "text": "Elettroporazione"
+        },
+        {
+          "letter": "E",
+          "text": "Modificatori dellattività termodinamica"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "question": "Nella formulazione di preparati mucoadesivi vengono aggiunte sostanze capaci di interagire con le mucine. Quale tra quelle sotto indicate è una sostanza mucoadesiva?:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "biossido di titanio"
+        },
+        {
+          "letter": "B",
+          "text": "bentonite"
+        },
+        {
+          "letter": "C",
+          "text": "lattosio"
+        },
+        {
+          "letter": "D",
+          "text": "carbone animale"
+        },
+        {
+          "letter": "E",
+          "text": "sodio carbossimetilcellulosa"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "question": "Un trigliceride è:",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un composto ciclico formato da tre molecole di glicerina"
+        },
+        {
+          "letter": "B",
+          "text": "un estere della glicerolo con tre acidi grassi"
+        },
+        {
+          "letter": "C",
+          "text": "un etere della glicerina con tre acidi grassi"
+        },
+        {
+          "letter": "D",
+          "text": "un estere della glicerina con tre alcoli grassi Eun etere della glicerina con tre alcoli grassi"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "question": "La problematica di adesione alla matrice delle comprimitrici nella fase di compressione si limita con:",
+      "category": "ALTRO",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "aggiunta di un glidante"
+        },
+        {
+          "letter": "B",
+          "text": "aggiunta di un tensioattivo"
+        },
+        {
+          "letter": "C",
+          "text": "aggiunta di un disgregante"
+        },
+        {
+          "letter": "D",
+          "text": "aggiunta un legante"
+        },
+        {
+          "letter": "E",
+          "text": "nessuna delle precedenti"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "question": "La percolazione in ambito tecnologico farmaceutico è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un metodo di allestimento per preparazioni oftalmiche"
+        },
+        {
+          "letter": "B",
+          "text": "un metodo di perforazione dei rivestimenti filmogeni"
+        },
+        {
+          "letter": "C",
+          "text": "processo di estrazione con il quale una polverizzata 0 granulata è privata dei suoi costituenti solubili dal solvente di estrazione"
+        },
+        {
+          "letter": "D",
+          "text": "un metodo innovativo per il riempimento delle capsule"
+        },
+        {
+          "letter": "E",
+          "text": "un metodo analitico per controllare il titolo di principio attivo nelle compresse"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "question": "Cosa si intende per PEG 60?:",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "È un polietilenglicole con punto di fusione 60 C"
+        },
+        {
+          "letter": "B",
+          "text": "W un polietilenglucoside con punto di fusione 60 C È un polietilenglicole con peso molecolare 60 Dalton"
+        },
+        {
+          "letter": "C",
+          "text": "un polietilenglucoside con peso molecolare6o Dalton"
+        },
+        {
+          "letter": "D",
+          "text": "È un polietilenglicole con una catena carboniosa di 6Ounità"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "question": "Qual è la funzione del crospovidone nelle compresse?:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "È un legante nella granulazione ad umido"
+        },
+        {
+          "letter": "B",
+          "text": "È un agente impiegato nel rivestimento gastroresistente È un lubrificante"
+        },
+        {
+          "letter": "C",
+          "text": "È un disgregante"
+        },
+        {
+          "letter": "D",
+          "text": "È utilizzato per modificare il rilascio del principio attivo"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "question": "Cosa non possono contenere le capsule di gelatina rigida?:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Minicompresse"
+        },
+        {
+          "letter": "B",
+          "text": "Polveri micronizzate droga"
+        },
+        {
+          "letter": "C",
+          "text": "Sali altamente solubili"
+        },
+        {
+          "letter": "D",
+          "text": "sostanza igroscopiche"
+        },
+        {
+          "letter": "E",
+          "text": "Pellets"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "question": "Qual è la via di elezione per la somministrazione di eparina?:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Via orale"
+        },
+        {
+          "letter": "B",
+          "text": "Via endovenosa"
+        },
+        {
+          "letter": "C",
+          "text": "Via polmonare"
+        },
+        {
+          "letter": "D",
+          "text": "Via intramuscolare"
+        },
+        {
+          "letter": "E",
+          "text": "Via sottocutanea"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "question": "Un unguento essere?:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un unguento che emulsiona acqua"
+        },
+        {
+          "letter": "B",
+          "text": "un unguento idrofobo un unguento idrofilo"
+        },
+        {
+          "letter": "C",
+          "text": "tutte le precendenti Enessuna delle precedenti"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "question": "Indicare la appropriata definizione di bagnabilità di una superficie solida da parte di un liquido:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "La bagnabilità è massima quando langolo è 0"
+        },
+        {
+          "letter": "B",
+          "text": "La bagnabilità è completa e spontanea se il contatto è per angoli maggiori di 90"
+        },
+        {
+          "letter": "C",
+          "text": "La condizione per una completa bagnabilità è un angolo di contatto uguale a zero"
+        },
+        {
+          "letter": "D",
+          "text": "La bagnabilità avviene velocemente se la tensione superficiale del liquido alta"
+        },
+        {
+          "letter": "E",
+          "text": "La bagnabilità avverrà se il coefficiente di bagnabilità è negativo"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "question": "Secondo la legge di Stokes; cosa acqua?:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "riduzione della dimensione delle gocce d'olio"
+        },
+        {
+          "letter": "B",
+          "text": "diminuzione della viscosità della fase continua"
+        },
+        {
+          "letter": "C",
+          "text": "aumento della differenza di densità tra la fase acquosa ed oleosa"
+        },
+        {
+          "letter": "D",
+          "text": "aumento della temperatura"
+        },
+        {
+          "letter": "E",
+          "text": "nessuna delle precedenti"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "question": "Indicare quale delle seguenti affermazioni è corretta:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "tensioattivi lipofili hanno bassi valori di HLB"
+        },
+        {
+          "letter": "B",
+          "text": "la componente polare dei tensioattivi lipofili è prevalente"
+        },
+        {
+          "letter": "C",
+          "text": "tensioattivi lipofili possono essere usati come emulsionanti per ottenere emulsioni OIA"
+        },
+        {
+          "letter": "D",
+          "text": "tensioattivi lipofili sono efficienti agenti solubilizzanti"
+        },
+        {
+          "letter": "E",
+          "text": "tutte le affermazioni sono corrette"
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "question": "In relazione alla somministrazione transdermica:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "lassorbimento varia a seconda della zona di applicazione della formulazione"
+        },
+        {
+          "letter": "B",
+          "text": "la principale via di assorbimento delle molecole con peso molecolare inferiore ai 500 Da sono dotti piliferi"
+        },
+        {
+          "letter": "C",
+          "text": "le molecole molto idrofile penetrano lo strato corneo facilmente"
+        },
+        {
+          "letter": "D",
+          "text": "la permeazione attraverso la cute lesa è più lento rispetto alla pelle sana"
+        },
+        {
+          "letter": "E",
+          "text": "lassorbimento transdermico non è influenzato dal coefficiente di ripartizione della molecola"
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "question": "Quale delle funzioni sotto elencate svolge biossido di titanio quando viene usato come additivo nella",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "propellente"
+        },
+        {
+          "letter": "B",
+          "text": "acidificante"
+        },
+        {
+          "letter": "C",
+          "text": "antimicrobico"
+        },
+        {
+          "letter": "D",
+          "text": "colorante"
+        },
+        {
+          "letter": "E",
+          "text": "nessuna delle funzioni elencate"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "question": "seguenti è errata per il composto noto come eritrosina?:",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "è compatibile con le soluzioni contenenti saccarosio"
+        },
+        {
+          "letter": "B",
+          "text": "è incompatibile con le soluzioni di bicarbonato"
+        },
+        {
+          "letter": "C",
+          "text": "è incompatibile con le soluzioni concentrate di acido citrico"
+        },
+        {
+          "letter": "D",
+          "text": "prende il nome di E 127"
+        },
+        {
+          "letter": "E",
+          "text": "tutte le affermazioni sono corrette"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "question": "Quale dei numeri indicati esprime il rapporto tra le diluizioni di due preparazioni omeopatiche corrispondenti",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "5DH e 5CH, rispettivamente:"
+        },
+        {
+          "letter": "B",
+          "text": "10"
+        },
+        {
+          "letter": "C",
+          "text": "100"
+        },
+        {
+          "letter": "D",
+          "text": "1.000"
+        },
+        {
+          "letter": "E",
+          "text": "10 mila"
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "question": "Quale dei numeri indicati esprime il rapporto tra le diluizioni di due preparazioni omeopatiche corrispondenti",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "5DH e 5CH, rispettivamente:"
+        },
+        {
+          "letter": "B",
+          "text": "102"
+        },
+        {
+          "letter": "C",
+          "text": "104"
+        },
+        {
+          "letter": "D",
+          "text": "105"
+        },
+        {
+          "letter": "E",
+          "text": "108"
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "question": "Quale dei numeri indicati esprime il rapporto tra le diluizioni di due preparazioni omeopatiche corrispondenti",
+      "category": "FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "7DH e 7CH, rispettivamente:"
+        },
+        {
+          "letter": "B",
+          "text": "102"
+        },
+        {
+          "letter": "C",
+          "text": "104"
+        },
+        {
+          "letter": "D",
+          "text": "106"
+        },
+        {
+          "letter": "E",
+          "text": "107"
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "question": "Principale azione dell' angiotensina:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "stimola la vasodilatazione"
+        },
+        {
+          "letter": "B",
+          "text": "stimola la diuresi"
+        },
+        {
+          "letter": "C",
+          "text": "azione lipolitica"
+        },
+        {
+          "letter": "D",
+          "text": "stimola la vasocostrizione"
+        },
+        {
+          "letter": "E",
+          "text": "coadiuva i cardiomiociti"
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "question": "L'angiotensina Il agisce a livello del:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "stistema nervoso periferico"
+        },
+        {
+          "letter": "B",
+          "text": "sistema nervoso centrale"
+        },
+        {
+          "letter": "C",
+          "text": "cuore"
+        },
+        {
+          "letter": "D",
+          "text": "rene"
+        },
+        {
+          "letter": "E",
+          "text": "surrene"
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "question": "marker di tossicità epatica possono essere:",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "aumento di AST sierica; riduzione dell'I.N.R. , aumento dei livelli di albumina; aumento della bilirubina sierica"
+        },
+        {
+          "letter": "B",
+          "text": "riduzione di ALT sierica; riduzione dei livelli di albumina; aumento delle bilirubina sierica"
+        },
+        {
+          "letter": "C",
+          "text": "riduzione di CK sierica; alterazione dell'I.N.R. , riduzione dei livelli di albumina; aumento delle bilirubina sierica"
+        },
+        {
+          "letter": "D",
+          "text": "riduzione di ALT muscolare; riduzione dei livelli di albumina; aumento delle bilirubina sierica"
+        },
+        {
+          "letter": "E",
+          "text": "Nessuno dei precedenti"
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "question": "Quale non è un principale effetto collaterale degli ACE:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "ulcera"
+        },
+        {
+          "letter": "B",
+          "text": "reflusso"
+        },
+        {
+          "letter": "C",
+          "text": "ipertensione"
+        },
+        {
+          "letter": "D",
+          "text": "cefalea"
+        },
+        {
+          "letter": "E",
+          "text": "vertigini"
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "question": "La nitroglicerina è somministrata in caso di:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "insufficienza renale"
+        },
+        {
+          "letter": "B",
+          "text": "ipertensione"
+        },
+        {
+          "letter": "C",
+          "text": "emoraggia cerebrale"
+        },
+        {
+          "letter": "D",
+          "text": "disturbi epatici"
+        },
+        {
+          "letter": "E",
+          "text": "ipotiroidismo"
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "question": "Le Fenilalchilamine:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "sono una classe di calcio antagonisti"
+        },
+        {
+          "letter": "B",
+          "text": "sono beta bloccanti"
+        },
+        {
+          "letter": "C",
+          "text": "sono FANS"
+        },
+        {
+          "letter": "D",
+          "text": "sono anti depressivi"
+        },
+        {
+          "letter": "E",
+          "text": "agiscono sulla tiroide"
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "question": "Le statine si legano:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "ai canali del calcio"
+        },
+        {
+          "letter": "B",
+          "text": "alle lipid raft"
+        },
+        {
+          "letter": "C",
+          "text": "ai fosfolipidi di membrana"
+        },
+        {
+          "letter": "D",
+          "text": "in modo competitivo all'enzima HMG-CoA reduttasi"
+        },
+        {
+          "letter": "E",
+          "text": "fungendo da agonisti dell'enzima HMG-CoA"
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "question": "La Metildopa è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "agonista dei recettori alfa-2- adrenergici"
+        },
+        {
+          "letter": "B",
+          "text": "un'antagonista dei recettori alfa-2-adrenergici"
+        },
+        {
+          "letter": "C",
+          "text": "inibitore competitivo dei recettori alfa-2- adrenergici"
+        },
+        {
+          "letter": "D",
+          "text": "inibitore competitivo dei recettori beta-2- adrenergici"
+        },
+        {
+          "letter": "E",
+          "text": "agonista dei recettori beta-2- adrenergici"
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "question": "Il diazossido non:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "blocca il rilascio di insulina"
+        },
+        {
+          "letter": "B",
+          "text": "è un profarmaco"
+        },
+        {
+          "letter": "C",
+          "text": "viene assunto per via orale ed endovenosa"
+        },
+        {
+          "letter": "D",
+          "text": "provoca sonnolenza Eviene usato in caso di iperglicemia"
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "question": "La nesiritide:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "coadiuva il sistema renina-aldosterone"
+        },
+        {
+          "letter": "B",
+          "text": "inibisce il sistema renina-aldosterone"
+        },
+        {
+          "letter": "C",
+          "text": "è un vasocostrittore"
+        },
+        {
+          "letter": "D",
+          "text": "non è un farmaco Eè un derivato della nitroglicerina"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "question": "La Claritromicina è più resistente dell' Eritromicna a pH acido perché:",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "contiene uno zucchero modificato"
+        },
+        {
+          "letter": "B",
+          "text": "è un derivato estereo dell'eritromicina"
+        },
+        {
+          "letter": "C",
+          "text": "è un derivato salino delleritromicina"
+        },
+        {
+          "letter": "D",
+          "text": "lossigeno in posizione 6 è protetto come estere acetico"
+        },
+        {
+          "letter": "E",
+          "text": "lossigeno in posizione 6 è protetto come etere metilico"
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "question": "Trastuzumab causa tossicità:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "a livello cardiaco"
+        },
+        {
+          "letter": "B",
+          "text": "epatica"
+        },
+        {
+          "letter": "C",
+          "text": "ototossicità"
+        },
+        {
+          "letter": "D",
+          "text": "non è tossico"
+        },
+        {
+          "letter": "E",
+          "text": "renale"
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "question": "Quali delle seguenti affermazioni riguardanti il Gefitinib è corretta:",
+      "category": "FARMACOLOGIA",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Uno degli effetti tossici più frequenti è il rash cutaneo"
+        },
+        {
+          "letter": "B",
+          "text": "pazienti che sviluppano rash cutaneo hanno una maggiore PFS e OS"
+        },
+        {
+          "letter": "C",
+          "text": "Gefitinib è un inibitore del recettore EGFR"
+        },
+        {
+          "letter": "D",
+          "text": "Il rash cutaneo si presenta generalmente 8 giorni dopo la somministrazione del farmaco"
+        },
+        {
+          "letter": "E",
+          "text": "Tutte le precedenti"
+        }
+      ]
+    }
+  ]
+}

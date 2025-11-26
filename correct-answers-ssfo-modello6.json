@@ -1,0 +1,11 @@
+{
+  "source": "ssfo-quiz-modello6.pdf",
+  "note": "Risposte corrette identificate dal contenuto del PDF originale (indicato con '# Risposta X' o '## Risposta X' o 'Risposta X')",
+  "correctAnswers": {
+    "21": "B",
+    "27": "A",
+    "45": "A"
+  },
+  "instructions": "Questo file contiene le risposte corrette identificate dal PDF. Le risposte corrette nel PDF sono indicate con '# Risposta X' o '## Risposta X' o 'Risposta X'. Aggiungi le risposte corrette nel formato: \"numero_domanda\": \"lettera_risposta\" (es: \"1\": \"E\")."
+}
+
