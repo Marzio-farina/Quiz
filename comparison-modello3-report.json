@@ -1,0 +1,237 @@
+{
+  "source": "ssfo-quiz-modello3.pdf",
+  "totalModello3Questions": 21,
+  "totalExistingQuestions": 2990,
+  "totalNewQuestions": 70,
+  "duplicatesWithExisting": [],
+  "duplicatesWithNew": [],
+  "unique": [
+    {
+      "number": 1101,
+      "question": "L'infliximab:",
+      "answers": [
+        "è un anticorpo monoclonale umanizzato",
+        "è un attivatore selettivo dei recettori per il TNF",
+        "è un anticorpo monoclonale umano",
+        "è un anti-TNF",
+        "è una proteina recettoriale di fusione"
+      ]
+    },
+    {
+      "number": 1101,
+      "question": "nessuna delle risposte è esatta",
+      "answers": [
+        "un anticorpo policlonale diretto contro IL usato nell'artite reumatoide",
+        "un immunomodulatore nell'asma",
+        "un anticorpo monoclonale umanizzato diretto contro ILR6 usato nella CRS",
+        "un anticorpo monoclonale umanizzato diretto contro ILR6 indicato nell'artrite reumatoide e nella CRS"
+      ]
+    },
+    {
+      "number": 1103,
+      "question": "Il nivolumab:",
+      "answers": [
+        "è un anticorpo anti-CD20",
+        "Il suo meccanismo d'azione lo rende farmaco d'elezione nel trattamento delle malattie autoimmuni",
+        "Impedisce il blocco dei linfociti T citotossici mascherando il recettore inibitorio CTL4",
+        "Inibisce la risposta citotossica delle cellule NK",
+        "è un anticorpo umano diretto contro il recettore PD1 dei linfociti T"
+      ]
+    },
+    {
+      "number": 1104,
+      "question": "Il cetuximab è indicato:",
+      "answers": [
+        "è utilizzato nella sclerosi multipla in associazione al metotressato",
+        "non ha usi terapeutici nel tumore",
+        "per la leucemia mieloide cronica",
+        "per il trattamento di pazienti affetti da carcinoma mammario con espressione del recettore per il fattore HER2",
+        "per il trattamento di pazienti affetti da carcinoma metastatico del colon-retto (mCRC) con espressione del recettore per il fattore di crescita epidermico (EGF), senza mutazioni di RAS (wild-type)"
+      ]
+    },
+    {
+      "number": 1105,
+      "question": "Quale dei seguenti farmaci NON sono utili nel trattamento della gotta:",
+      "answers": [
+        "più di una delle indicazioni fornite è corretta",
+        "indometacina",
+        "aspirina",
+        "allopurinolo",
+        "colchicina"
+      ]
+    },
+    {
+      "number": 1106,
+      "question": "La ciclosporina è considerata uno dei farmaci immunosoppressivi più",
+      "answers": [
+        "selettivi per i seguenti motivi:",
+        "inibisce selettivamente l'attività dell'ipoxantina-guanina fosforibosiltrasferasi dei",
+        "linfociti T",
+        "induce la produzione di auto-anticorpi",
+        "inattiva specificamente i linfociti T legandosi al CD3"
+      ]
+    },
+    {
+      "number": 1107,
+      "question": "Con il termine idiosincrasia si indica:",
+      "answers": [
+        "l'insorgenza della resistenza ad un farmaco",
+        "l'insorgenza della tolleranza ad un farmaco",
+        "la resistenza al meccanismo d'azione di un farmaco",
+        "una risposta abnorme ai farmaci",
+        "qualunque risposta allergica ai farmaci"
+      ]
+    },
+    {
+      "number": 1108,
+      "question": "Indicare quale di questi farmaci è un antagonista dei recettori per i cisteinil-leucotrieni (CysLT):",
+      "answers": [
+        "aspirina",
+        "loratadina",
+        "montelukast",
+        "cromoglicato sodico",
+        "zileuton"
+      ]
+    },
+    {
+      "number": 1109,
+      "question": "Quale tra i seguenti è un meccanismo molecolare alla base della broncodilatazione indotta dagli agonisti beta2-adrenergici:",
+      "answers": [
+        "attivazione fosfolipasi A2",
+        "nessuna indicazione è corretta",
+        "attivazione fosfolipasi C",
+        "inibizione adenilato ciclasi",
+        "attivazione di canali al K+ attivati dal Ca2+"
+      ]
+    },
+    {
+      "number": 1110,
+      "question": "Oltre alla tosse stizzosa quale altra ADR è connessa con l'uso di ACE-Inibitori?:",
+      "answers": [
+        "Necrosi cutanea da soppressione dell'attività della proteina C",
+        "Osteonecrosi della mandibola",
+        "Reazione fototossica da raggi UV",
+        "Sindrome di Stevens-Johnson",
+        "Angioedema da accumulo di bradichinina"
+      ]
+    },
+    {
+      "number": 1111,
+      "question": "Il farmaco legato alle proteine plasmatiche è",
+      "answers": [
+        "non viene assorbito",
+        "nessuna delle indicazioni fornite è corretta",
+        "egualmente efficace",
+        "più efficace del farmaco libero",
+        "inattivo, come tale, poiché non può legare il proprio target"
+      ]
+    },
+    {
+      "number": 1111,
+      "question": "# La somministrazione di un farmaco per via rettale permette",
+      "answers": [
+        "assenza di assorbimento",
+        "ritardo nell'assorbimento",
+        "assorbimento prevedibile",
+        "assorbimento completo",
+        "assorbimento rapido"
+      ]
+    },
+    {
+      "number": 1113,
+      "question": "Il primo passaggio del farmaco a livello epatico in seguito a somministrazione orale:",
+      "answers": [
+        "è sempre ininfluente sulla sua emivita biologica",
+        "ne consente l'esclusiva eliminazione per via fecale",
+        "Rende sempre il farmaco inattivo",
+        "può comportare il suo metabolismo per coniugazione",
+        "può comportare il suo metabolismo per idrossilazione"
+      ]
+    },
+    {
+      "number": 1114,
+      "question": "Il buspirone ha azione ansiolitica grazie alla sua azione",
+      "answers": [
+        "inibitore delle colinesterasi",
+        "agonista inverso dei recettori 5HT2B",
+        "bloccante i recettori GABA A",
+        "agonista dei recettori NMDA",
+        "agonista parziale dei recettori 5HT1A"
+      ]
+    },
+    {
+      "number": 1115,
+      "question": "Nella terapia del glaucoma, la somministrazione combinata di betabloccanti e alfa2-stimolanti determina",
+      "answers": [
+        "non modifica l'effetto clinico dei beta-bloccanti",
+        "deve essere evitata",
+        "un potenziamento dell'effetto clinico solo in presenza di inibitori dell'anidrasi carbonica",
+        "una riduzione dell'effetto clinico",
+        "un potenziamento dell'effetto clinico"
+      ]
+    },
+    {
+      "number": 1116,
+      "question": "L'Atropina viene usata:",
+      "answers": [
+        "per trattare l'ulcera peptica",
+        "per indurre la miosi della pupilla",
+        "nella prevenzione del mild cognitive impairment",
+        "per facilitare l'endoscopia nel tratto gastrointestinale",
+        "in premedicazione anestetica per ridurre le secrezioni bronchiali"
+      ]
+    },
+    {
+      "number": 1117,
+      "question": "Quali tra questi farmaci è usato come emetico:",
+      "answers": [
+        "ondansetron",
+        "clorpromazina",
+        "droperidolo",
+        "atropina",
+        "lo sciroppo di ipecacuana"
+      ]
+    },
+    {
+      "number": 1118,
+      "question": "Quale, tra gli effetti indicati, NON è provocato da impiego prolungato di cortisonici:",
+      "answers": [
+        "ipertensione",
+        "ridistribuzione corporea dei depositi adiposi",
+        "diminuita resistenza alle infezioni",
+        "osteoporosi",
+        "aumento delle masse muscolari"
+      ]
+    },
+    {
+      "number": 1118,
+      "question": "# La moclobemide è un:",
+      "answers": [
+        "inibitore non selettivo delle MAO",
+        "inibitore irreversibile delle MAO A",
+        "inibitore delle COMT",
+        "inibitore reversibile delle MAO B",
+        "inibitore reversibile delle MAO A"
+      ]
+    },
+    {
+      "number": 1120,
+      "question": "Quale delle seguenti forme di insulina può essere somministrata per via endovenosa?",
+      "answers": [
+        "semilenta",
+        "protamina zinco insulina",
+        "più di una indicazione fornita è corretta",
+        "isofano NPH",
+        "☑ nativa"
+      ]
+    },
+    {
+      "number": 1121,
+      "question": "Il glucagone:",
+      "answers": [
+        "ha effetto ipoglicemizzante",
+        "è un compos..."
+      ]
+    }
+  ]
+}

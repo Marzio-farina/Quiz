@@ -1,0 +1,956 @@
+=== PAGINA 1 ===
+1.41)
+Ilvolume di distribuzione rappresenta:
+A
+volume plasmatico
+B
+rapporto tra la dose di farmaco somministrata e la concentrazione plasmatica
+C
+volume totale dei liquidi fisiologici
+D
+volume del sangue
+E
+volume del tratto
+gastrointestinale
+Risposta B
+1.42)
+Per clearance si intende:
+A
+Nessuna delle indicazioni fornite
+corretta
+B
+L'eliminazione di un farmaco dall'organismo nellunità di tempo
+c
+volume virtuale di plasma che un dato organo è in grado di depurare nellunità di tempo
+D
+L'eliminazione renale
+E
+L'eliminazione biliare
+Risposta C
+1.43)
+Il termine AUC:
+Nessuna delle indicazioni fornite
+corretta
+B
+Rappresenta un parametro chimico-fisico
+C
+E' una misura della concentrazione; a livello urinario; di un farmaco
+D
+Rappresenta la concentrazione plasmatica al Tmax
+E
+Rappresenta l'integrale della curva che descrive l'andamento della concentrazione
+plasmatica
+di un farmaco in funzione del tempo
+Risposta E
+1.44)
+L'acidificazione dell'urina:
+Favorisce l'eliminazione delle basi deboli
+B
+Favorisce leliminazione degli acidi deboli
+c
+Non influenza leliminazione degli elettroliti deboli
+D
+Influenza leliminazione delle sostanze neutre
+E
+Influenza leliminazione di tutte le sostanze azotate
+Risposta A
+
+=== PAGINA 2 ===
+1.60) Si definiscono reazioni metaboliche di fase I:
+A
+le reazioni che avvengono nel metabolismo di primo passaggio
+B
+le reazioni metaboliche che espongono
+un gruppo funzionale in genere piu' lipofilo
+c
+le reazioni di coniugazione di uno xenobiotico con sottostrutture presenti nell'organismo
+D
+le reazioni
+metaboliche che avvengono all'atto dell'assorbimento
+E
+le reazioni metaboliche che espongonoun gruppo funzionale; in genere piu' idrofilo
+Riposta E
+1.61) Si definiscono reazioni metaboliche di fase Il:
+A
+le reazioni che avvengono nel metabolismo di primo passaggio
+B
+le reazioni metaboliche che comportano lesposizione di un gruppo funzionale in genere
+piu' lipofilo
+le reazioni di coniugazione di uno xenobiotico con sottostrutture presenti nellorganismo
+le reazioni metaboliche che avvengono all'atto dell'assorbimento
+E
+le reazioni metaboliche che comportano l'esposizione di un gruppo funzionale in genere
+piu' idrofilo
+Riposta C
+1.62) Le reazioni di ossidazione catalizzate dal CYPB4A:
+A
+Sono reazioni di ossidazione catalizzate da una specifica isoforma del citocromo P 450, a
+carico di uno xenobiotico
+B
+Sono reazioni di biotrasformazione relative alla riduzione di alcoli
+Sono reazioni di biotrasformazione relative all'ossidazione di alcoli
+D
+Nessuna delle indicazioni fornite è corretta
+E
+Tutte le indicazioni fornite sono corrette
+Riposta A
+1.63) L'eliminazione di farmaci per via renale e' piu' probabile:
+Per sostanze a basso peso molecolare
+B
+Per sostanze lipofile
+C
+Per sostanze idrofile
+D
+Per macromolecole
+E
+Per sostanze di natura acida
+Riposta C
+
+=== PAGINA 3 ===
+1.64) Il sistema di classificazione ATC dei farmaci si basa su:
+A
+3 livelli di classificazione
+B
+livelli di classificazione
+5 livelli di classificazione
+D
+6 livelli di classificazione
+1.95) La solubilità dei sulfamidici è elevata:
+in ambiente neutro
+B
+in ambiente acido
+c
+in ambiente alcalino
+D
+per qualunque valore di pH
+E
+nessuna delle indicazioni fornite è corretta
+Risposta C
+1.96) Le proteine G perlopiù:
+A
+possiedono attività tirosin-chinasica
+B
+legano il GTP
+c
+legano lo ione calcio
+D
+legano la PKA
+E
+legano lATP
+Risposta B
+1.97) Il valore di
+A
+corrisponde al valore di pH al quale il farmaco è totalmente ionizzato
+B
+corrisponde al valore di pH al quale il farmaco non è ionizzato
+c
+corrisponde al logaritmo negativo della costante di ionizzazione acida
+D
+la costante di ionizzazione acida
+E
+nessuna delle indicazioni fornite è corretta
+Risposta C
+1.98) Quale è la definizione più corretta di modulatore allosterico positivo?
+pKa:
+
+=== PAGINA 4 ===
+A
+blocca leffetto degli antagonisti
+B
+facilita il
+legame dell'agonista al proprio recettore
+C
+agisce sullo stesso sito dell agonista
+D
+facilita il legame dell'antagonista
+E
+impedisce il legame dell'agonista al proprio recettore
+Risposta B
+3.3) Il farmacoforo presente negli ansiolitici a struttura benzodiazepinica; che impartisce attività
+agonista per il recettore GABAA è:
+A
+5-fenil-1,4-benzodiazepina
+B
+1,4-benzodiazepin-2-one
+c
+5-fenil-1,4-benzodiazepin-2-one
+D
+5-fenil-1-metil-1,4-benzodiazepina
+E
+5-fenil-3-idrossi-1,4-benzodiazepina
+Risposta C
+3.4) L'introduzione di gruppi elettron-attrattori in posizione 7 delle benzodiazepine
+aumenta l'effetto ansiolitico
+B
+aumenta l'effetto ipnotico e sedativo
+C
+aumenta l'effetto miorilassante
+D
+diminuisce l'effetto ipnotico-sedativo
+E
+aumenta l'effetto anticonvulsivante
+Risposta B
+3.5) Nelle benzodiazepine; l'attività ottimate si registra quando:
+lanello aromatico A e il fenile in 5 sono coplanari
+B
+"'anello aromatico A e il fenile in 5 sono sostituiti con
+gruppi elettro attrattori
+C
+lanello aromatico A e il C-O in 2 sono coplanari
+D
+fenile in 5 e il C-0 sono
+coplanari
+E
+Il fenile in 5 e l'azoto in 1
+sono sostituiti da alchili
+Risposta C
+3.6) In benzodiazepine come lOxazepam; la presenza dell'ossidrile in 3:
+
+=== PAGINA 5 ===
+OH
+potenzia l'attività ipnotico-sedativo
+B
+aumenta l'emivita del farmaco
+C
+previene il legame con le proteine plasmatiche
+D
+facilita l'eliminazione
+E
+aumenta la solubilità nella biofase
+Risposta D
+3.7) Nelle benzodiazepine; la presenza dell'alchile allN1 0 l'introduzione del ciclo triazolico:
+rallenta il metabolismo
+B
+favorisce l'assorbimento intestinale
+C
+potenzia l'interazione con il recettore GABAA
+D
+facilità /'eliminazione
+E
+riduce la tossicità periferica
+Risposta C
+4.22) Per rimozione del ponte epossidico della morfina sono stati ottenuti derivati classificati come:
+morfinani
+B
+benzomorfani
+C
+fenilpiperidine
+D
+fenilpropilammine
+E
+benzammidi
+Risposta A
+4.23) L'analgesico oppioide Petidina 0 Meperidina appartiene alla classe:
+morfinani
+B
+benzomorfani
+C
+fenilpiperidine
+D
+fenilpropilammine
+E
+benzammidi
+Risposta C
+
+=== PAGINA 6 ===
+4.24) L'analgesico oppioide Pentazocina appartiene alla classe:
+A
+morfinani
+B
+benzomorfani
+c
+fenilpiperidine
+D
+fenilpropilammine
+E
+benzammidi
+Risposta B
+4.25) L'analgesico oppioide Metadone appartiene alla classe:
+A
+morfinani
+B
+benzomorfani
+c
+fenilpiperidine
+D
+fenilpropilammine
+E
+benzammidi
+Risposta D
+5.9) Quale delle seguenti affermazioni sull' Indometacina
+NON è corretta:
+A
+un acido indolacetico
+B
+mostra preferenza per la COX-1
+c
+la conformazione attiva è la trans
+D
+la repulsione tra il metile in 2 e il carbonile promuove la non coplanarità
+E
+il metile in 2 promuove linibizione pseudo-irreversibile della COX-1
+Risposta C
+5.10)
+Quali delle seguenti affermazioni NON
+corretta:
+Sulindac, la cui struttura è di seguito indicata:
+COOH
+CH3
+H3C_
+s
+un acido indolacetico
+B
+ha come isomero attivo l'isomero E
+
+=== PAGINA 7 ===
+un
+profarmaco
+D
+la repulsione tra gli idrogeni del C-7 e quelli in orto sul fenile promuovono la non coplanarità
+E
+il metile in 2 non promuove l'inibizione pseudo-irreversibile della COX
+Risposta B
+5.11) L'Etodoloc ha effetti gastrointestinali relativamente modesti perché:
+COOH
+un
+profarmaco
+B
+inibisce con uguale potenza la COX-1 e la COX-2
+C
+ha concentrazione plasmatica bassa
+D
+ha maggiore affinità per la COX-2 rispetto alla COX-1
+E
+ha una clearance molto
+rapida
+Risposta D
+6.12) Il sostituente eterociclico in C-7 dei chinoloni:
+A
+potenzia l'azione sistemica
+B
+ampia lo spettro dazione nei confronti dei Gram positivi e Gram negativi
+C
+permette un'efficace azione a livello delle vie urinarie
+D
+potenzia il legame con le proteine plasmatiche
+E
+più di una risposta è corretta
+Risposta E
+6.13) La Nitrofurantoina
+N-N~
+NH
+O2N-
+agisce come farmaco inalterato
+B
+viene bio attivata ad opera di una ossidasi
+c
+viene bio attivata ad opera di una reduttasi
+D
+agisce dopo il legame alle proteina plasmatiche
+E
+forma un complesso attivo nel citoplasma cellulare
+
+=== PAGINA 8 ===
+Risposta C
+6.14) Il meccanismo dazione del Linezolid è l'inibizione della:
+formazione del peptidoglicano
+B
+biosintesi dell'acido folico
+C
+girasi batterica
+D
+subunità ribosomiale 5OS
+E
+della ferrodossina
+Risposta D
+8.33) Quale degradazione delle tetracicline ne
+aumentare sensibilmente la tossicità:
+epimerizzazione del carbonio 4
+chelazione con metalli
+deidratazione
+lattonizzazione
+Idrolisi della funzione ammidica
+Risposta C
+8.34) Gli antibiotici antitubercolari ansamicine agiscono con il seguente meccanismo:
+inibiscono la biosintesi del
+pepdidoglicano
+inibiscono il ribosoma del micobatterio
+favoriscono la lisi della parete del micobatterio
+interferiscono con la biosintesi degli acidi micolici
+inibiscono la RNA-polimerasi DNA-dipendente batterica
+Risposta E
+8.35)
+Indicare laffermazione NON vera per lantibiotico antitubercolare rifabutina:
+A
+a
+pH fisiologico prevale la specie zwitterionica
+può
+
+=== PAGINA 9 ===
+B
+meglio assorbita a livello gastrointestinale rispetto ad altre ansamicine
+Lo spettro dazione è simile a quello della rifampicina
+presenta durata dazione di circa 35-45 h
+viene subito ampiamente metabolizzata dall'effetto di primo passaggio
+Risposta E
+8.36) Quale dei seguenti farmaci antibatterici inibisce la sintesi del peptidoglicano interferendo con
+lidrolisi del bactoprenolo:
+A
+ciprofloxacina
+B
+rifabutina
+amoxicillina
+fosfomicina
+bacitracina A
+Risposta E
+9. ALTRI ANTIBIOTICI
+9.1)Gli antibiotici della classe delle rifamicine agiscono:
+inibendo la sintesi del peptidoglicano
+B
+alterando la permeabilit della membrana
+C
+inibendo girasiltopoisomerasi
+D
+inibendo la RNA-polimerasi; DNA-dipendente
+E
+inibibendo
+la subunità ribosomiale 5OS
+Risposta D
+9.2) Quale delle seguenti rifamicine ha un'emivita molto lunga (35-45 h)?
+Rifapentina
+B
+Rifabutina
+Rifampicina
+D
+Rifamicina SV
+
+=== PAGINA 10 ===
+E
+Rifamide
+Risposta B
+11.13) Quale affermazione NON è corretta per il farmaco antidepressivo escitalopram
+N
+A
+un inibitore molto selettivo di SERT, legandosi solo al sito primario ad alta affinità per la
+serotonina
+B
+un inibitore molto selettivo di SERT, legandosi sia al sito ad alta affinità che a quello a
+bassa affinità per la serotonina
+C
+metaboliti N-desmetilderivato e N-didesmetilderivato sono ancora attivi
+la presenza di un gruppo amminico terziario favorisce la selelttività per il SERT
+E
+la presenza del sostituente F non influenza laffinità per il SERT
+Risposta A
+11.14) A quale farmaco antidepressivo appartiene la seguente struttura:
+paroxetina
+B
+nisoxetina
+C
+duloxetina
+D
+sertralinaT
+E
+venlafaxina
+Risposta C
+12.1) Quale tipo di relazione molecolare correla tra loro gli antiepilettici idantoinici; succinimmidici e
+ossazolidindionici:
+A
+isomeria
+B
+isosteria
+
+=== PAGINA 11 ===
+omologia
+D
+vinilogia
+E
+semplificazione molecolare
+Risposta B
+12.2) Il Pentobarbital è:
+A
+un'idantoina
+B
+una succinimmide
+c
+un barbiturico
+D
+un tiobarbiturico
+E
+nessuna delle indicazioni fornite
+corretta
+Risposta C
+12.3) Quale indicazione; tra le strutture generali; è corretta per il Fenobartital:
+NH
+A
+R = H
+B
+R = CH3
+c
+R = C2H5
+D
+R = C3Hz
+E
+R = CsH5
+Risposta C
+12.4) Quale nome comune
+corretto per la seguente struttura:
+NH
+barbitale
+B
+fenobarbital
+c
+acido barbiturico
+D
+etosuccimide
+E
+fenitoina
+
+=== PAGINA 12 ===
+Risposta C
+NH
+14.3)
+Indicare la risposta ERRATA per lantitubercolare Isoniazide:
+mostra emivita differente in diverse
+popolazioni
+B
+inibisce la sintesi del peptidoglicano
+C
+agisce da profarmaco
+D
+interferisce con il sistema enzimatico NADHINAD+
+E
+forma metaboliti che legano covalentemente gli epatociti
+Risposta B
+14.4) L'antitubercolare Etambutolo agisce inibendo:
+la biosintesi degli acidi micolici
+B
+la arabinosil transferasi
+c
+la biosintesi del peptidoglicano
+D
+la biosintesi dell'acido folico
+E
+il ribosoma
+Risposta B
+14.5) L'antitubercolare Pirazinamide agisce:
+inibendo la biosintesi degli acidi micolici
+B
+inibendo la arabinosil transferasi
+C
+disabilita la captazione di nutrienti
+D
+inibendo la biosintesi dell'acido folico
+E
+nessuna delle indicazioni fornite è corretta
+Risposta C
+14.6) L'antitubercolare PAS, (acido para-aminosalicilico) inibisce:
+la biosintesi degli acidi micolici
+la arabinosil transferasi
+C
+la captazione di nutrienti
+
+=== PAGINA 13 ===
+la biosintesi della diidrofolato-sintetasi
+E
+il ribosoma
+Risposta D
+15.2)
+Indicare la risposta errata per gli antifungini imidazolici:
+A
+legano la 140 demetilasi
+B
+sono più potenti dei derivati triazolici
+c
+vengono utilizzati tutti per via sistemica
+D
+hanno mediamente emivita più breve dei triazoli
+E
+la struttura azolica in posizione 3 è essenziale
+Risposta C
+15.3) Indicare la risposta errata per gli antifungini triazolici:
+triazolici legano la 140 demetilasi
+B
+sono meno
+potenti dei derivati imidazolici
+C
+vengono utilizzati solamente per via topica
+D
+hanno mediamente emivita più lunga degli imidazoli
+E
+la posizione 4 perla struttura triazolica è essenziale
+Risposta C
+15.4)
+Indicare la risposta errata per gli antifungini triazolici:
+legano la 140 demetilasi
+B
+sono meno potenti dei derivati imidazolici
+C
+molti vengono utilizzati per via sistemica
+D
+hanno mediamente emivita più breve degli imidazoli
+E
+la struttura triazolica 4 è essenziale
+Risposta D
+19.1) Secondo lipotesi della ferriprotoporfirina IX; gli antimalarici 4-amminochinolinici:
+inibiscono il legame dell'ossigeno all'emoglobina
+B
+inibiscono la trasformazione dell'emoglobina in ematina
+formano un complesso r con l'emoglobina
+D
+bloccano il metabolismo dell'emoglobina
+
+=== PAGINA 14 ===
+E
+inibiscono la polimerizzazione dell'ematina in emozoina
+Risposta E
+19.2) Quale dei seguenti protozoi causa la malaria terzana maligna:
+Plasmodium malariae
+B
+Plasmodium falciparum
+C
+Plasmodium vivax
+D
+Plasmodium ovale
+E
+tutti
+plasmodi citati
+Risposta B
+19.3) Indicare la risposta ERRATA per lantimalarico Clorochina:
+il Cloro in C-7 potenzia lazione
+B
+la stereochimica del centro chirale è rilevante per lattività
+C
+Yintroduzione di gruppi alchilici in C3
+C8 non potenzia lazione
+D
+il derivato N-etilico idrossilato è altrettanto attivo come la Clorochina
+E
+anche i prodotti di N-dealchilazione sono metaboliti attivi
+Risposta B
+20.12) Gli antitumorali intercalanti:
+A
+formano legami covalenti con I'N7 della guanina
+B
+alterano lequilibrio dinamico dei microtubuli
+C
+formano radicali reattivi verso le basi degli acidi nucleici
+D
+inseriscono una molecola relativamente planare tra coppie di basi adiacenti
+E
+sono inibitori delle chinasi
+Risposta D
+20.13) Le mostarde antitumorali:
+A
+formano legami covalenti con I'N7 della guanina
+B
+alterano lequilibrio dinamico dei microtubuli
+c
+formano radicali reattivi verso le basi degli acidi nucleici
+D
+inseriscono una molecola relativamente planare tra coppie di basi adiacenti
+E
+sono inibitori delle chinasi
+Risposta A
+
+=== PAGINA 15 ===
+20.14) L'antimetabolita metotressato è
+A
+un inibitore specifico del metabolimo
+un
+agente che agisce sul metabolismo corporeo
+2
+un ritrovato della metabolomica
+un RNA interferente
+E
+una molecola simile all'acido folico
+Risposta E
+20.15) Gli alcaloidi antitumorali della Vinca:
+A
+legano il solco minore del DNA
+B
+si intercalano all'interno della doppia elica del DNA
+C
+causano frammentazione del DNA
+D
+formano ponti tra coppie di basi del DNA
+E
+impediscono la polimerizzazione della tubulina
+Risposta E
+21.15) Indicare la risposta NON corretta per la cetirizina; antistaminico anti H-1
+OH
+un derivato piperazinico
+in forma zwitterionica a pH fisiologico
+ha un atomo di C chirale e leutomero; levorotatorio; ha configurazione assoluta R
+ha un'elevata affinità per la glicoproteina P
+E
+ha una significativa componente di attività antimuscarinica
+Risposta E
+21.16) Indicare la risposta NON corretta per la desloratadina; antistaminico anti H-1
+epatico
+
+=== PAGINA 16 ===
+A
+un
+profarmaco
+B
+ha un sostutuente cloro che aumenta la potenza dell'antagonista
+C
+ha pesanti effetti sedativi sul SNC
+D
+mantiene una residua attività antimuscarinica
+E
+più di una risposta non è corretta
+Risposta E
+21.17) Indicare la risposta NON corretta per lantazolina; antistaminico anti H-1
+A
+un derivato imidazolinico
+ha anche un'azione anestetica locale
+indicata per luso oftamico
+D
+ha una componete dazione analgesica oppioide
+E
+un antagonista ai recettori H4
+Risposta D
+24.11) Quali di questi farmaci è un diuretico dell'ansa?
+A
+furosemide
+B
+clorotiazide
+acetazolamide
+D
+indapamide
+E
+triamterene
+Risposta A
+25. ANTIVIRALI
+25.1) Quale delle seguenti fasi del ciclo di replicazione è caratteristica di un retrovirus
+spoliazione
+B
+adsorbimento
+
+=== PAGINA 17 ===
+trascrizione inversa
+D
+assemblaggio
+E
+maturazione
+Risposta C
+25.2)
+Indicare la risposta NON corretta per l'Enfuvirtide; inibitore della fusione del virus HIV-1. Il
+farmaco:
+A
+si lega fortemente alle proteine plasmatiche
+B
+eliminato inalterato con le urine
+c
+deve essere somministrato per via sottocutanea
+D
+si lega alla proteina GP41
+E
+presenta reazioni locali nel sito di iniezione
+Risposta B
+25.3) Indicare la risposta NON corretta per lEnfuvirtide; inibitore della fusione del virus HIV-1 . Il
+farmaco:
+A
+previene un cambiamento conformazionale
+B
+si lega ad una zona ricca di triptofano
+c
+impedisce l'interazione tra GP120, GP 41 e recettore CDA
+D
+un
+peptide naturale di 36 aminoacidi
+E
+subisce processamento proteico
+Risposta D
+25.16) L'agente anti-HIV-1 zidovudina (AZT) è:
+A
+un
+piccolo peptide
+un nucleotide
+8
+un nucleoside
+D
+un non-nucleoside
+E
+nucleoside forforamidato_
+Risposta C
+25.17) L'agente anti-epatite C sofosbuvir è:
+A
+un piccolo peptide
+
+=== PAGINA 18 ===
+B
+un nucleotide
+C
+un nucleoside
+D
+un non-nucleoside
+E
+nucleoside fosforamidato
+Risposta E
+25.18) Quale delle seguenti classi di farmaci è utilizzato come prima linea contro lHIV?
+A
+inibitori dell'integrasi
+B
+interferoni
+C
+Induttori di interferone
+D
+inibitori della neuraminidasi
+E
+nibitori della cap-endonucleasi
+Risposta A
+25.19) Gli interferoni sono agenti antivirali che:
+A
+inibiscono la retrotrascrizione
+B
+mimano lo stadio di transizione della proteasi
+c
+impediscono la formazione dei legami 3' ,5'-fosfodiesterici
+D
+sono
+proteine che proteggono le cellule che si trovano nelle vicinanze
+E
+inibiscolo il rilascio del virione maturo
+Risposta D
+29.2) Quale vantaggiio si ottiene utilizzando esomeprazoolo rispetto a omeprazoolo
+Inibitore piu' potente della pompa protonica
+B
+Piu' di una risposta e' corretta
+C
+Ridotto metabolismo da
+del CYP2C19
+D
+Maggior legame alle proteine plasmatiche
+E
+Aumento della AUC
+Ripsosta B
+29.3)
+Gli inibitori di pompa agiscono
+Sono attivi tal quali
+B
+Sono attivi dopo biotrasformazione metabolica
+parte
+
+=== PAGINA 19 ===
+Si attivano per riarrangiamento strutturale a contatto con
+succhi gastrici acidi
+Si attivano per riarrangiamento strutturale in ambiente molto acido dopo distribuzione
+sistemica
+E
+Si attivano nella cellula epiteliale
+Ripsosta D
+29.4)
+Quale dei seguenti farmaci è un inibitore della H+/K+ ATPasi (pompa protonica):
+A
+Ranitidina
+B
+Pantoprazolo
+C
+Misoprostolo
+D
+Mebensadolo
+E
+Metoclopramide
+Risposta B
+33.33) La Ciprofloxacina ha pH isoelettrico:
+COOH
+HN
+A
+pari a 7.4
+B
+a 2.5
+a 4.5
+D
+non ha punto isoelettrico
+E
+ne ha due: 2.5 e 7.4
+Risposta A
+33.34) La Carbenicillina ha pH isoelettrico:
+COOH
+CH3
+CH3
+COOH
+A
+pari a 7.4
+B
+pari a 2.5
+c
+a 4.5
+D
+non ha punto isoelettrico
+E
+ne ha due: 2.5 e 4.5
+Risposta D
+pari
+pari
+pari
+
+=== PAGINA 20 ===
+33.35) Somministrare Morfina Cloridrato e Ketorolac in un'unica preparazione potrebbe:
+HO
+4
+alterare il
+grado di ionizzazione ed in particolare
+creare
+problemi
+OH
+di solubilità per il Ketorolac
+4
+N
+potrebbe
+HO"7
+causare la degradazione della morfina
+che
+instabile a pH acido
+non creerebbe alcun problema
+D
+potrebbe causare la degradazione del Ketorolac che è instabile a pH acido
+E
+non
+possibile perché interverrebbe una reazione chimica tra i due farmaci
+Risposta A
+33.36) Quale potrebbe essere il principale problema di una formulazione di 5-fluorouracile?
+NH
+una scarsa solubilità in mezzo acquoso
+B
+una
+grande reattività nei confronti dei componenti della soluzione fisiologica
+c
+precipitazione a pH intorno a 5
+D
+potrebbe dare interazioni col contenitore se questo è in plastica
+E
+nessuna delle risposte risulta corretta
+Risposta E
+33.37) Quale potrebbe essere il pH di una soluzione acquosa di Efedrina cloridrato 0.1
+M
+(pka-9.6)?
+A
+circa 9
+B
+maggiore di 9
+C
+neutro
+D
+intorno a 5
+E
+minore di 5
+Risposta D
+~CH3
+
+=== PAGINA 21 ===
+33.38) Per aumentare la stabilità di un principio attivo; a reazioni di idrolisi; è possibile:
+A
+aumentare la sua concentrazione
+B
+solubilizzarlo usando un solvente diverso dall'acqua
+c
+tamponare il pH della soluzione acquosa in modo che sia maggiore di 8
+D
+tamponare il pH della soluzione acquosa in modo che sia minore di 4
+E
+nessuna delle indicazioni fornite è corretta
+Risposta B

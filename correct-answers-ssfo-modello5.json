@@ -1,0 +1,9 @@
+{
+  "source": "ssfo-quiz-modello5.pdf",
+  "note": "Risposte corrette identificate dal contenuto del PDF originale (indicato con 'Risposta X' o 'Riposta X' alla fine di ogni domanda)",
+  "correctAnswers": {
+    "164": "C"
+  },
+  "instructions": "Questo file contiene le risposte corrette identificate dal PDF. Le risposte corrette nel PDF sono indicate con 'Risposta X' o 'Riposta X' alla fine di ogni domanda. Aggiungi le risposte corrette nel formato: \"numero_domanda\": \"lettera_risposta\" (es: \"141\": \"B\")."
+}
+

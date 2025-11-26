@@ -1,0 +1,1407 @@
+{
+  "source": "ssfo-quiz-modello4.pdf",
+  "totalModello4Questions": 54,
+  "totalExistingQuestions": 2990,
+  "totalNewQuestions": 70,
+  "totalModello3Questions": 90,
+  "duplicates": [
+    {
+      "modello4Id": 45,
+      "modello4Question": "La prima immissione in commercio di un nuovo farmaco",
+      "existingMatches": [
+        {
+          "id": 1127,
+          "question": "La prima immissione in commercio di un nuovo farmaco:",
+          "category": "FARMACOLOGIA",
+          "source": "modello3-quiz-data.json"
+        }
+      ]
+    }
+  ],
+  "unique": [
+    {
+      "id": 1,
+      "question": "La calcineurina è il target di quale farmaco: sertralina",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "calcitonina"
+        },
+        {
+          "letter": "B",
+          "text": "sirolimus"
+        },
+        {
+          "letter": "C",
+          "text": "daclizumab"
+        },
+        {
+          "letter": "D",
+          "text": "tacrolimus"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "Per l'attivazione della fosfolipasi A2 è richiesta A l'attivazione del coezima Q",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "la fosforilazione da parte delle MAP chinasi"
+        },
+        {
+          "letter": "B",
+          "text": "la scissione del fosfatidil inositolo"
+        },
+        {
+          "letter": "C",
+          "text": "la presenza di glutatione"
+        },
+        {
+          "letter": "D",
+          "text": "la presenza di anione superossido"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "Indicare il meccanismo con il quale I'acido acetilsalicilico indurre broncospasmo:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "aumento della biosintesi di trombossani"
+        },
+        {
+          "letter": "B",
+          "text": "aumento della biosintesi di prostaglandine"
+        },
+        {
+          "letter": "C",
+          "text": "aumento nella sintesi del fruttosio"
+        },
+        {
+          "letter": "D",
+          "text": "aumento della biosintesi di istamina"
+        },
+        {
+          "letter": "E",
+          "text": "aumento della sintesi di cisteinil-leucotrieni"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "Quale dei seguenti corticosteroidi ha una emivita superiore alle 36 h? A cortisolo",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "desametasone"
+        },
+        {
+          "letter": "B",
+          "text": "prednisone"
+        },
+        {
+          "letter": "C",
+          "text": "metilprednisolone"
+        },
+        {
+          "letter": "D",
+          "text": "quelli può"
+        },
+        {
+          "letter": "E",
+          "text": "cortisone"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "Quali tra queste azioni sono esercitate dalla ciclosporina: inibizione della sintesi di interleuchina (IL-1)",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "inibizione della produzione di linfochine"
+        },
+        {
+          "letter": "B",
+          "text": "aumento della produzione di anticorpi"
+        },
+        {
+          "letter": "C",
+          "text": "indurre la defosforilazione di NF-AT"
+        },
+        {
+          "letter": "D",
+          "text": "aumento della trascrizione genica delle interleuchine"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "Quale tra i seguenti farmaci antireumatici ha come bersaglio il TNF-alfa:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "metotrexato"
+        },
+        {
+          "letter": "B",
+          "text": "etanercept"
+        },
+        {
+          "letter": "C",
+          "text": "rituximab"
+        },
+        {
+          "letter": "D",
+          "text": "tocilizumab"
+        },
+        {
+          "letter": "E",
+          "text": "anakinra"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "Indicare quali effetti collaterali sono caratteristici dei beta 2 agonisti: bradicardia",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "prurito"
+        },
+        {
+          "letter": "B",
+          "text": "broncospasmo"
+        },
+        {
+          "letter": "C",
+          "text": "edemi arti inferiori"
+        },
+        {
+          "letter": "D",
+          "text": "aritmie"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "Quali dei seguenti corticosteroidi sono generalmente usati nell'asma allergica per via inalatoria? idrocortisone B metilprednisolone fluticasone propionato dimeticone",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "desametasone"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "Indicare quale di queste azioni sono svolte dal cromoglicato di sodio: inibizione della liberazione di mediatori dai mastociti",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "aumento dell'attivazione dei leucociti"
+        },
+        {
+          "letter": "B",
+          "text": "stimolazione del riflesso della tosse"
+        },
+        {
+          "letter": "C",
+          "text": "induzione del rilascio di callicreina"
+        },
+        {
+          "letter": "D",
+          "text": "aumento dell'attività del peptide chemotattico"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "Quali di questi farmaci è indicato per l'eradicazione di Helicobacter Ail sucralfato",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "gli antiacidi a base di alluminio"
+        },
+        {
+          "letter": "B",
+          "text": "le tetracicline"
+        },
+        {
+          "letter": "C",
+          "text": "la cinnarizina"
+        },
+        {
+          "letter": "D",
+          "text": "gli antagonisti della gastrina"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "question": "Quali di queste classi di farmaci NON è indicata per l'eradicazione di Helicobacter inibitori della pompa protonica B composti del bismunto macrolidi",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "più di una indicazioe fornita è corretta"
+        },
+        {
+          "letter": "B",
+          "text": "gli antagonisti della gastrina"
+        },
+        {
+          "letter": "C",
+          "text": "pylori?"
+        },
+        {
+          "letter": "D",
+          "text": "pylori?"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "question": "Io sciroppo di ipecacuana",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "atropina"
+        },
+        {
+          "letter": "B",
+          "text": "droperidolo"
+        },
+        {
+          "letter": "C",
+          "text": "clorpromazina"
+        },
+        {
+          "letter": "D",
+          "text": "ondansetron"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "question": "Quali tra questi farmaci è, propriamente; un procinetico gastrointestinale: bismunto colloidale",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "omeprazolo"
+        },
+        {
+          "letter": "B",
+          "text": "domperidone"
+        },
+        {
+          "letter": "C",
+          "text": "salbutamolo"
+        },
+        {
+          "letter": "D",
+          "text": "lovastatina"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "question": "Quali tra questi farmaci NON è un procinetico gastrointestinale: levosulpiride",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "lovastatina"
+        },
+        {
+          "letter": "B",
+          "text": "tegaserod"
+        },
+        {
+          "letter": "C",
+          "text": "domperidone"
+        },
+        {
+          "letter": "D",
+          "text": "metoclopramide"
+        },
+        {
+          "letter": "E",
+          "text": "farmaci a base di acido 5-aminosalicilico:"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "question": "Quale di queste affermazioni relative ai farmaci a base di acido 5-aminosalicilico è errata:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "sono"
+        },
+        {
+          "letter": "B",
+          "text": "impiegati per il trattamento della colite ulcerosa"
+        },
+        {
+          "letter": "C",
+          "text": "nella sulfasalazina il loro effetto terapeutico è da attribuire alla componente sulfapiridinica"
+        },
+        {
+          "letter": "D",
+          "text": "la componenente sulfapiridinica della sulfasalazina è importante per il trasporto del farmaco nel colon"
+        },
+        {
+          "letter": "E",
+          "text": "sono impiegati nelle flogosi idiopatiche intestinali"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "question": "Quali di questi farmaci NON impiegato nel trattamento delle malattie infiammatorie del colon? A glucocorticoidi",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "derivati dell'acido 5-aminosalicilico"
+        },
+        {
+          "letter": "B",
+          "text": "sulfasalazina"
+        },
+        {
+          "letter": "C",
+          "text": "immunosoppressori quali la 6-mercaptopurina"
+        },
+        {
+          "letter": "D",
+          "text": "le tetracicline"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "question": "Qualeli delle seguenti preparazioni di insulina somministrata per via endovenosa è il trattamento di scelta del coma diabetico: insulina zinco globina",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "insulina protamina zinco sospensione"
+        },
+        {
+          "letter": "B",
+          "text": "insulina nativa cristallina"
+        },
+        {
+          "letter": "C",
+          "text": "più di una indicazione fornita è corretta"
+        },
+        {
+          "letter": "D",
+          "text": "insulina zinco sospensione cristallizzata"
+        },
+        {
+          "letter": "E",
+          "text": "La finasteride è"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "question": "Tra le seguenti statine; la più potente è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "simvastatina"
+        },
+        {
+          "letter": "B",
+          "text": "lovastatina"
+        },
+        {
+          "letter": "C",
+          "text": "fluvastatina"
+        },
+        {
+          "letter": "D",
+          "text": "pravastatina"
+        },
+        {
+          "letter": "E",
+          "text": "Eatorvastatina"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "question": "Quale delle seguenti sulfaniluree avere effetto antidiuretico? acetoesamide",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "tolbutamide può"
+        },
+        {
+          "letter": "B",
+          "text": "gliburide"
+        },
+        {
+          "letter": "C",
+          "text": "clorpropamide"
+        },
+        {
+          "letter": "D",
+          "text": "nessuna delle indicazioni fornite è corretta"
+        },
+        {
+          "letter": "E",
+          "text": "Qualeli dei seguenti"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "question": "Indicare quale fra le seguenti sulfaniluree presenta la durata di azione (emivita) più lunga: tolazamide",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "acetoesamide"
+        },
+        {
+          "letter": "B",
+          "text": "clorpropamide"
+        },
+        {
+          "letter": "C",
+          "text": "gliburide"
+        },
+        {
+          "letter": "D",
+          "text": "farmaci riportati hanno il medesimo valore di emivita"
+        },
+        {
+          "letter": "E",
+          "text": "L'effetto tossico principale degli inibitori dell'enzima HMG-CoA reduttasi è rappresentato da:"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "question": "La terapia del diabete insipido si avvalere dell'uso di A vasopressina",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "diuretici tiazidici"
+        },
+        {
+          "letter": "B",
+          "text": "biguanidi"
+        },
+        {
+          "letter": "C",
+          "text": "le risposte A e B sono corrette"
+        },
+        {
+          "letter": "D",
+          "text": "nessuna delle risposte fornite"
+        },
+        {
+          "letter": "E",
+          "text": "corretta"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "question": "Gli effetti neuroendocrini della dopamina comprendono A linibizione della secrezione di gonadotropine",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "l'inibizione della secrezione di prolattina"
+        },
+        {
+          "letter": "B",
+          "text": "l'inibizione della secrezione di GH"
+        },
+        {
+          "letter": "C",
+          "text": "più di una delle indicazioni fornite è corretta"
+        },
+        {
+          "letter": "D",
+          "text": "l'aumento della secrezione di MSH"
+        },
+        {
+          "letter": "E",
+          "text": "Non ha attività tocolitica"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "question": "La somatostatina",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "è un"
+        },
+        {
+          "letter": "B",
+          "text": "neuropeptide che origina unicamente dall'ipotalamo"
+        },
+        {
+          "letter": "C",
+          "text": "stimola la liberazione di ormone somatotropo"
+        },
+        {
+          "letter": "D",
+          "text": "ci suoi analoghi si usano nella terapia degli apudomi"
+        },
+        {
+          "letter": "E",
+          "text": "è un analogo della pravastatina"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "question": "Gli analoghi della meglitinide:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "sono indicati nel diabete di tipo 1"
+        },
+        {
+          "letter": "B",
+          "text": "sono somministrati per via sottocutanea"
+        },
+        {
+          "letter": "C",
+          "text": "stimolano la secrezione di insulina"
+        },
+        {
+          "letter": "D",
+          "text": "inibiscono le alfa glucosidasi intestinali"
+        },
+        {
+          "letter": "E",
+          "text": "legano"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "question": "Inibiscono la sintesi proteica a livello della subunità 30 S del ribosoma batterico",
+      "category": "MICROBIOLOGIA",
+      "subcategory": "MICROBIOLOGIA_BATTERI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Inibiscono la sintesi proteica a livello della subunità 50S del ribosoma batterico"
+        },
+        {
+          "letter": "B",
+          "text": "Inibiscono la duplicazione del DNA batterico"
+        },
+        {
+          "letter": "C",
+          "text": "impediscono la transpeptidazione del peptidoglicano"
+        },
+        {
+          "letter": "D",
+          "text": "Inibiscono la duplicazione del DNA della cellula ospite"
+        },
+        {
+          "letter": "E",
+          "text": "macrolidi glucosidici"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "question": "Gli aminoglucosidi:",
+      "category": "MICROBIOLOGIA",
+      "subcategory": "MICROBIOLOGIA_BATTERI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Sono attivi contro le specie aerobie ed anaerobie"
+        },
+        {
+          "letter": "B",
+          "text": "Agiscono sulla subunità 30S del ribosoma batterico"
+        },
+        {
+          "letter": "C",
+          "text": "Agiscono anche sulla subunità 70S del ribosoma eucariotico"
+        },
+        {
+          "letter": "D",
+          "text": "inibiscono la sintesi del"
+        },
+        {
+          "letter": "E",
+          "text": "peptidoglicano"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "question": "Gli amminoglucosidi:",
+      "category": "MICROBIOLOGIA",
+      "subcategory": "MICROBIOLOGIA_BATTERI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Non attraversano la membrana esterna dei Gram negativi"
+        },
+        {
+          "letter": "B",
+          "text": "Attraversano la membrana esterna dei Gram negativi mediante trasporto attivo"
+        },
+        {
+          "letter": "C",
+          "text": "Attraversano la membrana plasmatica del batterio mediante meccanismo attivo"
+        },
+        {
+          "letter": "D",
+          "text": "non sono impiegati come antimicrobici"
+        },
+        {
+          "letter": "E",
+          "text": "Agiscono nello spazio periplasmico"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "question": "L'aztreonam è attivo nei confronti di",
+      "category": "MICROBIOLOGIA",
+      "subcategory": "MICROBIOLOGIA_BATTERI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Gram"
+        },
+        {
+          "letter": "B",
+          "text": "aerobi"
+        },
+        {
+          "letter": "C",
+          "text": "amebe"
+        },
+        {
+          "letter": "D",
+          "text": "Gram positivi anaerobi"
+        },
+        {
+          "letter": "E",
+          "text": "Gram negativi aerobi"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "question": "Il cloramfenicolo agisce su membrana citoplasmatica",
+      "category": "MICROBIOLOGIA",
+      "subcategory": "MICROBIOLOGIA_BATTERI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "parete cellulare"
+        },
+        {
+          "letter": "B",
+          "text": "unità ribosomiale 30S"
+        },
+        {
+          "letter": "C",
+          "text": "DNA girasi"
+        },
+        {
+          "letter": "D",
+          "text": "unità ribosomiale 50S"
+        },
+        {
+          "letter": "E",
+          "text": "mebendazolo"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "question": "Inibendo l'attacco e la fusione del virus alla cellula ospite",
+      "category": "ALTRO",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Inibendo lenzima integrasi"
+        },
+        {
+          "letter": "B",
+          "text": "Inibendo lenzima proteasi"
+        },
+        {
+          "letter": "C",
+          "text": "Inibendo lenzima RNA polimerasi-RNA dipendente"
+        },
+        {
+          "letter": "D",
+          "text": "Nessuna delle risposte precedenti"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "question": "Quale tra i seguneti anti-virali viene utilizzato nella terapia dell'infezione da Herpes virus? 4 Famciclovir",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Oseltamivir"
+        },
+        {
+          "letter": "B",
+          "text": "Zanamivir"
+        },
+        {
+          "letter": "C",
+          "text": "Peramivir"
+        },
+        {
+          "letter": "D",
+          "text": "Entecavir"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "question": "Quale delle seguenti affermazioni relative agli antibiotici amminoglicosidici NON corretta:",
+      "category": "MICROBIOLOGIA",
+      "subcategory": "MICROBIOLOGIA_BATTERI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "possono causare nefrotossicità"
+        },
+        {
+          "letter": "B",
+          "text": "hanno azione battericida tempo-dipendente"
+        },
+        {
+          "letter": "C",
+          "text": "possono produrre tossicità vestibolare"
+        },
+        {
+          "letter": "D",
+          "text": "possono indurre blocco neuromuscolare"
+        },
+        {
+          "letter": "E",
+          "text": "interferiscono con la sintesi proteica batterica"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "question": "Estramustina solfato",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Epotilone B"
+        },
+        {
+          "letter": "B",
+          "text": "Combretastatina A-4"
+        },
+        {
+          "letter": "C",
+          "text": "Colchicina"
+        },
+        {
+          "letter": "D",
+          "text": "Actinomicina D"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "question": "Quale di queste affermazioni relative ai taxani è FALSA: stabilizzano microtubuli",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Sono insolubili in acqua"
+        },
+        {
+          "letter": "B",
+          "text": "sono somministrati in sospensioni con olio di ricino"
+        },
+        {
+          "letter": "C",
+          "text": "le risposte A e C"
+        },
+        {
+          "letter": "D",
+          "text": "Non richiedono alcuna premedicazione"
+        },
+        {
+          "letter": "E",
+          "text": "Il tamoxifene è"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "question": "Un anti-estrogeno puro un antimetabolita",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Un agonista estrogenico a livello del tessuto endometriale"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "question": "Acido folinico+5-Fluorouracile+Oxaliplatino",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Fludarabina+Oxaliplatino+Taxolo"
+        },
+        {
+          "letter": "B",
+          "text": "Fludarabina+Irinotecano+Doxorubicina"
+        },
+        {
+          "letter": "C",
+          "text": "Acido folinico+Fludarabina+Oxaliplatino"
+        },
+        {
+          "letter": "D",
+          "text": "Acido Folinico+Fulvestrant+Oxaliplatino Tutti"
+        },
+        {
+          "letter": "E",
+          "text": "seguenti farmaci sono utilizzati nella terapia del carcinoma mammario eccetto:"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "question": "Inibitore di HER2",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Inibitore di EGFR"
+        },
+        {
+          "letter": "B",
+          "text": "Inibitore di RAF"
+        },
+        {
+          "letter": "C",
+          "text": "Inibitore di mTOR"
+        },
+        {
+          "letter": "D",
+          "text": "Inibitore di VEGFR"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "question": "Antiinfiammatorio",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Antifungino"
+        },
+        {
+          "letter": "B",
+          "text": "Antibiotico"
+        },
+        {
+          "letter": "C",
+          "text": "Simpaticolitico diretto"
+        },
+        {
+          "letter": "D",
+          "text": "Simpaticolitico indiretto"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "question": "Infiammatione dell'uvea",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "infiammazione della retina"
+        },
+        {
+          "letter": "B",
+          "text": "Distaccamento della retina"
+        },
+        {
+          "letter": "C",
+          "text": "Aumento della pressione intraoculare"
+        },
+        {
+          "letter": "D",
+          "text": "Infiammazione della cornea"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "question": "Disritmie cardiache",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Schizofrenia"
+        },
+        {
+          "letter": "B",
+          "text": "Ipercolesterolemia"
+        },
+        {
+          "letter": "C",
+          "text": "Malattie autoimmuni"
+        },
+        {
+          "letter": "D",
+          "text": "Ulcera gastrica"
+        },
+        {
+          "letter": "E",
+          "text": "La glicoproteina p"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "question": "Quali dei seguenti farmaci è un potente induttore del CYPBAI",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "desametazone"
+        },
+        {
+          "letter": "B",
+          "text": "insulina"
+        },
+        {
+          "letter": "C",
+          "text": "colestiramina"
+        },
+        {
+          "letter": "D",
+          "text": "più di una delle indicazioni fornite è corretta"
+        },
+        {
+          "letter": "E",
+          "text": "pinessuna delle indicazioni fornite è corretta"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "question": "Quali dei seguenti farmaci è un potente inibitore dei citocromi",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "cimetidina"
+        },
+        {
+          "letter": "B",
+          "text": "fenobarbitale"
+        },
+        {
+          "letter": "C",
+          "text": "fenitoina"
+        },
+        {
+          "letter": "D",
+          "text": "rifamicina"
+        },
+        {
+          "letter": "E",
+          "text": "carbamazepina"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "question": "Nel paziente anziano il pH gastrico aumenta perché",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "diminuisce l'attività secretrice delle cellule parietali"
+        },
+        {
+          "letter": "B",
+          "text": "aumenta l'attività secretrice delle cellule parietali"
+        },
+        {
+          "letter": "C",
+          "text": "aumenta la produzione di muco"
+        },
+        {
+          "letter": "D",
+          "text": "aumenta la produzione di HCI"
+        },
+        {
+          "letter": "E",
+          "text": "aumenta il controllo colinergico sulle cellule parietali"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "question": "Con il termine tachifilassi si intende",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "risposta esagerata alla somministrazione di un agente farmacologico"
+        },
+        {
+          "letter": "B",
+          "text": "sensibilità crescente ad un agente farmacologico"
+        },
+        {
+          "letter": "C",
+          "text": "insensibilità crescente; ad insorgenza rapida, ad un agente farmacologico"
+        },
+        {
+          "letter": "D",
+          "text": "più di una delle indicazioni fornite è corretta"
+        },
+        {
+          "letter": "E",
+          "text": "nessuna delle indicazioni fornite è corretta"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "question": "Quali delle seguenti classi di farmaci agiscono con meccanimso non specifico",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "i lassativi osmotici"
+        },
+        {
+          "letter": "B",
+          "text": "le insuline"
+        },
+        {
+          "letter": "C",
+          "text": "beta bloccanti"
+        },
+        {
+          "letter": "D",
+          "text": "più di una delle indicazioni fornite è corretta"
+        },
+        {
+          "letter": "E",
+          "text": "la desmopressina"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "question": "Quale dei seguenti farmaci si utilizza per la diagnosi della miastenia gravis",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "edrofonio"
+        },
+        {
+          "letter": "B",
+          "text": "scopolamina"
+        },
+        {
+          "letter": "C",
+          "text": "pirenzepina"
+        },
+        {
+          "letter": "D",
+          "text": "creatina"
+        },
+        {
+          "letter": "E",
+          "text": "non vi sono farmaci che ne permettono la diagnosi"
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "question": "Quale dei seguenti farmaci viene utilizzato per dilatare la pupilla",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "pilocarpina"
+        },
+        {
+          "letter": "B",
+          "text": "betanecolo"
+        },
+        {
+          "letter": "C",
+          "text": "tropicamide"
+        },
+        {
+          "letter": "D",
+          "text": "morfina"
+        },
+        {
+          "letter": "E",
+          "text": "pirenzepina"
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "question": "Quale diuretico favorisce leliminazione renale del fenobarbitale",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "furosemide"
+        },
+        {
+          "letter": "B",
+          "text": "mannitolo"
+        },
+        {
+          "letter": "C",
+          "text": "acetazolamide"
+        },
+        {
+          "letter": "D",
+          "text": "amiloride"
+        },
+        {
+          "letter": "E",
+          "text": "spironolattone"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "question": "Con quale meccanismo d'azione agiscono i diuretici tiazidici",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "blocco del canale del Na+"
+        },
+        {
+          "letter": "B",
+          "text": "inibizione del simporto Na+/CI-"
+        },
+        {
+          "letter": "C",
+          "text": "favoriscono il riassorbimento di Ca++"
+        },
+        {
+          "letter": "D",
+          "text": "inibiscono lescrezione di K+"
+        },
+        {
+          "letter": "E",
+          "text": "più di un'indicazione è corretta"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "question": "La somministrazione di interferone:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "deve essere preceduta dalla somministrazione di un antipiretico"
+        },
+        {
+          "letter": "B",
+          "text": "deve essere fatta in pazienti a stomaco pieno"
+        },
+        {
+          "letter": "C",
+          "text": "deve essere fatta in pazienti a digiuno"
+        },
+        {
+          "letter": "D",
+          "text": "deve essere fatta 2 ore dopo il pasto"
+        },
+        {
+          "letter": "E",
+          "text": "non ha"
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "question": "L'entacapone agisce:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "bloccando le COMT"
+        },
+        {
+          "letter": "B",
+          "text": "bloccando le MAO A e B"
+        },
+        {
+          "letter": "C",
+          "text": "bloccando le dopadecarbossilasi"
+        },
+        {
+          "letter": "D",
+          "text": "bloccando la DHFR"
+        },
+        {
+          "letter": "E",
+          "text": "bloccando la triptofano idrossilasi"
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "question": "Ein caso di intensa attività fisica sartani sono inibitori A peptidergici",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "parziali"
+        },
+        {
+          "letter": "B",
+          "text": "non peptidergici"
+        },
+        {
+          "letter": "C",
+          "text": "delle proteasi"
+        },
+        {
+          "letter": "D",
+          "text": "indiretti"
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "question": "Il metabolismo del Losartan A produce un metabolita attivo B produce un metabolita inattivo non ha effetti significativi",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "il Losartan non subisce trasformazioni metaboliche"
+        },
+        {
+          "letter": "B",
+          "text": "Eavviene a livello muscolare"
+        },
+        {
+          "letter": "C",
+          "text": "sartani devono essre usati con cautela"
+        },
+        {
+          "letter": "D",
+          "text": "nei soggetti con stenosi dell'arteria renale"
+        },
+        {
+          "letter": "E",
+          "text": "in caso di diarrea"
+        }
+      ]
+    }
+  ]
+}

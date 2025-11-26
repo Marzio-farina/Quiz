@@ -1,0 +1,1817 @@
+{
+  "metadata": {
+    "sourceFile": "ssfo-quiz-modello5.pdf",
+    "extractionDate": "2025-11-26T21:07:11.396Z",
+    "totalQuizzes": 71,
+    "note": null
+  },
+  "quizzes": [
+    {
+      "id": 141,
+      "question": "Ilvolume di distribuzione rappresenta:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "volume plasmatico"
+        },
+        {
+          "letter": "B",
+          "text": "rapporto tra la dose di farmaco somministrata e la concentrazione plasmatica"
+        },
+        {
+          "letter": "C",
+          "text": "volume totale dei liquidi fisiologici"
+        },
+        {
+          "letter": "D",
+          "text": "volume del sangue"
+        },
+        {
+          "letter": "E",
+          "text": "volume del tratto"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 142,
+      "question": "Per clearance si intende:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Nessuna delle indicazioni fornite corretta"
+        },
+        {
+          "letter": "B",
+          "text": "L'eliminazione di un farmaco dall'organismo nellunità di tempo"
+        },
+        {
+          "letter": "C",
+          "text": "volume virtuale di plasma che un dato organo è in grado di depurare nellunità di tempo"
+        },
+        {
+          "letter": "D",
+          "text": "L'eliminazione renale"
+        },
+        {
+          "letter": "E",
+          "text": "L'eliminazione biliare"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 143,
+      "question": "Il termine AUC: Nessuna delle indicazioni fornite corretta",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Rappresenta un parametro chimico-fisico"
+        },
+        {
+          "letter": "B",
+          "text": "E' una misura della concentrazione; a livello urinario; di un farmaco"
+        },
+        {
+          "letter": "C",
+          "text": "Rappresenta la concentrazione plasmatica al Tmax"
+        },
+        {
+          "letter": "D",
+          "text": "Rappresenta l'integrale della curva che descrive l'andamento della concentrazione plasmatica di un farmaco in funzione del tempo"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 144,
+      "question": "L'acidificazione dell'urina: Favorisce l'eliminazione delle basi deboli",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Favorisce leliminazione degli acidi deboli"
+        },
+        {
+          "letter": "B",
+          "text": "Non influenza leliminazione degli elettroliti deboli"
+        },
+        {
+          "letter": "C",
+          "text": "Influenza leliminazione delle sostanze neutre"
+        },
+        {
+          "letter": "D",
+          "text": "Influenza leliminazione di tutte le sostanze azotate"
+        }
+      ],
+      "correctAnswer": "A"
+    },
+    {
+      "id": 160,
+      "question": "Si definiscono reazioni metaboliche di fase I:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "le reazioni che avvengono nel metabolismo di primo passaggio"
+        },
+        {
+          "letter": "B",
+          "text": "le reazioni metaboliche che espongono un gruppo funzionale in genere piu' lipofilo"
+        },
+        {
+          "letter": "C",
+          "text": "le reazioni di coniugazione di uno xenobiotico con sottostrutture presenti nell'organismo"
+        },
+        {
+          "letter": "D",
+          "text": "le reazioni metaboliche che avvengono all'atto dell'assorbimento"
+        },
+        {
+          "letter": "E",
+          "text": "le reazioni metaboliche che espongonoun gruppo funzionale; in genere piu' idrofilo"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 161,
+      "question": "Si definiscono reazioni metaboliche di fase Il:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "le reazioni che avvengono nel metabolismo di primo passaggio"
+        },
+        {
+          "letter": "B",
+          "text": "le reazioni metaboliche che comportano lesposizione di un gruppo funzionale in genere piu' lipofilo le reazioni di coniugazione di uno xenobiotico con sottostrutture presenti nellorganismo le reazioni metaboliche che avvengono all'atto dell'assorbimento"
+        },
+        {
+          "letter": "C",
+          "text": "le reazioni metaboliche che comportano l'esposizione di un gruppo funzionale in genere piu' idrofilo"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 162,
+      "question": "Le reazioni di ossidazione catalizzate dal CYPB4A:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Sono reazioni di ossidazione catalizzate da una specifica isoforma del citocromo P 450, a carico di uno xenobiotico"
+        },
+        {
+          "letter": "B",
+          "text": "Sono reazioni di biotrasformazione relative alla riduzione di alcoli Sono reazioni di biotrasformazione relative all'ossidazione di alcoli"
+        },
+        {
+          "letter": "C",
+          "text": "Nessuna delle indicazioni fornite è corretta"
+        },
+        {
+          "letter": "D",
+          "text": "Tutte le indicazioni fornite sono corrette"
+        }
+      ],
+      "correctAnswer": "A"
+    },
+    {
+      "id": 163,
+      "question": "L'eliminazione di farmaci per via renale e' piu' probabile: Per sostanze a basso peso molecolare",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Per sostanze lipofile"
+        },
+        {
+          "letter": "B",
+          "text": "Per sostanze idrofile"
+        },
+        {
+          "letter": "C",
+          "text": "Per macromolecole"
+        },
+        {
+          "letter": "D",
+          "text": "Per sostanze di natura acida"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 164,
+      "question": "Il sistema di classificazione ATC dei farmaci si basa su:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "3 livelli di classificazione"
+        },
+        {
+          "letter": "B",
+          "text": "livelli di classificazione 5 livelli di classificazione"
+        },
+        {
+          "letter": "C",
+          "text": "6 livelli di classificazione"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 195,
+      "question": "La solubilità dei sulfamidici è elevata: in ambiente neutro",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "in ambiente acido"
+        },
+        {
+          "letter": "B",
+          "text": "in ambiente alcalino"
+        },
+        {
+          "letter": "C",
+          "text": "per qualunque valore di pH"
+        },
+        {
+          "letter": "D",
+          "text": "nessuna delle indicazioni fornite è corretta"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 196,
+      "question": "Le proteine G perlopiù:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "possiedono attività tirosin-chinasica"
+        },
+        {
+          "letter": "B",
+          "text": "legano il GTP"
+        },
+        {
+          "letter": "C",
+          "text": "legano lo ione calcio"
+        },
+        {
+          "letter": "D",
+          "text": "legano la PKA"
+        },
+        {
+          "letter": "E",
+          "text": "legano lATP"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 197,
+      "question": "Il valore di",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "corrisponde al valore di pH al quale il farmaco è totalmente ionizzato"
+        },
+        {
+          "letter": "B",
+          "text": "corrisponde al valore di pH al quale il farmaco non è ionizzato"
+        },
+        {
+          "letter": "C",
+          "text": "corrisponde al logaritmo negativo della costante di ionizzazione acida"
+        },
+        {
+          "letter": "D",
+          "text": "la costante di ionizzazione acida"
+        },
+        {
+          "letter": "E",
+          "text": "nessuna delle indicazioni fornite è corretta"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 198,
+      "question": "Quale è la definizione più corretta di modulatore allosterico positivo? pKa:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "blocca leffetto degli antagonisti"
+        },
+        {
+          "letter": "B",
+          "text": "facilita il legame dell'agonista al proprio recettore"
+        },
+        {
+          "letter": "C",
+          "text": "agisce sullo stesso sito dell agonista"
+        },
+        {
+          "letter": "D",
+          "text": "facilita il legame dell'antagonista"
+        },
+        {
+          "letter": "E",
+          "text": "impedisce il legame dell'agonista al proprio recettore"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 303,
+      "question": "Il farmacoforo presente negli ansiolitici a struttura benzodiazepinica; che impartisce attività agonista per il recettore GABAA è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "5-fenil-1,4-benzodiazepina"
+        },
+        {
+          "letter": "B",
+          "text": "1,4-benzodiazepin-2-one"
+        },
+        {
+          "letter": "C",
+          "text": "5-fenil-1,4-benzodiazepin-2-one"
+        },
+        {
+          "letter": "D",
+          "text": "5-fenil-1-metil-1,4-benzodiazepina"
+        },
+        {
+          "letter": "E",
+          "text": "5-fenil-3-idrossi-1,4-benzodiazepina"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 304,
+      "question": "L'introduzione di gruppi elettron-attrattori in posizione 7 delle benzodiazepine aumenta l'effetto ansiolitico",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "aumenta l'effetto ipnotico e sedativo"
+        },
+        {
+          "letter": "B",
+          "text": "aumenta l'effetto miorilassante"
+        },
+        {
+          "letter": "C",
+          "text": "diminuisce l'effetto ipnotico-sedativo"
+        },
+        {
+          "letter": "D",
+          "text": "aumenta l'effetto anticonvulsivante"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 305,
+      "question": "Nelle benzodiazepine; l'attività ottimate si registra quando: lanello aromatico A e il fenile in 5 sono coplanari",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_STRUTTURA",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "\"'anello aromatico A e il fenile in 5 sono sostituiti con gruppi elettro attrattori"
+        },
+        {
+          "letter": "B",
+          "text": "lanello aromatico A e il C-O in 2 sono coplanari"
+        },
+        {
+          "letter": "C",
+          "text": "fenile in 5 e il C-0 sono coplanari"
+        },
+        {
+          "letter": "D",
+          "text": "Il fenile in 5 e l'azoto in 1 sono sostituiti da alchili"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 306,
+      "question": "In benzodiazepine come lOxazepam; la presenza dell'ossidrile in 3: OH potenzia l'attività ipnotico-sedativo",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "aumenta l'emivita del farmaco"
+        },
+        {
+          "letter": "B",
+          "text": "previene il legame con le proteine plasmatiche"
+        },
+        {
+          "letter": "C",
+          "text": "facilita l'eliminazione"
+        },
+        {
+          "letter": "D",
+          "text": "aumenta la solubilità nella biofase"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 307,
+      "question": "Nelle benzodiazepine; la presenza dell'alchile allN1 0 l'introduzione del ciclo triazolico: rallenta il metabolismo",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "favorisce l'assorbimento intestinale"
+        },
+        {
+          "letter": "B",
+          "text": "potenzia l'interazione con il recettore GABAA"
+        },
+        {
+          "letter": "C",
+          "text": "facilità /'eliminazione"
+        },
+        {
+          "letter": "D",
+          "text": "riduce la tossicità periferica"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 422,
+      "question": "Per rimozione del ponte epossidico della morfina sono stati ottenuti derivati classificati come: morfinani",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "benzomorfani"
+        },
+        {
+          "letter": "B",
+          "text": "fenilpiperidine"
+        },
+        {
+          "letter": "C",
+          "text": "fenilpropilammine"
+        },
+        {
+          "letter": "D",
+          "text": "benzammidi"
+        }
+      ],
+      "correctAnswer": "A"
+    },
+    {
+      "id": 423,
+      "question": "L'analgesico oppioide Petidina 0 Meperidina appartiene alla classe: morfinani",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "benzomorfani"
+        },
+        {
+          "letter": "B",
+          "text": "fenilpiperidine"
+        },
+        {
+          "letter": "C",
+          "text": "fenilpropilammine"
+        },
+        {
+          "letter": "D",
+          "text": "benzammidi"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 424,
+      "question": "L'analgesico oppioide Pentazocina appartiene alla classe:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "morfinani"
+        },
+        {
+          "letter": "B",
+          "text": "benzomorfani"
+        },
+        {
+          "letter": "C",
+          "text": "fenilpiperidine"
+        },
+        {
+          "letter": "D",
+          "text": "fenilpropilammine"
+        },
+        {
+          "letter": "E",
+          "text": "benzammidi"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 425,
+      "question": "L'analgesico oppioide Metadone appartiene alla classe:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "morfinani"
+        },
+        {
+          "letter": "B",
+          "text": "benzomorfani"
+        },
+        {
+          "letter": "C",
+          "text": "fenilpiperidine"
+        },
+        {
+          "letter": "D",
+          "text": "fenilpropilammine"
+        },
+        {
+          "letter": "E",
+          "text": "benzammidi"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 509,
+      "question": "Quale delle seguenti affermazioni sull' Indometacina NON è corretta:",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_STRUTTURA",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un acido indolacetico"
+        },
+        {
+          "letter": "B",
+          "text": "mostra preferenza per la COX-1"
+        },
+        {
+          "letter": "C",
+          "text": "la conformazione attiva è la trans"
+        },
+        {
+          "letter": "D",
+          "text": "la repulsione tra il metile in 2 e il carbonile promuove la non coplanarità"
+        },
+        {
+          "letter": "E",
+          "text": "il metile in 2 promuove linibizione pseudo-irreversibile della COX-1"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 510,
+      "question": "Quali delle seguenti affermazioni NON corretta: Sulindac, la cui struttura è di seguito indicata: COOH CH3 H3C_ s un acido indolacetico",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_ISOMERIA",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "ha come isomero attivo l'isomero E un profarmaco"
+        },
+        {
+          "letter": "B",
+          "text": "la repulsione tra gli idrogeni del C-7 e quelli in orto sul fenile promuovono la non coplanarità"
+        },
+        {
+          "letter": "C",
+          "text": "il metile in 2 non promuove l'inibizione pseudo-irreversibile della COX"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 511,
+      "question": "L'Etodoloc ha effetti gastrointestinali relativamente modesti perché: COOH un profarmaco",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "inibisce con uguale potenza la COX-1 e la COX-2"
+        },
+        {
+          "letter": "B",
+          "text": "ha concentrazione plasmatica bassa"
+        },
+        {
+          "letter": "C",
+          "text": "ha maggiore affinità per la COX-2 rispetto alla COX-1"
+        },
+        {
+          "letter": "D",
+          "text": "ha una clearance molto rapida"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 612,
+      "question": "Il sostituente eterociclico in C-7 dei chinoloni:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "potenzia l'azione sistemica"
+        },
+        {
+          "letter": "B",
+          "text": "ampia lo spettro dazione nei confronti dei Gram positivi e Gram negativi"
+        },
+        {
+          "letter": "C",
+          "text": "permette un'efficace azione a livello delle vie urinarie"
+        },
+        {
+          "letter": "D",
+          "text": "potenzia il legame con le proteine plasmatiche"
+        },
+        {
+          "letter": "E",
+          "text": "più di una risposta è corretta"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 613,
+      "question": "La Nitrofurantoina N-N~ NH O2N- agisce come farmaco inalterato",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "viene bio attivata ad opera di una ossidasi"
+        },
+        {
+          "letter": "B",
+          "text": "viene bio attivata ad opera di una reduttasi"
+        },
+        {
+          "letter": "C",
+          "text": "agisce dopo il legame alle proteina plasmatiche"
+        },
+        {
+          "letter": "D",
+          "text": "forma un complesso attivo nel citoplasma cellulare"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 614,
+      "question": "Il meccanismo dazione del Linezolid è l'inibizione della: formazione del peptidoglicano",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "biosintesi dell'acido folico"
+        },
+        {
+          "letter": "B",
+          "text": "girasi batterica"
+        },
+        {
+          "letter": "C",
+          "text": "subunità ribosomiale 5OS"
+        },
+        {
+          "letter": "D",
+          "text": "della ferrodossina"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 835,
+      "question": "Indicare laffermazione NON vera per lantibiotico antitubercolare rifabutina:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "pH fisiologico prevale la specie zwitterionica può"
+        },
+        {
+          "letter": "B",
+          "text": "meglio assorbita a livello gastrointestinale rispetto ad altre ansamicine Lo spettro dazione è simile a quello della rifampicina presenta durata dazione di circa 35-45 h viene subito ampiamente metabolizzata dall'effetto di primo passaggio"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 836,
+      "question": "Quale dei seguenti farmaci antibatterici inibisce la sintesi del peptidoglicano interferendo con lidrolisi del bactoprenolo:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "ciprofloxacina"
+        },
+        {
+          "letter": "B",
+          "text": "rifabutina amoxicillina fosfomicina bacitracina A 9. ALTRI ANTIBIOTICI inibendo la sintesi del peptidoglicano"
+        },
+        {
+          "letter": "C",
+          "text": "alterando la permeabilit della membrana"
+        },
+        {
+          "letter": "D",
+          "text": "inibendo girasiltopoisomerasi"
+        },
+        {
+          "letter": "E",
+          "text": "inibendo la RNA-polimerasi; DNA-dipendente"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 902,
+      "question": "Quale delle seguenti rifamicine ha un'emivita molto lunga (35-45 h)? Rifapentina",
+      "category": "MICROBIOLOGIA",
+      "subcategory": "MICROBIOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Rifabutina Rifampicina"
+        },
+        {
+          "letter": "B",
+          "text": "Rifamicina SV"
+        },
+        {
+          "letter": "C",
+          "text": "Rifamide"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 1113,
+      "question": "Quale affermazione NON è corretta per il farmaco antidepressivo escitalopram N",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un inibitore molto selettivo di SERT, legandosi solo al sito primario ad alta affinità per la serotonina"
+        },
+        {
+          "letter": "B",
+          "text": "un inibitore molto selettivo di SERT, legandosi sia al sito ad alta affinità che a quello a bassa affinità per la serotonina"
+        },
+        {
+          "letter": "C",
+          "text": "metaboliti N-desmetilderivato e N-didesmetilderivato sono ancora attivi la presenza di un gruppo amminico terziario favorisce la selelttività per il SERT"
+        },
+        {
+          "letter": "D",
+          "text": "la presenza del sostituente F non influenza laffinità per il SERT"
+        }
+      ],
+      "correctAnswer": "A"
+    },
+    {
+      "id": 1114,
+      "question": "A quale farmaco antidepressivo appartiene la seguente struttura: paroxetina",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_SISTEMA_NERVOSO",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "nisoxetina"
+        },
+        {
+          "letter": "B",
+          "text": "duloxetina"
+        },
+        {
+          "letter": "C",
+          "text": "sertralinaT"
+        },
+        {
+          "letter": "D",
+          "text": "venlafaxina"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 1201,
+      "question": "Quale tipo di relazione molecolare correla tra loro gli antiepilettici idantoinici; succinimmidici e ossazolidindionici:",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_STRUTTURA",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "isomeria"
+        },
+        {
+          "letter": "B",
+          "text": "isosteria omologia"
+        },
+        {
+          "letter": "C",
+          "text": "vinilogia"
+        },
+        {
+          "letter": "D",
+          "text": "semplificazione molecolare"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 1202,
+      "question": "Il Pentobarbital è:",
+      "category": "ALTRO",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un'idantoina"
+        },
+        {
+          "letter": "B",
+          "text": "una succinimmide"
+        },
+        {
+          "letter": "C",
+          "text": "un barbiturico"
+        },
+        {
+          "letter": "D",
+          "text": "un tiobarbiturico"
+        },
+        {
+          "letter": "E",
+          "text": "nessuna delle indicazioni fornite"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 1203,
+      "question": "Quale indicazione; tra le strutture generali; è corretta per il Fenobartital: NH",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "R = H"
+        },
+        {
+          "letter": "B",
+          "text": "R = CH3"
+        },
+        {
+          "letter": "C",
+          "text": "R = C2H5"
+        },
+        {
+          "letter": "D",
+          "text": "R = C3Hz"
+        },
+        {
+          "letter": "E",
+          "text": "R = CsH5"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 1204,
+      "question": "Quale nome comune corretto per la seguente struttura: NH barbitale",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_ACIDI_BASI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "fenobarbital"
+        },
+        {
+          "letter": "B",
+          "text": "acido barbiturico"
+        },
+        {
+          "letter": "C",
+          "text": "etosuccimide"
+        },
+        {
+          "letter": "D",
+          "text": "fenitoina NH"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 1403,
+      "question": "Indicare la risposta ERRATA per lantitubercolare Isoniazide: mostra emivita differente in diverse popolazioni",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "inibisce la sintesi del peptidoglicano"
+        },
+        {
+          "letter": "B",
+          "text": "agisce da profarmaco"
+        },
+        {
+          "letter": "C",
+          "text": "interferisce con il sistema enzimatico NADHINAD+"
+        },
+        {
+          "letter": "D",
+          "text": "forma metaboliti che legano covalentemente gli epatociti"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 1404,
+      "question": "L'antitubercolare Etambutolo agisce inibendo: la biosintesi degli acidi micolici",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_SINTESI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "la arabinosil transferasi"
+        },
+        {
+          "letter": "B",
+          "text": "la biosintesi del peptidoglicano"
+        },
+        {
+          "letter": "C",
+          "text": "la biosintesi dell'acido folico"
+        },
+        {
+          "letter": "D",
+          "text": "il ribosoma"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 1405,
+      "question": "L'antitubercolare Pirazinamide agisce: inibendo la biosintesi degli acidi micolici",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_SINTESI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "inibendo la arabinosil transferasi"
+        },
+        {
+          "letter": "B",
+          "text": "disabilita la captazione di nutrienti"
+        },
+        {
+          "letter": "C",
+          "text": "inibendo la biosintesi dell'acido folico"
+        },
+        {
+          "letter": "D",
+          "text": "nessuna delle indicazioni fornite è corretta"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 1406,
+      "question": "L'antitubercolare PAS, (acido para-aminosalicilico) inibisce: la biosintesi degli acidi micolici la arabinosil transferasi",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_SINTESI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "la captazione di nutrienti la biosintesi della diidrofolato-sintetasi"
+        },
+        {
+          "letter": "B",
+          "text": "il ribosoma"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 1502,
+      "question": "Indicare la risposta errata per gli antifungini imidazolici:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "legano la 140 demetilasi"
+        },
+        {
+          "letter": "B",
+          "text": "sono più potenti dei derivati triazolici"
+        },
+        {
+          "letter": "C",
+          "text": "vengono utilizzati tutti per via sistemica"
+        },
+        {
+          "letter": "D",
+          "text": "hanno mediamente emivita più breve dei triazoli"
+        },
+        {
+          "letter": "E",
+          "text": "la struttura azolica in posizione 3 è essenziale"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 1503,
+      "question": "Indicare la risposta errata per gli antifungini triazolici: triazolici legano la 140 demetilasi",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "sono meno potenti dei derivati imidazolici"
+        },
+        {
+          "letter": "B",
+          "text": "vengono utilizzati solamente per via topica"
+        },
+        {
+          "letter": "C",
+          "text": "hanno mediamente emivita più lunga degli imidazoli"
+        },
+        {
+          "letter": "D",
+          "text": "la posizione 4 perla struttura triazolica è essenziale"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 1504,
+      "question": "Indicare la risposta errata per gli antifungini triazolici: legano la 140 demetilasi",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "sono meno potenti dei derivati imidazolici"
+        },
+        {
+          "letter": "B",
+          "text": "molti vengono utilizzati per via sistemica"
+        },
+        {
+          "letter": "C",
+          "text": "hanno mediamente emivita più breve degli imidazoli"
+        },
+        {
+          "letter": "D",
+          "text": "la struttura triazolica 4 è essenziale"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 1901,
+      "question": "Secondo lipotesi della ferriprotoporfirina IX; gli antimalarici 4-amminochinolinici: inibiscono il legame dell'ossigeno all'emoglobina",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "inibiscono la trasformazione dell'emoglobina in ematina formano un complesso r con l'emoglobina"
+        },
+        {
+          "letter": "B",
+          "text": "bloccano il metabolismo dell'emoglobina"
+        },
+        {
+          "letter": "C",
+          "text": "inibiscono la polimerizzazione dell'ematina in emozoina"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 1902,
+      "question": "Quale dei seguenti protozoi causa la malaria terzana maligna: Plasmodium malariae",
+      "category": "ALTRO",
+      "subcategory": null,
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Plasmodium falciparum"
+        },
+        {
+          "letter": "B",
+          "text": "Plasmodium vivax"
+        },
+        {
+          "letter": "C",
+          "text": "Plasmodium ovale"
+        },
+        {
+          "letter": "D",
+          "text": "tutti plasmodi citati"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 1903,
+      "question": "Indicare la risposta ERRATA per lantimalarico Clorochina: il Cloro in C-7 potenzia lazione",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_ISOMERIA",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "la stereochimica del centro chirale è rilevante per lattività"
+        },
+        {
+          "letter": "B",
+          "text": "Yintroduzione di gruppi alchilici in C3 C8 non potenzia lazione"
+        },
+        {
+          "letter": "C",
+          "text": "il derivato N-etilico idrossilato è altrettanto attivo come la Clorochina"
+        },
+        {
+          "letter": "D",
+          "text": "anche i prodotti di N-dealchilazione sono metaboliti attivi"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 2012,
+      "question": "Gli antitumorali intercalanti:",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_STRUTTURA",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "formano legami covalenti con I'N7 della guanina"
+        },
+        {
+          "letter": "B",
+          "text": "alterano lequilibrio dinamico dei microtubuli"
+        },
+        {
+          "letter": "C",
+          "text": "formano radicali reattivi verso le basi degli acidi nucleici"
+        },
+        {
+          "letter": "D",
+          "text": "inseriscono una molecola relativamente planare tra coppie di basi adiacenti"
+        },
+        {
+          "letter": "E",
+          "text": "sono inibitori delle chinasi"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 2013,
+      "question": "Le mostarde antitumorali:",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_STRUTTURA",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "formano legami covalenti con I'N7 della guanina"
+        },
+        {
+          "letter": "B",
+          "text": "alterano lequilibrio dinamico dei microtubuli"
+        },
+        {
+          "letter": "C",
+          "text": "formano radicali reattivi verso le basi degli acidi nucleici"
+        },
+        {
+          "letter": "D",
+          "text": "inseriscono una molecola relativamente planare tra coppie di basi adiacenti"
+        },
+        {
+          "letter": "E",
+          "text": "sono inibitori delle chinasi"
+        }
+      ],
+      "correctAnswer": "A"
+    },
+    {
+      "id": 2014,
+      "question": "L'antimetabolita metotressato è",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_STRUTTURA",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un inibitore specifico del metabolimo un agente che agisce sul metabolismo corporeo 2 un ritrovato della metabolomica un RNA interferente"
+        },
+        {
+          "letter": "B",
+          "text": "una molecola simile all'acido folico"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 2015,
+      "question": "Gli alcaloidi antitumorali della Vinca:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "legano il solco minore del DNA"
+        },
+        {
+          "letter": "B",
+          "text": "si intercalano all'interno della doppia elica del DNA"
+        },
+        {
+          "letter": "C",
+          "text": "causano frammentazione del DNA"
+        },
+        {
+          "letter": "D",
+          "text": "formano ponti tra coppie di basi del DNA"
+        },
+        {
+          "letter": "E",
+          "text": "impediscono la polimerizzazione della tubulina"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 2115,
+      "question": "Indicare la risposta NON corretta per la cetirizina; antistaminico anti H-1 OH un derivato piperazinico in forma zwitterionica a pH fisiologico ha un atomo di C chirale e leutomero; levorotatorio; ha configurazione assoluta R ha un'elevata affinità per la glicoproteina P",
+      "category": "CHIMICA_FARMACEUTICA",
+      "subcategory": "CHIMICA_FARMACEUTICA_ISOMERIA",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "ha una significativa componente di attività antimuscarinica"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 2116,
+      "question": "Indicare la risposta NON corretta per la desloratadina; antistaminico anti H-1 epatico",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un profarmaco"
+        },
+        {
+          "letter": "B",
+          "text": "ha un sostutuente cloro che aumenta la potenza dell'antagonista"
+        },
+        {
+          "letter": "C",
+          "text": "ha pesanti effetti sedativi sul SNC"
+        },
+        {
+          "letter": "D",
+          "text": "mantiene una residua attività antimuscarinica"
+        },
+        {
+          "letter": "E",
+          "text": "più di una risposta non è corretta"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 2117,
+      "question": "Indicare la risposta NON corretta per lantazolina; antistaminico anti H-1",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un derivato imidazolinico ha anche un'azione anestetica locale indicata per luso oftamico"
+        },
+        {
+          "letter": "B",
+          "text": "ha una componete dazione analgesica oppioide"
+        },
+        {
+          "letter": "C",
+          "text": "un antagonista ai recettori H4"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 2411,
+      "question": "Quali di questi farmaci è un diuretico dell'ansa?",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "furosemide"
+        },
+        {
+          "letter": "B",
+          "text": "clorotiazide acetazolamide"
+        },
+        {
+          "letter": "C",
+          "text": "indapamide"
+        },
+        {
+          "letter": "D",
+          "text": "triamterene 25. ANTIVIRALI"
+        }
+      ],
+      "correctAnswer": "A"
+    },
+    {
+      "id": 2501,
+      "question": "Quale delle seguenti fasi del ciclo di replicazione è caratteristica di un retrovirus spoliazione",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "adsorbimento trascrizione inversa"
+        },
+        {
+          "letter": "B",
+          "text": "assemblaggio"
+        },
+        {
+          "letter": "C",
+          "text": "maturazione"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 2502,
+      "question": "Indicare la risposta NON corretta per l'Enfuvirtide; inibitore della fusione del virus HIV-1. Il farmaco:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "si lega fortemente alle proteine plasmatiche"
+        },
+        {
+          "letter": "B",
+          "text": "eliminato inalterato con le urine"
+        },
+        {
+          "letter": "C",
+          "text": "deve essere somministrato per via sottocutanea"
+        },
+        {
+          "letter": "D",
+          "text": "si lega alla proteina GP41"
+        },
+        {
+          "letter": "E",
+          "text": "presenta reazioni locali nel sito di iniezione"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 2503,
+      "question": "Indicare la risposta NON corretta per lEnfuvirtide; inibitore della fusione del virus HIV-1 . Il farmaco:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "previene un cambiamento conformazionale"
+        },
+        {
+          "letter": "B",
+          "text": "si lega ad una zona ricca di triptofano"
+        },
+        {
+          "letter": "C",
+          "text": "impedisce l'interazione tra GP120, GP 41 e recettore CDA"
+        },
+        {
+          "letter": "D",
+          "text": "un peptide naturale di 36 aminoacidi"
+        },
+        {
+          "letter": "E",
+          "text": "subisce processamento proteico"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 2516,
+      "question": "L'agente anti-HIV-1 zidovudina (AZT) è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un piccolo peptide un nucleotide 8 un nucleoside"
+        },
+        {
+          "letter": "B",
+          "text": "un non-nucleoside"
+        },
+        {
+          "letter": "C",
+          "text": "nucleoside forforamidato_"
+        }
+      ],
+      "correctAnswer": "C"
+    },
+    {
+      "id": 2517,
+      "question": "L'agente anti-epatite C sofosbuvir è:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "un piccolo peptide"
+        },
+        {
+          "letter": "B",
+          "text": "un nucleotide"
+        },
+        {
+          "letter": "C",
+          "text": "un nucleoside"
+        },
+        {
+          "letter": "D",
+          "text": "un non-nucleoside"
+        },
+        {
+          "letter": "E",
+          "text": "nucleoside fosforamidato"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 2518,
+      "question": "Quale delle seguenti classi di farmaci è utilizzato come prima linea contro lHIV?",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "inibitori dell'integrasi"
+        },
+        {
+          "letter": "B",
+          "text": "interferoni"
+        },
+        {
+          "letter": "C",
+          "text": "Induttori di interferone"
+        },
+        {
+          "letter": "D",
+          "text": "inibitori della neuraminidasi"
+        },
+        {
+          "letter": "E",
+          "text": "nibitori della cap-endonucleasi"
+        }
+      ],
+      "correctAnswer": "A"
+    },
+    {
+      "id": 2519,
+      "question": "Gli interferoni sono agenti antivirali che:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "inibiscono la retrotrascrizione"
+        },
+        {
+          "letter": "B",
+          "text": "mimano lo stadio di transizione della proteasi"
+        },
+        {
+          "letter": "C",
+          "text": "impediscono la formazione dei legami 3' ,5'-fosfodiesterici"
+        },
+        {
+          "letter": "D",
+          "text": "sono proteine che proteggono le cellule che si trovano nelle vicinanze"
+        },
+        {
+          "letter": "E",
+          "text": "inibiscolo il rilascio del virione maturo"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 2902,
+      "question": "Quale vantaggiio si ottiene utilizzando esomeprazoolo rispetto a omeprazoolo Inibitore piu' potente della pompa protonica",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Piu' di una risposta e' corretta"
+        },
+        {
+          "letter": "B",
+          "text": "Ridotto metabolismo da del CYP2C19"
+        },
+        {
+          "letter": "C",
+          "text": "Maggior legame alle proteine plasmatiche"
+        },
+        {
+          "letter": "D",
+          "text": "Aumento della AUC"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 2903,
+      "question": "Gli inibitori di pompa agiscono Sono attivi tal quali",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Sono attivi dopo biotrasformazione metabolica parte Si attivano per riarrangiamento strutturale a contatto con succhi gastrici acidi Si attivano per riarrangiamento strutturale in ambiente molto acido dopo distribuzione sistemica"
+        },
+        {
+          "letter": "B",
+          "text": "Si attivano nella cellula epiteliale"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 2904,
+      "question": "Quale dei seguenti farmaci è un inibitore della H+/K+ ATPasi (pompa protonica):",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "Ranitidina"
+        },
+        {
+          "letter": "B",
+          "text": "Pantoprazolo"
+        },
+        {
+          "letter": "C",
+          "text": "Misoprostolo"
+        },
+        {
+          "letter": "D",
+          "text": "Mebensadolo"
+        },
+        {
+          "letter": "E",
+          "text": "Metoclopramide"
+        }
+      ],
+      "correctAnswer": "B"
+    },
+    {
+      "id": 3333,
+      "question": "La Ciprofloxacina ha pH isoelettrico: COOH HN",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "pari a 7.4"
+        },
+        {
+          "letter": "B",
+          "text": "a 2.5"
+        },
+        {
+          "letter": "C",
+          "text": "4.5"
+        },
+        {
+          "letter": "D",
+          "text": "non ha punto isoelettrico"
+        },
+        {
+          "letter": "E",
+          "text": "ne ha due: 2.5 e 7.4"
+        }
+      ],
+      "correctAnswer": "A"
+    },
+    {
+      "id": 3334,
+      "question": "La Carbenicillina ha pH isoelettrico: COOH CH3 CH3 COOH",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTIBIOTICI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "pari a 7.4"
+        },
+        {
+          "letter": "B",
+          "text": "pari a 2.5"
+        },
+        {
+          "letter": "C",
+          "text": "a 4.5"
+        },
+        {
+          "letter": "D",
+          "text": "non ha punto isoelettrico"
+        },
+        {
+          "letter": "E",
+          "text": "ne ha due: 2.5 e 4.5"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 3335,
+      "question": "Somministrare Morfina Cloridrato e Ketorolac in un'unica preparazione potrebbe: HO 4 alterare il grado di ionizzazione ed in particolare creare problemi OH di solubilità per il Ketorolac 4 N potrebbe HO\"7 causare la degradazione della morfina che instabile a pH acido non creerebbe alcun problema",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_ANTINFIAMMATORI",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "potrebbe causare la degradazione del Ketorolac che è instabile a pH acido"
+        },
+        {
+          "letter": "B",
+          "text": "non possibile perché interverrebbe una reazione chimica tra i due farmaci"
+        }
+      ],
+      "correctAnswer": "A"
+    },
+    {
+      "id": 3336,
+      "question": "Quale potrebbe essere il principale problema di una formulazione di 5-fluorouracile? NH una scarsa solubilità in mezzo acquoso",
+      "category": "FARMACEUTICA",
+      "subcategory": "FARMACEUTICA_LIQUIDE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "una grande reattività nei confronti dei componenti della soluzione fisiologica"
+        },
+        {
+          "letter": "B",
+          "text": "precipitazione a pH intorno a 5"
+        },
+        {
+          "letter": "C",
+          "text": "potrebbe dare interazioni col contenitore se questo è in plastica"
+        },
+        {
+          "letter": "D",
+          "text": "nessuna delle risposte risulta corretta"
+        }
+      ],
+      "correctAnswer": "E"
+    },
+    {
+      "id": 3337,
+      "question": "Quale potrebbe essere il pH di una soluzione acquosa di Efedrina cloridrato 0.1 M (pka-9.6)?",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "circa 9"
+        },
+        {
+          "letter": "B",
+          "text": "maggiore di 9"
+        },
+        {
+          "letter": "C",
+          "text": "neutro"
+        },
+        {
+          "letter": "D",
+          "text": "intorno a 5"
+        },
+        {
+          "letter": "E",
+          "text": "minore di 5"
+        }
+      ],
+      "correctAnswer": "D"
+    },
+    {
+      "id": 3338,
+      "question": "Per aumentare la stabilità di un principio attivo; a reazioni di idrolisi; è possibile:",
+      "category": "FARMACOLOGIA",
+      "subcategory": "FARMACOLOGIA_CARDIOVASCOLARE",
+      "answers": [
+        {
+          "letter": "A",
+          "text": "aumentare la sua concentrazione"
+        },
+        {
+          "letter": "B",
+          "text": "solubilizzarlo usando un solvente diverso dall'acqua"
+        },
+        {
+          "letter": "C",
+          "text": "tamponare il pH della soluzione acquosa in modo che sia maggiore di 8"
+        },
+        {
+          "letter": "D",
+          "text": "tamponare il pH della soluzione acquosa in modo che sia minore di 4"
+        },
+        {
+          "letter": "E",
+          "text": "nessuna delle indicazioni fornite è corretta"
+        }
+      ],
+      "correctAnswer": "B"
+    }
+  ]
+}

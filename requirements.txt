@@ -4,6 +4,19 @@
 # Installa con: pip install PyMuPDF
 PyMuPDF>=1.23.0
 
-# Pillow - per eventuale elaborazione immagini (opzionale)
-# Pillow>=10.0.0
+# Pillow - per elaborazione immagini
+# Installa con: pip install Pillow
+Pillow>=10.0.0
+
+# Dipendenze per OCR (estrazione testo da PDF scansionati)
+
+# pdf2image - converte PDF in immagini
+# Installa con: pip install pdf2image
+# Nota: Richiede anche poppler (vedi README_OCR.md)
+pdf2image>=1.16.0
+
+# pytesseract - wrapper Python per Tesseract OCR
+# Installa con: pip install pytesseract
+# Nota: Richiede anche Tesseract OCR (vedi README_OCR.md)
+pytesseract>=0.3.10
 

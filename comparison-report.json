@@ -1,0 +1,771 @@
+{
+  "totalNewQuestions": 70,
+  "totalExistingQuestions": 2990,
+  "duplicates": [
+    {
+      "newQuestionNumber": 12,
+      "newQuestion": "Cos'è un farmaco tocolitico?",
+      "existingMatches": [
+        {
+          "id": 501,
+          "question": "Cos'é un farmaco tocolitico?",
+          "category": "FARMACOLOGIA"
+        }
+      ]
+    },
+    {
+      "newQuestionNumber": 61,
+      "newQuestion": "Il numero di codice del lotto di un dispositivo medico:",
+      "existingMatches": [
+        {
+          "id": 20,
+          "question": "Il numero di codice del lotto di un dispositivo medico:",
+          "category": "LEGISLAZIONE"
+        }
+      ]
+    }
+  ],
+  "unique": [
+    {
+      "number": 1,
+      "question": "Indicare quali degli effetti sotto riportati è attribuibile ai corticosteroidi:",
+      "answers": [
+        "inibizione della trascrizione genica di alcune citochine",
+        "aumento della migrazione degli eosinofili nell'asma allergico",
+        "aumento della secrezione di muco a livello bronchiale",
+        "edema interstiziale",
+        "Accumulo adiposo agli arti"
+      ]
+    },
+    {
+      "number": 2,
+      "question": "La calcineurina è il target di quale farmaco:",
+      "answers": [
+        "sertralina",
+        "calcitonina",
+        "sirolimus",
+        "daclizumab",
+        "tacrolimus mediante il legame alla proteina FK506"
+      ]
+    },
+    {
+      "number": 3,
+      "question": "Quale tra i seguenti farmaci è un inibitore irreversibile delle ciclossigenasi?",
+      "answers": [
+        "diclofenac",
+        "paracetamolo",
+        "aspirina",
+        "nifedipina",
+        "prednisolone"
+      ]
+    },
+    {
+      "number": 4,
+      "question": "I cromoni sono indicati:",
+      "answers": [
+        "nell'attacco acuto d'asma",
+        "nella terapia della bronchite cronica ostruttiva",
+        "nella terapia preventiva dell'asma bronchiale",
+        "per il trattmento dell'angina",
+        "in associazione ai farmaci antimuscarinici per ridurre gli effetti indesiderati"
+      ]
+    },
+    {
+      "number": 5,
+      "question": "Gli antistaminici antagonizzano le azioni della istamina in quanto:",
+      "answers": [
+        "inibiscono la liberazione dell'istamina dalle mast-cellule",
+        "competono con l'istamina a livello dei recettori istaminergici",
+        "stimolano attività fisiologiche funzionalmente opposte a quelle provocate dall'istamina",
+        "inibiscono la degradazione dell'istamina",
+        "inibiscono la sintesi dell'istamina bloccando la istidina decarbossilasi"
+      ]
+    },
+    {
+      "number": 6,
+      "question": "I farmaci che possono dilatare i bronchi durante un attacco asmatico acuto  comprendono tutti i seguenti tranne:",
+      "answers": [
+        "adrenalina",
+        "terbutalina",
+        "nedocromile",
+        "salbutamolo",
+        "teofillina"
+      ]
+    },
+    {
+      "number": 7,
+      "question": "Indicare il tipo di recettore con il quale si lega il lansoprazolo:",
+      "answers": [
+        "recettore di membrana accoppiato ad una proteina Gi",
+        "recettore citoplasmatico",
+        "pompa protonica K+/H+ -ATPasi",
+        "canale ionico per il Ca++",
+        "canale ionico per il Na+"
+      ]
+    },
+    {
+      "number": 8,
+      "question": "La stimolazione dei recettori alfa1 determina tutti gli effetti elencati tranne:",
+      "answers": [
+        "contrazione muscolatura liscia vasale",
+        "contrazione muscolatura liscia bronchiale",
+        "rilasciamento muscolatura liscia gastro-intestinale",
+        "contrazione muscolatura liscia bronchiale",
+        "aumento della motilità intestinale"
+      ]
+    },
+    {
+      "number": 9,
+      "question": "Quale di queste affermazioni relative agli antagonisti H2 è FALSA:",
+      "answers": [
+        "bloccano in modo competitivo il recettore istaminergico localizzato sulla cellula parietale gastrica",
+        "sono impiegati per il trattamento delle infezioni intestinali",
+        "hanno un effetto di controllo sulla secrezione acida basale",
+        "possono essere usati nel trattamento della malattia da reflusso gastro-esofageo",
+        "possono avere effetti sulla motilità gastrointestinale"
+      ]
+    },
+    {
+      "number": 10,
+      "question": "L'infliximab è impiegato nel trattamento delle malattie infiammatorie del colon perchè:",
+      "answers": [
+        "eradica le specie batteriche responsabili della patologia",
+        "migliora la peristalsi intestinale agendo sulla componente nervosa della patologia",
+        "accenta l'azione del TNF sull'evoluzione della patologia",
+        "induce un aumento dell'appetito",
+        "neutralizza l'azione del TNFalfa nel sostenere l'infiammazione tessutale"
+      ]
+    },
+    {
+      "number": 11,
+      "question": "Indicare quali azioni sono svolte dagli estrogeni a livello osseo:",
+      "answers": [
+        "determinano mobilitazione dei fosfati dalla matrice ossea",
+        "aumentano l'espressione del TGF-beta",
+        "aumentano il riassorbimento osseo",
+        "non anno alcun effetto sull'osso",
+        "aumentano l'osteoporosi"
+      ]
+    },
+    {
+      "number": 13,
+      "question": "Tra i seguenti corticosteroidi, la più potente attività sodio-ritentiva è svolta da:",
+      "answers": [
+        "idrocortisone",
+        "desametasone",
+        "triamcinolone",
+        "fludrocortisone",
+        "nessuna delle precedenti risposte"
+      ]
+    },
+    {
+      "number": 14,
+      "question": "La melatonina",
+      "answers": [
+        "stimola la melanogenesi",
+        "riduce la durata del sonno",
+        "le risposte A e B, ma non C",
+        "nessuna delle precedenti risposte"
+      ]
+    },
+    {
+      "number": 15,
+      "question": "Il sildenafil (farmaco commercializzato con il nome di Viagra) inibisce le fosfodiesterasi",
+      "answers": [
+        "di tipo I",
+        "di tipo II",
+        "di tipo III",
+        "tutte le precedenti risposte",
+        "nessuna delle precedenti risposte"
+      ]
+    },
+    {
+      "number": 16,
+      "question": "Quale tra queste penicilline presenta una buona attività contro lo Pseudomonas?",
+      "answers": [
+        "amoxicillina",
+        "bacampicillina",
+        "ticarcillina",
+        "ampicilina",
+        "nessuna delle risposte precedenti"
+      ]
+    },
+    {
+      "number": 17,
+      "question": "La reazione avversa più comune conseguente all'uso di eritromicina e macrolidi glucosidici è:",
+      "answers": [
+        "a livello cutaneo",
+        "a livello uditivo",
+        "a livello gastro-intestinale",
+        "a livello dell'SNC",
+        "a livello cardiaco"
+      ]
+    },
+    {
+      "number": 18,
+      "question": "Quale di queste affermazioni relative alla teicoplanina è vera:",
+      "answers": [
+        "Se somministrata per via ev può provocare la \"sindrome dell'uomo rosso\" B è ben assorbita per via orale C è indicata nel trattamneto delle mucopolisaccaridosi",
+        "Penetra facilmente la BEE",
+        "Ha emivita plasmatica superiore a quella della vancomicina"
+      ]
+    },
+    {
+      "number": 19,
+      "question": "Quale dei seguenti farmaci blocca la folato reduttasi nelle cellule eucariote?",
+      "answers": [
+        "trimetoprim",
+        "metotrexate",
+        "pirimetamina",
+        "leucovorina",
+        "acido folico"
+      ]
+    },
+    {
+      "number": 20,
+      "question": "Nella terapia del glaucoma, la somministrazione combinata di β-bloccanti e β- stimolanti determina",
+      "answers": [
+        "una riduzione dell'effetto clinico",
+        "sempre un potenziamento dell'effetto clinico*",
+        "un potenziamento dell'effetto clinico solo in presenza di inibitori dell'anidrasi carbonica",
+        "deve essere evitata",
+        "non modifica l'effetto clinico dei β-bloccanti"
+      ]
+    },
+    {
+      "number": 21,
+      "question": "L’interazione del farmaco con la proteina target avviene nella fase:",
+      "answers": [
+        "farmaceutica",
+        "farmacodinamica",
+        "farmacocinetica",
+        "cellulare",
+        "plasmatica"
+      ]
+    },
+    {
+      "number": 22,
+      "question": "Il distomero è:",
+      "answers": [
+        "l’enantiomero meno attivo",
+        "l’enantiomero più attivo",
+        "l’isomero geometrico più attivo",
+        "l’isomero geometrico meno attivo",
+        "l’isomero conformazionale più attivo"
+      ]
+    },
+    {
+      "number": 23,
+      "question": "Quando il log P di una sostanza è uguale a +1:",
+      "answers": [
+        "La sostanza ha natura lipofila",
+        "La sostanza ha natura idrofila",
+        "Il coefficiente di ripartizione è 0",
+        "Il coefficiente di ripartizione è 1",
+        "Il coefficiente di ripartizione è -1"
+      ]
+    },
+    {
+      "number": 24,
+      "question": "Quale dei seguenti amminoacidi è ramificato:",
+      "answers": [
+        "glicina",
+        "alanina",
+        "isoleucina",
+        "serina",
+        "cisteina"
+      ]
+    },
+    {
+      "number": 25,
+      "question": "Il malonato dietilico:",
+      "answers": [
+        "ha idrogeni acidi",
+        "non ha idrogeni acidi C è un sale acido D è un sale basico",
+        "nessuna risposta è corretta"
+      ]
+    },
+    {
+      "number": 26,
+      "question": "La reazione metabolica di coniugazione con il glutatione avviene su:",
+      "answers": [
+        "atomi di carbonio elettrofili",
+        "atomi di carbonio nucleofili",
+        "catene alchiliche",
+        "catene cicloalchiliche",
+        "nessuna risposta è corretta"
+      ]
+    },
+    {
+      "number": 27,
+      "question": "La maggioranza degli anestetici locali ha pKa:",
+      "answers": [
+        "compreso tra 4.5 e 5.4",
+        "compreso tra 5.5 e 6.9",
+        "compreso tra 7.0 e 9.0",
+        "hanno tutti pKa = 7.2",
+        "nessuna risposta è esatta"
+      ]
+    },
+    {
+      "number": 28,
+      "question": "Il farmacoforo minimo per il legame delle benzodiazepine con il recettore GABA",
+      "answers": [
+        "5-fenil-1,4-benzodiazepina",
+        "1,4-benzodiazepin-2-one",
+        "5-fenil-1,4-benzodiazepin-2-one",
+        "5-fenil-1-metil-1,4-benzodiazepina",
+        "5-fenil-3-idrossi-1,4-benzodiazepina"
+      ]
+    },
+    {
+      "number": 29,
+      "question": "L'Eszopiclone è:",
+      "answers": [
+        "L'enantiomero (S) e ha affinità per il GABAA 50 volte superiore del (R)",
+        "L'enantiomero (R) e ha affinità per il GABAA 50 volte superiore del (S)",
+        "L'enantiomero (S) e viene metabolizzato con velocità 50 volte superiore del (R)",
+        "L'enantiomero (R) e viene metabolizzato con velocità 50 volte superiore del (S)",
+        "Gli enantiomeri (R) e (S) hanno medesimi metabolismo e affinità per il GABAA"
+      ]
+    },
+    {
+      "number": 30,
+      "question": "L’ossidrile in 14 beta dell’ossimorfone:",
+      "answers": [
+        "diminuisce l’affinità recettoriale, aumenta l’analgesia e riduce la distribuzione nel SNC",
+        "aumenta l’affinità recettoriale, aumenta l’analgesia e aumenta la distribuzione nel SNC",
+        "aumenta l’affinità recettoriale, diminuisce l’analgesia e riduce la distribuzione nel SNC",
+        "aumenta l’affinità recettoriale, aumenta l’analgesia e riduce la distribuzione nel SNC",
+        "diminuisce l’affinità recettoriale, diminuisce l’analgesia e riduce la distribuzione nel SNC"
+      ]
+    },
+    {
+      "number": 31,
+      "question": "L'acido acetilsalicilico è assorbito dal tratto gastrointestinale per:",
+      "answers": [
+        "trasporto attivo",
+        "trasporto facilitato",
+        "diffusione passiva",
+        "trasncitosi",
+        "attraverso porocanali"
+      ]
+    },
+    {
+      "number": 32,
+      "question": "Nei chinoloni, è indispensabile",
+      "answers": [
+        "un gruppo ciclopropilico in posizione 1",
+        "un atomo di fluoro in posizione 6",
+        "un gruppo metilico in posizione 5",
+        "una funzione carbossilica in posizione 3",
+        "un atomo di azoto in posizione 8"
+      ]
+    },
+    {
+      "number": 33,
+      "question": "Il nucleo biciclico dell’acido clavulanico è:",
+      "answers": [
+        "penem",
+        "penam",
+        "cefem",
+        "carbapenem",
+        "clavam"
+      ]
+    },
+    {
+      "number": 34,
+      "question": "Il microorganismo produttore del Cloramfenicolo è:",
+      "answers": [
+        "Streptomyces fradiae",
+        "Streptomyces kanamiceticus",
+        "Streptomyces venezualae",
+        "Streptomyces griseus",
+        "Streptomyces rhimosus"
+      ]
+    },
+    {
+      "number": 35,
+      "question": "La Claritromicina è più resistente dell’Eritromicna a pH acido perché:",
+      "answers": [
+        "contiene uno zucchero modificato B è un derivato estereo dell’eritromicina C è un derivato salino dell’eritromicina",
+        "l’ossigeno in posizione 6 è protetto come estere acetico",
+        "l’ossigeno in posizione 6 è protetto come etere metilico"
+      ]
+    },
+    {
+      "number": 36,
+      "question": "La RNA-polimerasi DNA-dipendente batterica lega le rifamicine attraverso:",
+      "answers": [
+        "legame idrogeno con gli OH in C21 e C23",
+        "legame  con il gruppo naftalenico",
+        "legame idrogeno dello Zinco con gli OH in C1 e C8",
+        "nessuna indicazione fornita è corretta",
+        "tutte le indicazioni fornite sono corrette"
+      ]
+    },
+    {
+      "number": 37,
+      "question": "Gli antipsicotici tipici, con struttura butirrofenonica, sono stati ottenuti da ricerche su:3",
+      "answers": [
+        "acido barbiturico",
+        "prontosil rosso",
+        "benzilpenicillina",
+        "amfetammina",
+        "meperidina"
+      ]
+    },
+    {
+      "number": 38,
+      "question": "Negli antipsicotici fenotiazinici tra l’azoto ciclico e quello della catena laterale sono necessari:",
+      "answers": [
+        "2 atomi di carbonio",
+        "3 atomi di carbonio",
+        "4 atomi di carbonio",
+        "il numero di atomi di carbonio non è importante",
+        "più di una indicazione fornita è corretta"
+      ]
+    },
+    {
+      "number": 39,
+      "question": "Gli inibitori non selettivi della ricaptazione della noradrenalina e della serotonina:",
+      "answers": [
+        "Inibiscono il trasportatore della serotonina (SERT)",
+        "Inibiscono il trasportatore della noradrenalina (NET)",
+        "inibiscono il trasportatore della dopammina (DAT)",
+        "Inibiscono sia SERT che NET",
+        "inibiscono SERT, NET e DAT"
+      ]
+    },
+    {
+      "number": 40,
+      "question": "A quale molecola corrisponde la seguente struttura:",
+      "answers": [
+        "barbitale",
+        "fenobarbital",
+        "acido barbiturico",
+        "etosuccimide",
+        "fenitoina"
+      ]
+    },
+    {
+      "number": 41,
+      "question": "Quali tra le sostanze sotto indicate ha proprietà di legante in fase di granulazione?",
+      "answers": [
+        "derivati della cellulosa",
+        "amido",
+        "povidone",
+        "stearato di magnesio",
+        "tutte le sostanze indicate, con l’eccezione di una"
+      ]
+    },
+    {
+      "number": 42,
+      "question": "Il termine “Biodisponibilità” di un principio attivo da una forma farmaceutica si riferisce a:",
+      "answers": [
+        "velocità di dissoluzione di un farmaco nel tratto gastrointestinale",
+        "l'entità e la velocità con le quali esso è reso disponibile nella circolazione sistemica",
+        "quantità di principio attivo metabolizzata nel fegato prima dell’assorbimento",
+        "quantità di principio attivo eliminata attraverso le urine",
+        "nessuna risposta è quella corretta"
+      ]
+    },
+    {
+      "number": 43,
+      "question": "I gliceridi semisintetici solidi sono costituiti da:",
+      "answers": [
+        "miscela di trigliceridi, ottenuti per esterificazione dei grassi naturali.",
+        "miscela di trigliceridi, digliceridi e monogliceridi, ottenuti per eterificazione dei grassi animali.",
+        "miscela di trigliceridi, digliceridi e monogliceridi, che possono essere ottenuti per esterificazione degli acidi grassi di origine naturale con glicerolo o mediante transesterificazione dei grassi naturali",
+        "miscela digliceridi e monogliceridi, che possono essere ottenuti per transesterificazione degli acidi grassi di origine vegetale con glicerolo.",
+        "miscela di trigliceridi e monogliceridi, che possono essere ottenuti per eterificazione degli acidi grassi di"
+      ]
+    },
+    {
+      "number": 44,
+      "question": "Cosa sono le compresse orodispersibili?",
+      "answers": [
+        "compresse che possono essere masticate",
+        "compresse che disintegrano sotto la lingua",
+        "compresse che disintegrano/dissolvono in bocca entro tre minuti",
+        "compresse che aderiscono alle mucose della cavità buccale e liberano il principio attivo secondo una cinetica programmata",
+        "compresse che combattono la carie"
+      ]
+    },
+    {
+      "number": 45,
+      "question": "Un sistema a rilascio controllato è:",
+      "answers": [
+        "una forma farmaceutica capace di mantenere costante a concentrazione terapeutica il livello ematico di un principio attivo",
+        "una forma farmaceutica consegnata al farmacista direttamente dal produttore",
+        "una apparecchiatura da produzione validata",
+        "una cinetica di rilascio costantemente monitorata",
+        "un sistema di controllo diretto da parte di un qualsiasi ente regolatorio sullo sviluppo del medicinale"
+      ]
+    },
+    {
+      "number": 46,
+      "question": "Secondo l’equazione di Noyes–Whitney si ha un aumento della velocità di dissoluzione quando:",
+      "answers": [
+        "la viscosità del mezzo è maggiore",
+        "il diametro medio equivalente è maggiore",
+        "il mezzo liquido è tenuto costantemente in agitazione",
+        "la forma amorfa del principio attivo converte in una forma cristallina",
+        "il principio attivo dissolto è rimosso dalla soluzione"
+      ]
+    },
+    {
+      "number": 47,
+      "question": "Quali delle seguenti proprietà sono tipiche di una sospensione flocculata?",
+      "answers": [
+        "le particelle solide sono a stretto contatto e formano un sedimento non facilmente ricostituibile",
+        "bassa velocità di sedimentazione",
+        "tendenza all’affioramento",
+        "facile risospendibilità del sedimento",
+        "nessuna delle precedenti"
+      ]
+    },
+    {
+      "number": 48,
+      "question": "Un aumentato assorbimento di un farmaco formulato in un cerotto transdermico, dipende:",
+      "answers": [
+        "dalla cristallizzazione del principio attivo nella matrice del cerotto",
+        "dall’aumento del grado sovrasaturazione nella matrice del cerotto*",
+        "dalla sua incrementata permeazione per via trans follicolare",
+        "dalla ripartizione del principio attivo sul supporto del cerotto",
+        "dalla ripartizione del principio attivo nel foglio protettivo del cerotto"
+      ]
+    },
+    {
+      "number": 49,
+      "question": "La scorrevolezza di una polvere può essere migliorata",
+      "answers": [
+        "diminuendo il diametro delle particelle che la compongono",
+        "aggiungendo un lubrificante",
+        "aggiungendo un antiaderente",
+        "aggiungendo un glidante",
+        "eliminando l’umidità residua"
+      ]
+    },
+    {
+      "number": 50,
+      "question": "Quali tra le seguenti sostanze ausiliarie possono essere impiegati come flocculanti",
+      "answers": [
+        "Trigliceridi",
+        "Polielettroliti",
+        "Carboidrati",
+        "Derivati della paraffina",
+        "Parabeni"
+      ]
+    },
+    {
+      "number": 51,
+      "question": "Tra le sostanze ausiliarie comunemente impiegate come leganti nei processi di granulazione ad umido, quale può essere classificata tra i polimeri sintetici:",
+      "answers": [
+        "Acacia",
+        "Gelatina",
+        "Sorbitolo",
+        "Glucosio",
+        "Etilcellulosa"
+      ]
+    },
+    {
+      "number": 52,
+      "question": "Quale tra le seguenti risposte risulta ascrivibile agli aspetti biofarmaceutici delle principali vie di somministrazione?",
+      "answers": [
+        "Nessuna delle risposte indicate",
+        "Interazione farmaco/recettore",
+        "Dissoluzione del principio attivo",
+        "Metabolismo renale del farmaco",
+        "Distribuzione del farmaco nell’organismo"
+      ]
+    },
+    {
+      "number": 53,
+      "question": "Quale delle seguenti definizioni descrive meglio il concetto di biodisponibilità",
+      "answers": [
+        "Analisi matematica dell’andamento temporale dei principi attivi nell’organismo",
+        "Valutazione della similitudine dei profili concentrazione/tempo, ottenuti in seguito a somministrazione della stessa dose molare di un principio attivo da una stessa forma farmaceutica per la stessa via di somministrazione",
+        "Studio dei meccanismi d'azione dei principi attivi e dei vari effetti farmacologici sugli organismi viventi",
+        "Studio dei processi di biotrasformazione attraverso i quali un principio attivo è soggetto ad eliminazione dall’organismo",
+        "Facilità con cui un principio attivo è assorbito nell’organismo"
+      ]
+    },
+    {
+      "number": 54,
+      "question": "L’indice di Hausner di una polvere permette di valutare la capacità di una polvere ad assestarsi",
+      "answers": [
+        "in base al rapporto tra il volume apparente prima della compattazione ed il volume finale dopo compattazione",
+        "in base al rapporto tra il volume finale dopo compattazione ed il volume apparente prima della compattazione",
+        "in base alla differenza tra il volume apparente prima della compattazione ed il volume finale dopo compattazione",
+        "in base alla differenza tra il volume finale dopo compattazione ed il volume apparente prima della compattazione",
+        "Nessuna delle risposte precedenti"
+      ]
+    },
+    {
+      "number": 55,
+      "question": "Il processo di granulazione può avvenire",
+      "answers": [
+        "A secco",
+        "Ad umido",
+        "A letto fluido",
+        "Per fusione",
+        "Tutte le risposte sono esatte"
+      ]
+    },
+    {
+      "number": 56,
+      "question": "Quale tra le seguenti categorie delle preparazioni liquide per uso orale NON è corretta",
+      "answers": [
+        "Gocce per uso orale",
+        "Polveri per gocce orali",
+        "Sciroppi",
+        "Polveri e granulati per sciroppi",
+        "Polveri e granulati per emulsioni orali"
+      ]
+    },
+    {
+      "number": 57,
+      "question": "I conservanti vengono aggiunti per prevenire o rallentare la proliferazione batterica e sono importanti soprattutto nelle preparazioni multidose. Il conservante più impiegato nei colliri è",
+      "answers": [
+        "Acido benzoico",
+        "Benzalconio cloruro",
+        "Cetrimide",
+        "Butilidrossianisolo",
+        "EDTA"
+      ]
+    },
+    {
+      "number": 58,
+      "question": "Quale tra i seguenti parametri di processo possono influenzare le caratteristiche tecnologiche delle compresse",
+      "answers": [
+        "Pressione di comprimitura",
+        "Temperatura ambientale",
+        "Pressione ambientale",
+        "Tempo di blisteraggio",
+        "Illuminamento dei locali"
+      ]
+    },
+    {
+      "number": 59,
+      "question": "A quale dei seguenti ricercatori è riconducibile la classificazione HLB dei tensioattivi",
+      "answers": [
+        "Brunner",
+        "Nernst",
+        "Davies",
+        "Stokes",
+        "Einstein"
+      ]
+    },
+    {
+      "number": 60,
+      "question": "Nella sterilizzazione mediante filtrazione, quale tra i seguenti saggi può essere applicato per la verifica delle caratteristiche della membrana filtrante",
+      "answers": [
+        "Punto di bolla",
+        "Punto di gocciolamento",
+        "Punto di affioramento",
+        "Punto di ebollizione",
+        "Punto triplo"
+      ]
+    },
+    {
+      "number": 62,
+      "question": "In base a quanto riportato in F.U.I. XII Ed., quale delle seguenti preparazioni rappresenta il preparato officinale “sodio tiosolfato concentrato sterile”",
+      "answers": [
+        "Il concentrato di sodio tiosolfato è una soluzione sterile ed apirogena contenente il 25 per cento m/V di Sodio tiosolfato e l’1,5 per cento m/V di Sodio bicarbonato in Acqua per preparazioni iniettabili.",
+        "Il concentrato di sodio tiosolfato è una soluzione sterile ed apirogena contenente il 20 per cento m/V di Sodio tiosolfato e l’1 per cento m/V di Sodio bicarbonato in Acqua per preparazioni iniettabili.",
+        "Il concentrato di sodio tiosolfato è una soluzione sterile ed apirogena contenente il 2.5 per cento m/V di Sodio tiosolfato e l’1,5 per cento m/V di Sodio bicarbonato in Acqua per preparazioni iniettabili.",
+        "Il concentrato di sodio tiosolfato è una soluzione sterile ed apirogena contenente il 50 per cento m/V di Sodio tiosolfato e l’1,5 per cento m/V di Sodio bicarbonato in Acqua per preparazioni iniettabili.",
+        "Nessuna delle preparazioni indicate"
+      ]
+    },
+    {
+      "number": 63,
+      "question": "L’elenco dei farmaci dell’Allegato III-bis",
+      "answers": [
+        "Comprende un apposito elenco di otto farmaci con forte attività analgesica che godono di particolari facilitazioni prescrittive.",
+        "Comprende Buprenorfina, Fentanyl e Fenciclidina",
+        "Comprende solo Metadone, Fenciclidina e Morfina",
+        "Comprende, tra gli altri, Buprenorfina, Ossimorfone e Fentanyl",
+        "Comprende Ossimorfone, Fentanyl, Buprenorfina, Fenciclidina e Idromorfone"
+      ]
+    },
+    {
+      "number": 64,
+      "question": "Nel caso in cui una preparazione contenga sia un veleno che una sostanza facilmente infiammabile i supplementi previsti dalla tariffa nazionale dei medicinali vengono sommati?",
+      "answers": [
+        "Sì",
+        "No, se i dosaggi non sono pericolosi",
+        "È a discrezione del farmacista",
+        "Non è previsto alcun supplemento per le sostanze facilmente infiammabili",
+        "Si, ma solo per le farmacie rurali"
+      ]
+    },
+    {
+      "number": 65,
+      "question": "Quale, tra quelli indicati, è il registro di entrata e uscita che il farmacista deve tenere in farmacia? Quello",
+      "answers": [
+        "dei mangimi medicati",
+        "degli emoderivati",
+        "dei radiofarmaci",
+        "delle ricette contenenti veleni",
+        "nessuno di quelli indicati"
+      ]
+    },
+    {
+      "number": 66,
+      "question": "I medici specialisti non convenzionati possono ritirare ed utilizzare il ricettario RMR?",
+      "answers": [
+        "No",
+        "Sì, sempre",
+        "Sì, ma non per prescrizioni rimborsabili dal SSN",
+        "Sì, ma solo per prescrizioni rimborsabili con il SSN",
+        "Nei casi contemplati nelle lettere c e d"
+      ]
+    },
+    {
+      "number": 67,
+      "question": "Il Registro di carico e scarico delle sostanze stupefacenti e psicotrope, in dotazione delle Unità Operative Farmaceutiche delle  strutture sanitarie pubbliche,  è soggetto a chiusura annuale?",
+      "answers": [
+        "Sì, al 31 dicembre di ogni anno",
+        "Ogni due anni",
+        "Sì, ad inizio anno",
+        "Ogni cinque anni",
+        "No, non è necessaria"
+      ]
+    },
+    {
+      "number": 68,
+      "question": "Il prezzo di acquisto delle sostanze non presenti in allegato A deve essere raddoppiato?",
+      "answers": [
+        "Mai",
+        "Sempre",
+        "Solo quando il prezzo al grammo è inferiore a 10 euro",
+        "Solo quando il prezzo al grammo è superiore a 10 euro",
+        "Per garantire la concorrenza è lasciata facoltà al farmacista"
+      ]
+    },
+    {
+      "number": 69,
+      "question": "Per essere immesso in commercio in un Paese dell’Unione europea, un medicinale biosimilare:",
+      "answers": [
+        "non deve essere provvisto di AIC in quanto identico ad un medicinale già commercializzato",
+        "non deve essere provvisto di AIC poiché è sufficiente un certificato di conformità alle Norme di Buona Fabbricazione da parte dell’Autorità competente",
+        "deve essere provvisto di autorizzazione all’immissione in commercio (AIC), come ogni medicinale di origine industriale",
+        "deve essere provvisto di una speciale autorizzazione che ne permette la commercializzazione solo nei Paesi in cui non è disponibile il medicinale di riferimento",
+        "Tutte le affermazioni precedenti sono errate"
+      ]
+    },
+    {
+      "number": 70,
+      "question": "Quale IVA si applica ai preparati magistrali?",
+      "answers": [
+        "4%",
+        "8%",
+        "10%",
+        "22%",
+        "Non è prevista tale applicazione"
+      ]
+    }
+  ]
+}
