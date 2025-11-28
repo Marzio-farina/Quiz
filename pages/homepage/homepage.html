@@ -19,6 +19,19 @@
                 <button id="statsBtn" class="stats-icon stats-icon-left" aria-label="Statistiche">
                     📊
                 </button>
+                <button id="fileFilterBtn" class="stats-icon stats-icon-file-filter" aria-label="Filtra per file">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Prima linea (sinistra) -->
+                        <line x1="6" y1="4" x2="6" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="6" cy="7" r="2.5" fill="currentColor"/>
+                        <!-- Seconda linea (centro) -->
+                        <line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="12" cy="17" r="2.5" fill="currentColor"/>
+                        <!-- Terza linea (destra) -->
+                        <line x1="18" y1="4" x2="18" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="18" cy="7" r="2.5" fill="currentColor"/>
+                    </svg>
+                </button>
                 <button id="filterBtn" class="stats-icon stats-icon-right" aria-label="Filtri">
                     🔍
                 </button>
@@ -74,6 +87,21 @@
                     <div class="categories-dialog-footer">
                         <button id="selectAllBtn" class="dialog-btn btn-secondary-dialog">Seleziona Tutto</button>
                         <button id="deselectAllBtn" class="dialog-btn btn-secondary-dialog">Deseleziona Tutto</button>
+                    </div>
+                </div>
+                
+                <!-- Dialog Filtri File -->
+                <div id="filesDialog" class="files-dialog hidden">
+                    <div class="files-dialog-header">
+                        <h3>📁 Seleziona File Quiz</h3>
+                        <button id="closeFilesDialogBtn" class="close-dialog-btn" aria-label="Chiudi">×</button>
+                    </div>
+                    <div class="files-dialog-content" id="filesDialogContent">
+                        <!-- I file verranno generati dinamicamente da JavaScript -->
+                    </div>
+                    <div class="files-dialog-footer">
+                        <button id="selectAllFilesBtn" class="dialog-btn btn-secondary-dialog">Seleziona Tutto</button>
+                        <button id="deselectAllFilesBtn" class="dialog-btn btn-secondary-dialog">Deseleziona Tutto</button>
                     </div>
                 </div>
                 

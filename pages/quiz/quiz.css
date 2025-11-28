@@ -132,6 +132,51 @@ body.dark-theme .quiz-footer .btn:disabled {
     z-index: 10;
 }
 
+/* Pulsante PDF - posizione assoluta tra progresso e timer */
+.quiz-container .quiz-pdf-btn {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: -200px; /* Sposta a sinistra del timer */
+    font-size: 1.5rem;
+    background: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    min-width: 50px;
+    min-height: 50px;
+}
+
+.quiz-container .quiz-pdf-btn:hover {
+    background: #f0f0f0;
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.quiz-container .quiz-pdf-btn:active {
+    transform: translateX(-50%) translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Tema scuro per pulsante PDF */
+body.dark-theme .quiz-container .quiz-pdf-btn {
+    background: #16213e;
+    color: #64b5f6;
+}
+
+body.dark-theme .quiz-container .quiz-pdf-btn:hover {
+    background: #1a1a2e;
+    color: #90caf9;
+}
+
 /* Timer - posizione assoluta al centro in alto */
 .quiz-container .quiz-timer {
     position: absolute;

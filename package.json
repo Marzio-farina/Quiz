@@ -1,6 +1,6 @@
 {
   "name": "quiz-app",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Applicazione Quiz con Electron",
   "main": "main.js",
   "scripts": {

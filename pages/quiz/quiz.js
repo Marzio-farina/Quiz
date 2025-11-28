@@ -171,8 +171,13 @@ async function loadQuizData() {
                     const rawData = fs.readFileSync(filePath, 'utf8');
                     const data = JSON.parse(rawData);
                     if (data.quizzes && Array.isArray(data.quizzes)) {
+                        // Aggiungi il campo sourceFile a ogni quiz per tracciare da quale file proviene
+                        const quizzesWithSource = data.quizzes.map(quiz => ({
+                            ...quiz,
+                            sourceFile: fileName
+                        }));
                         const previousCount = allQuizzes.length;
-                        allQuizzes = allQuizzes.concat(data.quizzes);
+                        allQuizzes = allQuizzes.concat(quizzesWithSource);
                         loadedCount++;
                         console.log(`✅ Caricato ${fileName}: ${data.quizzes.length} quiz (totale: ${allQuizzes.length})`);
                     } else {
@@ -617,6 +622,55 @@ function getQuizImage(quizId) {
     return null;
 }
 
+// Mappa i file JSON ai PDF corrispondenti
+function getPdfFromSourceFile(sourceFile) {
+    const pdfMap = {
+        'quiz-data.json': 'Banca dati unisa farmacia ospedaliera.pdf',
+        'new-quiz-data.json': 'ssfo-quiz-modello2.pdf',
+        'modello3-quiz-data.json': 'ssfo-quiz-modello3.pdf',
+        'modello4-quiz-data.json': 'ssfo-quiz-modello4.pdf',
+        'modello5-quiz-data.json': 'ssfo-quiz-modello5.pdf',
+        'modello6-quiz-data.json': 'ssfo-quiz-modello6.pdf',
+        'modello7-quiz-data.json': 'ssfo-quiz-modello7.pdf'
+    };
+    return pdfMap[sourceFile] || null;
+}
+
+// Funzione per aprire il PDF della domanda corrente
+function openCurrentQuestionPdf() {
+    const quiz = currentQuizzes[currentQuestionIndex];
+    if (!quiz) {
+        console.warn('Nessuna domanda corrente disponibile');
+        return;
+    }
+    
+    const sourceFile = quiz.sourceFile;
+    if (!sourceFile) {
+        console.warn('File di origine non disponibile per questa domanda');
+        alert('Impossibile determinare il file PDF per questa domanda.');
+        return;
+    }
+    
+    const pdfFileName = getPdfFromSourceFile(sourceFile);
+    if (!pdfFileName) {
+        console.warn(`Nessun PDF mappato per il file: ${sourceFile}`);
+        alert(`Nessun PDF disponibile per il file: ${sourceFile}`);
+        return;
+    }
+    
+    // Ottieni il testo della domanda per cercare la pagina nel PDF
+    const questionText = quiz.question || '';
+    
+    // Invia la richiesta al processo principale per aprire il PDF con il testo della domanda
+    ipcRenderer.send('open-pdf', pdfFileName, questionText);
+}
+
+// Gestisci errori nell'apertura del PDF
+ipcRenderer.on('pdf-open-error', (event, errorMessage) => {
+    console.error('Errore nell\'apertura del PDF:', errorMessage);
+    alert(`Impossibile aprire il PDF:\n${errorMessage}\n\nVerifica che il file esista nella cartella "Ulteriori quiz".`);
+});
+
 // Mostra una domanda
 function displayQuestion(index) {
     const quiz = currentQuizzes[index];
@@ -624,6 +678,19 @@ function displayQuestion(index) {
     // Aggiorna progress
     document.getElementById('currentQuestion').textContent = index + 1;
     document.getElementById('totalQuestions').textContent = currentQuizzes.length;
+    
+    // Aggiorna lo stato del pulsante PDF
+    const pdfBtn = document.getElementById('openPdfBtn');
+    if (pdfBtn) {
+        const sourceFile = quiz.sourceFile;
+        const pdfFileName = sourceFile ? getPdfFromSourceFile(sourceFile) : null;
+        if (pdfFileName) {
+            pdfBtn.style.display = 'flex';
+            pdfBtn.title = `Apri PDF: ${pdfFileName}`;
+        } else {
+            pdfBtn.style.display = 'none';
+        }
+    }
     
     // Mostra domanda
     document.getElementById('questionText').textContent = quiz.question;
@@ -1197,6 +1264,7 @@ if (minimizeAppBtn) {
 }
 
 document.getElementById('exitQuizBtn').addEventListener('click', showExitDialog);
+document.getElementById('openPdfBtn').addEventListener('click', openCurrentQuestionPdf);
 document.getElementById('prevBtn').addEventListener('click', previousQuestion);
 document.getElementById('nextBtn').addEventListener('click', nextQuestion);
 

@@ -1,7 +1,9 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const fs = require('fs');
+const { exec } = require('child_process');
+const pdf = require('pdf-parse');
 
 // Abilita hot-reload in modalità sviluppo
 if (process.argv.includes('--dev')) {
@@ -134,6 +136,323 @@ ipcMain.on('get-quiz-data-path', (event) => {
     }
     
     event.returnValue = dataPath;
+});
+
+// Funzione per trovare la pagina di una domanda nel PDF
+async function findQuestionPage(pdfPath, questionText) {
+    try {
+        const dataBuffer = fs.readFileSync(pdfPath);
+        const pdfData = await pdf(dataBuffer, {
+            // Estrai il testo con informazioni sulla pagina
+            max: 0 // Estrai tutto il testo
+        });
+        
+        // Normalizza il testo della domanda per la ricerca
+        // Usa quasi tutta la domanda per trovare una corrispondenza unica
+        const normalizedQuestion = questionText
+            .toLowerCase()
+            .trim()
+            .replace(/[^\w\s]/g, ' ') // Rimuovi punteggiatura
+            .replace(/\s+/g, ' '); // Normalizza spazi multipli
+        
+        // Normalizza anche il testo del PDF
+        const totalText = pdfData.text.toLowerCase()
+            .replace(/[^\w\s]/g, ' ') // Rimuovi punteggiatura
+            .replace(/\s+/g, ' '); // Normalizza spazi multipli
+        
+        // Usa una porzione significativa della domanda (circa 85-90% del testo)
+        // Questo garantisce una corrispondenza unica nel PDF
+        const questionLength = normalizedQuestion.length;
+        let searchText = '';
+        let matchIndex = -1;
+        
+        // Prova con percentuali crescenti del testo (85%, 90%, 95%, 100%)
+        const percentages = [0.85, 0.90, 0.95, 1.0];
+        
+        for (const pct of percentages) {
+            const searchLength = Math.floor(questionLength * pct);
+            searchText = normalizedQuestion.substring(0, searchLength).trim();
+            
+            if (searchText.length < 30) {
+                // Se il testo è troppo corto, usa tutto
+                searchText = normalizedQuestion;
+            }
+            
+            // Cerca il testo nel PDF
+            matchIndex = totalText.indexOf(searchText);
+            
+            if (matchIndex !== -1) {
+                // Verifica quante occorrenze ci sono
+                let occurrenceCount = 0;
+                let searchPos = matchIndex;
+                const occurrences = [];
+                
+                while (searchPos !== -1 && occurrenceCount < 20) {
+                    occurrences.push(searchPos);
+                    occurrenceCount++;
+                    searchPos = totalText.indexOf(searchText, searchPos + 1);
+                }
+                
+                // Se c'è una sola occorrenza, perfetto!
+                if (occurrences.length === 1) {
+                    console.log(`Trovata corrispondenza unica con ${(pct * 100).toFixed(0)}% del testo (${searchText.length} caratteri)`);
+                    break;
+                } else if (occurrences.length > 1) {
+                    // Se ci sono più occorrenze, usa la prima (più probabile)
+                    console.log(`Trovate ${occurrences.length} occorrenze con ${(pct * 100).toFixed(0)}% del testo, uso la prima`);
+                    matchIndex = occurrences[0];
+                    break;
+                }
+            }
+        }
+        
+        // Se ancora non trovato, prova con pattern di parole significative
+        if (matchIndex === -1) {
+            const words = normalizedQuestion.split(/\s+/).filter(w => w.length > 2);
+            const minWords = Math.min(20, Math.floor(words.length * 0.8)); // Almeno l'80% delle parole
+            const wordPattern = words.slice(0, minWords).join(' ');
+            matchIndex = totalText.indexOf(wordPattern);
+            
+            if (matchIndex !== -1) {
+                console.log(`Trovato con pattern di ${minWords} parole`);
+            }
+        }
+        
+        if (matchIndex === -1) {
+            console.warn('Testo della domanda non trovato nel PDF, uso pagina 1');
+            return 1; // Fallback alla prima pagina
+        }
+        
+        // Calcola la pagina basandosi sulla posizione esatta del testo trovato
+        // Usa un algoritmo più preciso considerando che:
+        // 1. Le prime pagine potrebbero avere più testo (intestazioni, indici)
+        // 2. Le domande potrebbero essere distribuite in modo non uniforme
+        // 3. Il testo estratto potrebbe non includere spazi, immagini, formattazione
+        const textRatio = matchIndex / totalText.length;
+        
+        // Calcola la stima base della pagina
+        let estimatedPage = Math.floor(textRatio * pdfData.numpages) + 1;
+        
+        // Applica una correzione non lineare per migliorare la precisione
+        // Le prime pagine tendono ad avere più contenuto (intestazioni, indici)
+        // quindi la distribuzione non è uniforme
+        let correctionFactor = 1.0;
+        
+        // Se siamo nelle prime pagine, la correzione è minore
+        if (estimatedPage < 100) {
+            correctionFactor = 1.01;
+        } else if (estimatedPage < 500) {
+            // Per pagine intermedie, aggiungi un offset più significativo
+            // Questo compensa per il fatto che il testo estratto potrebbe essere
+            // più denso nelle prime pagine
+            correctionFactor = 1.015;
+        } else {
+            // Per pagine avanzate, la correzione è ancora maggiore
+            // perché il testo potrebbe essere meno denso (più spazi, immagini)
+            correctionFactor = 1.02;
+        }
+        
+        // Applica la correzione
+        estimatedPage = Math.floor(textRatio * pdfData.numpages * correctionFactor) + 1;
+        
+        // Aggiungi un offset aggiuntivo basato sulla lunghezza media del testo per pagina
+        // Se il testo totale è molto lungo rispetto al numero di pagine,
+        // significa che le pagine hanno molto testo e potremmo dover aggiustare
+        const avgCharsPerPage = totalText.length / pdfData.numpages;
+        if (avgCharsPerPage > 2000) {
+            // Pagine con molto testo: aggiungi un piccolo offset
+            estimatedPage += 1;
+        }
+        
+        // Assicurati che la pagina sia valida
+        const finalPage = Math.max(1, Math.min(estimatedPage, pdfData.numpages));
+        
+        console.log(`Domanda trovata alla posizione ${matchIndex}/${totalText.length} (${(textRatio * 100).toFixed(2)}%), pagina stimata: ${finalPage}/${pdfData.numpages} (correzione: ${correctionFactor})`);
+        
+        return finalPage;
+    } catch (error) {
+        console.error('Errore nella ricerca della pagina:', error);
+        return 1; // Fallback alla prima pagina
+    }
+}
+
+// Funzione per aprire un PDF a una pagina specifica su Windows
+function openPdfAtPage(pdfPath, pageNumber) {
+    return new Promise((resolve, reject) => {
+        // Normalizza il percorso (rimuovi encoding URL se presente e frammenti)
+        let normalizedPath = pdfPath.replace(/%20/g, ' ').replace(/%23/g, '#');
+        // Rimuovi eventuali frammenti esistenti (come #page=...)
+        normalizedPath = normalizedPath.split('#')[0];
+        
+        // Assicurati che il percorso sia assoluto e con backslash per Windows
+        const absolutePath = path.resolve(normalizedPath);
+        
+        // Verifica che il file esista
+        if (!fs.existsSync(absolutePath)) {
+            reject(new Error(`File non trovato: ${absolutePath}`));
+            return;
+        }
+        
+        // Prova diversi visualizzatori PDF comuni su Windows
+        // SumatraPDF (molto comune e affidabile) - usa percorso con backslash
+        const sumatraPath = `"C:\\Program Files\\SumatraPDF\\SumatraPDF.exe"`;
+        const sumatraCommand = `${sumatraPath} -page ${pageNumber} "${absolutePath}"`;
+        
+        // Adobe Acrobat Reader - usa percorso con backslash
+        const adobePath1 = `"C:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\Acrobat.exe"`;
+        const adobePath2 = `"C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe"`;
+        const adobeCommand1 = `${adobePath1} /A "page=${pageNumber}" "${absolutePath}"`;
+        const adobeCommand2 = `${adobePath2} /A "page=${pageNumber}" "${absolutePath}"`;
+        
+        // Edge con frammento URL - converti backslash in slash per URL
+        const edgeUrlPath = absolutePath.replace(/\\/g, '/').replace(/ /g, '%20');
+        const edgePath = `file:///${edgeUrlPath}#page=${pageNumber}`;
+        const edgeCommand = `start msedge "${edgePath}"`;
+        
+        // Chrome con frammento URL
+        const chromePath = `file:///${edgeUrlPath}#page=${pageNumber}`;
+        const chromeCommand = `start chrome "${chromePath}"`;
+        
+        // Fallback: apri normalmente con shell.openPath
+        const fallbackCommand = () => {
+            shell.openPath(absolutePath).then(() => {
+                console.log(`PDF aperto normalmente (senza numero pagina): ${absolutePath}`);
+                resolve();
+            }).catch(reject);
+        };
+        
+        // Prova SumatraPDF per primo (più affidabile per i parametri pagina)
+        exec(sumatraCommand, { timeout: 5000 }, (error) => {
+            if (!error) {
+                console.log(`PDF aperto con SumatraPDF alla pagina ${pageNumber}`);
+                resolve();
+                return;
+            }
+            
+            // Se fallisce, prova Adobe Reader
+            exec(adobeCommand1, { timeout: 5000 }, (error2) => {
+                if (!error2) {
+                    console.log(`PDF aperto con Adobe Reader alla pagina ${pageNumber}`);
+                    resolve();
+                    return;
+                }
+                
+                exec(adobeCommand2, { timeout: 5000 }, (error3) => {
+                    if (!error3) {
+                        console.log(`PDF aperto con Adobe Reader (x86) alla pagina ${pageNumber}`);
+                        resolve();
+                        return;
+                    }
+                    
+                    // Se fallisce, prova Edge
+                    exec(edgeCommand, { timeout: 5000 }, (error4) => {
+                        if (!error4) {
+                            console.log(`PDF aperto con Edge alla pagina ${pageNumber}`);
+                            resolve();
+                            return;
+                        }
+                        
+                        // Se fallisce, prova Chrome
+                        exec(chromeCommand, { timeout: 5000 }, (error5) => {
+                            if (!error5) {
+                                console.log(`PDF aperto con Chrome alla pagina ${pageNumber}`);
+                                resolve();
+                                return;
+                            }
+                            
+                            // Fallback: apri normalmente senza numero pagina
+                            console.warn('Nessun visualizzatore PDF con supporto pagina trovato, apro normalmente');
+                            fallbackCommand();
+                        });
+                    });
+                });
+            });
+        });
+    });
+}
+
+// Gestione IPC per aprire un file PDF
+ipcMain.on('open-pdf', async (event, pdfFileName, questionText) => {
+    try {
+        // Il PDF principale è nella root, gli altri sono in "Ulteriori quiz"
+        const isMainPdf = pdfFileName === 'Banca dati unisa farmacia ospedaliera.pdf';
+        
+        let pdfPath = null;
+        
+        if (isMainPdf) {
+            // PDF principale: cerca nella root
+            const devPath = path.join(__dirname, pdfFileName);
+            const prodPath = process.resourcesPath 
+                ? path.join(process.resourcesPath, pdfFileName)
+                : devPath;
+            
+            // Prova prima sviluppo, poi produzione
+            if (fs.existsSync(devPath)) {
+                pdfPath = devPath;
+            } else if (fs.existsSync(prodPath)) {
+                pdfPath = prodPath;
+            }
+        } else {
+            // Altri PDF: cerca in "Ulteriori quiz"
+            const devPath = path.join(__dirname, 'Ulteriori quiz', pdfFileName);
+            const prodPath = process.resourcesPath 
+                ? path.join(process.resourcesPath, 'Ulteriori quiz', pdfFileName)
+                : devPath;
+            
+            // Prova prima sviluppo, poi produzione
+            if (fs.existsSync(devPath)) {
+                pdfPath = devPath;
+            } else if (fs.existsSync(prodPath)) {
+                pdfPath = prodPath;
+            }
+        }
+        
+        if (!pdfPath || !fs.existsSync(pdfPath)) {
+            const errorMsg = `File PDF non trovato: ${pdfFileName}`;
+            console.error(errorMsg);
+            event.reply('pdf-open-error', errorMsg);
+            return;
+        }
+        
+        // Se abbiamo il testo della domanda, cerca la pagina
+        let pageNumber = 1;
+        if (questionText) {
+            try {
+                pageNumber = await findQuestionPage(pdfPath, questionText);
+                console.log(`Trovata pagina stimata: ${pageNumber} per la domanda`);
+            } catch (pageError) {
+                console.warn('Errore nella ricerca della pagina, uso pagina 1:', pageError);
+            }
+        }
+        
+        // Apri il PDF alla pagina specifica
+        if (process.platform === 'win32') {
+            try {
+                await openPdfAtPage(pdfPath, pageNumber);
+                console.log(`PDF aperto alla pagina ${pageNumber}: ${pdfPath}`);
+            } catch (openError) {
+                console.error('Errore nell\'apertura del PDF con pagina:', openError);
+                // Fallback: apri senza numero pagina
+                shell.openPath(pdfPath).then(() => {
+                    console.log(`PDF aperto normalmente (fallback): ${pdfPath}`);
+                }).catch(err => {
+                    console.error(`Errore nell'apertura del PDF: ${err}`);
+                    event.reply('pdf-open-error', err.message);
+                });
+            }
+        } else {
+            // Per altri sistemi operativi, apri normalmente
+            shell.openPath(pdfPath).then(() => {
+                console.log(`PDF aperto: ${pdfPath}`);
+            }).catch(err => {
+                console.error(`Errore nell'apertura del PDF: ${err}`);
+                event.reply('pdf-open-error', err.message);
+            });
+        }
+    } catch (error) {
+        console.error('Errore nell\'apertura del PDF:', error);
+        event.reply('pdf-open-error', error.message);
+    }
 });
 
 // Configurazione auto-updater

@@ -10,6 +10,7 @@ let selectedQuestionCount = 10;
 let isRandomMode = false;
 let allQuizzes = [];
 let availableQuizCount = 0;
+let selectedFiles = []; // File JSON selezionati per il filtro
 
 // Gestione tema
 function initTheme() {
@@ -96,6 +97,9 @@ async function loadQuizData() {
             'modello7-quiz-data.json'
         ];
         
+        // Salva la lista dei file per uso futuro
+        window.jsonFilesList = jsonFiles;
+        
         // Carica tutti i file JSON e unisci i quiz
         allQuizzes = [];
         let loadedCount = 0;
@@ -111,8 +115,13 @@ async function loadQuizData() {
                     const rawData = fs.readFileSync(filePath, 'utf8');
                     const data = JSON.parse(rawData);
                     if (data.quizzes && Array.isArray(data.quizzes)) {
+                        // Aggiungi il campo sourceFile a ogni quiz per tracciare da quale file proviene
+                        const quizzesWithSource = data.quizzes.map(quiz => ({
+                            ...quiz,
+                            sourceFile: fileName
+                        }));
                         const previousCount = allQuizzes.length;
-                        allQuizzes = allQuizzes.concat(data.quizzes);
+                        allQuizzes = allQuizzes.concat(quizzesWithSource);
                         loadedCount++;
                         console.log(`✅ Caricato ${fileName}: ${data.quizzes.length} quiz (totale: ${allQuizzes.length})`);
                     } else {
@@ -264,6 +273,11 @@ function getUnansweredQuestionIds(allQuizIds) {
 
 // Conta i quiz disponibili per le categorie selezionate, considerando anche modalità Studio e esclusioni
 function countAvailableQuizzes(selectedCategories, studyMode = null, excludeMode = null) {
+    // Se non ci sono file selezionati, restituisci 0
+    if (!selectedFiles || selectedFiles.length === 0) {
+        return 0;
+    }
+    
     // Se non ci sono categorie selezionate, restituisci 0
     if (!selectedCategories || selectedCategories.length === 0) {
         return 0;
@@ -271,8 +285,15 @@ function countAvailableQuizzes(selectedCategories, studyMode = null, excludeMode
     
     let filtered = allQuizzes;
     
+    // Filtra per file selezionati (se ci sono file selezionati)
+    if (selectedFiles && selectedFiles.length > 0) {
+        filtered = filtered.filter(quiz => {
+            return quiz.sourceFile && selectedFiles.includes(quiz.sourceFile);
+        });
+    }
+    
     // Filtra per categorie
-    filtered = allQuizzes.filter(quiz => {
+    filtered = filtered.filter(quiz => {
         // Priorità 1: Se una sottocategoria è selezionata, usa solo quella
         if (quiz.subcategory && selectedCategories.includes(quiz.subcategory)) {
             return true;
@@ -565,9 +586,30 @@ function generateCategoryFilters() {
         return;
     }
     
-    // Raggruppa i quiz per sottocategoria (dal JSON)
+    // Controlla se ci sono file selezionati
+    if (!selectedFiles || selectedFiles.length === 0) {
+        container.innerHTML = `
+            <div style="padding: 30px; text-align: center; color: #666; font-size: 1.1rem; line-height: 1.6;">
+                <p style="margin: 0; font-weight: 600; color: #667eea;">📁 Seleziona almeno un file</p>
+                <p style="margin: 10px 0 0 0; font-size: 0.9rem; opacity: 0.8;">Per visualizzare le categorie disponibili, seleziona almeno un file JSON dal filtro file.</p>
+            </div>
+        `;
+        // Aggiorna i riferimenti ai checkbox (saranno vuoti)
+        categoryCheckboxes = document.querySelectorAll('.category-checkbox input[type="checkbox"]');
+        return;
+    }
+    
+    // PRIMA: Filtra i quiz in base ai file selezionati
+    let quizzesToFilter = allQuizzes;
+    if (selectedFiles && selectedFiles.length > 0) {
+        quizzesToFilter = allQuizzes.filter(quiz => {
+            return quiz.sourceFile && selectedFiles.includes(quiz.sourceFile);
+        });
+    }
+    
+    // Raggruppa i quiz FILTRATI per sottocategoria (dal JSON)
     const subcategoryGroups = {};
-    allQuizzes.forEach(quiz => {
+    quizzesToFilter.forEach(quiz => {
         if (quiz.subcategory) {
             if (!subcategoryGroups[quiz.subcategory]) {
                 subcategoryGroups[quiz.subcategory] = [];
@@ -576,10 +618,9 @@ function generateCategoryFilters() {
         }
     });
     
-    // Raggruppa le sottocategorie per categoria padre
+    // Raggruppa le sottocategorie per categoria padre (solo quelle con quiz disponibili)
     const categoryToSubcategories = {};
     Object.keys(subcategoryGroups).forEach(subcategory => {
-        const parentCategory = subcategory.split('_')[0] + (subcategory.includes('_') ? '_' + subcategory.split('_')[1] : '');
         // Estrai la categoria principale (prima parte prima del secondo underscore)
         const parts = subcategory.split('_');
         let parentCat = parts[0];
@@ -603,35 +644,42 @@ function generateCategoryFilters() {
     
     allCategories.forEach(category => {
         const subcategories = categoryToSubcategories[category] || [];
-        const categoryQuizzes = allQuizzes.filter(q => q.category === category);
+        const categoryQuizzes = quizzesToFilter.filter(q => q.category === category);
         const quizCount = categoryQuizzes.length;
         
-        // Mostra sempre la categoria principale
-        const categoryLabel = document.createElement('label');
-        categoryLabel.className = 'category-checkbox';
-        categoryLabel.innerHTML = `
-            <input type="checkbox" value="${category}" checked>
-            <span>${categoryIcons[category] || '📌'} ${categoryNames[category] || category}</span>
-            <span class="category-stats" data-category="${category}">-</span>
-        `;
-        container.appendChild(categoryLabel);
-        
-        // Se la categoria ha più di 500 quiz, mostra anche le sottocategorie estratte dal JSON
-        if (quizCount > 500 && subcategories.length > 0) {
-            // Mostra le sottocategorie sotto la categoria principale
-            subcategories.sort().forEach(subcategory => {
-                const subcategoryQuizCount = subcategoryGroups[subcategory]?.length || 0;
-                const displayName = subcategoryDisplayNames[subcategory] || subcategory.replace(category + '_', '');
-                
-                const subcategoryLabel = document.createElement('label');
-                subcategoryLabel.className = 'category-checkbox subcategory';
-                subcategoryLabel.innerHTML = `
-                    <input type="checkbox" value="${subcategory}" checked>
-                    <span>${displayName}</span>
-                    <span class="category-stats" data-category="${subcategory}">-</span>
-                `;
-                container.appendChild(subcategoryLabel);
-            });
+        // Mostra SOLO le categorie che hanno almeno un quiz disponibile
+        if (quizCount > 0) {
+            const categoryLabel = document.createElement('label');
+            categoryLabel.className = 'category-checkbox';
+            categoryLabel.innerHTML = `
+                <input type="checkbox" value="${category}" checked>
+                <span>${categoryIcons[category] || '📌'} ${categoryNames[category] || category}</span>
+                <span class="category-stats" data-category="${category}">-</span>
+            `;
+            container.appendChild(categoryLabel);
+            
+            // Se la categoria ha più di 500 quiz, mostra anche le sottocategorie estratte dal JSON
+            if (quizCount > 500 && subcategories.length > 0) {
+                // Mostra SOLO le sottocategorie che hanno almeno un quiz disponibile
+                subcategories.sort().forEach(subcategory => {
+                    const subcategoryQuizzes = subcategoryGroups[subcategory] || [];
+                    const subcategoryQuizCount = subcategoryQuizzes.length;
+                    
+                    // Mostra solo se ci sono quiz disponibili per questa sottocategoria
+                    if (subcategoryQuizCount > 0) {
+                        const displayName = subcategoryDisplayNames[subcategory] || subcategory.replace(category + '_', '');
+                        
+                        const subcategoryLabel = document.createElement('label');
+                        subcategoryLabel.className = 'category-checkbox subcategory';
+                        subcategoryLabel.innerHTML = `
+                            <input type="checkbox" value="${subcategory}" checked>
+                            <span>${displayName}</span>
+                            <span class="category-stats" data-category="${subcategory}">-</span>
+                        `;
+                        container.appendChild(subcategoryLabel);
+                    }
+                });
+            }
         }
     });
     
@@ -649,6 +697,64 @@ function generateCategoryFilters() {
     setTimeout(() => {
         updateCategoryStats();
     }, 0);
+}
+
+// Rimuove le categorie/sottocategorie selezionate che non hanno più quiz disponibili
+function cleanupUnavailableCategories() {
+    // Filtra i quiz in base ai file selezionati
+    let quizzesToFilter = allQuizzes;
+    if (selectedFiles && selectedFiles.length > 0) {
+        quizzesToFilter = allQuizzes.filter(quiz => {
+            return quiz.sourceFile && selectedFiles.includes(quiz.sourceFile);
+        });
+    }
+    
+    // Ottieni tutte le categorie e sottocategorie disponibili nei quiz filtrati
+    const availableCategories = new Set();
+    const availableSubcategories = new Set();
+    
+    quizzesToFilter.forEach(quiz => {
+        if (quiz.category) {
+            availableCategories.add(quiz.category);
+        }
+        if (quiz.subcategory) {
+            availableSubcategories.add(quiz.subcategory);
+        }
+    });
+    
+    // Lista delle categorie principali (senza underscore o con un solo underscore seguito da una parola)
+    const mainCategories = ['FARMACOLOGIA', 'CHIMICA_FARMACEUTICA', 'LEGISLAZIONE', 'MICROBIOLOGIA', 
+                          'FARMACEUTICA', 'CHIMICA_ANALITICA', 'FARMACOGNOSIA', 'COSMETOLOGIA', 
+                          'ECONOMIA_FARMACEUTICA', 'ALTRO'];
+    
+    // Deseleziona le categorie/sottocategorie che non sono più disponibili
+    if (categoryCheckboxes) {
+        let hasChanges = false;
+        categoryCheckboxes.forEach(checkbox => {
+            const categoryValue = checkbox.value;
+            // Determina se è una categoria principale o una sottocategoria
+            const isMainCategory = mainCategories.includes(categoryValue);
+            
+            if (isMainCategory) {
+                // È una categoria principale
+                if (!availableCategories.has(categoryValue) && checkbox.checked) {
+                    checkbox.checked = false;
+                    hasChanges = true;
+                }
+            } else {
+                // È una sottocategoria
+                if (!availableSubcategories.has(categoryValue) && checkbox.checked) {
+                    checkbox.checked = false;
+                    hasChanges = true;
+                }
+            }
+        });
+        
+        // Se ci sono state modifiche, salva le nuove selezioni
+        if (hasChanges) {
+            saveSelectedCategories();
+        }
+    }
 }
 
 // Setup event listeners per sincronizzazione categoria padre/sottocategorie
@@ -912,6 +1018,11 @@ document.addEventListener('click', (e) => {
             categoriesDialog.classList.add('hidden');
         }
     }
+    if (filesDialog && !filesDialog.contains(e.target) && e.target !== fileFilterBtn && !fileFilterBtn?.contains(e.target)) {
+        if (!filesDialog.classList.contains('hidden')) {
+            filesDialog.classList.add('hidden');
+        }
+    }
 });
 
 // Calcola le statistiche per categoria
@@ -928,8 +1039,16 @@ function calculateCategoryStats() {
         categoryStats[category] = { correct: 0, total: 0 };
     });
     
+    // Filtra i quiz in base ai file selezionati
+    let quizzesToProcess = allQuizzes;
+    if (selectedFiles && selectedFiles.length > 0) {
+        quizzesToProcess = allQuizzes.filter(quiz => {
+            return quiz.sourceFile && selectedFiles.includes(quiz.sourceFile);
+        });
+    }
+    
     // Aggiungi tutte le sottocategorie presenti nel JSON
-    allQuizzes.forEach(quiz => {
+    quizzesToProcess.forEach(quiz => {
         if (quiz.subcategory) {
             categoryStats[quiz.subcategory] = categoryStats[quiz.subcategory] || { correct: 0, total: 0 };
         }
@@ -943,8 +1062,8 @@ function calculateCategoryStats() {
     }
     
     // Calcola il totale di quiz disponibili per ogni categoria e sottocategoria
-    // (ora include tutti i quiz da tutti i file JSON, senza duplicati)
-    allQuizzes.forEach(quiz => {
+    // (ora include tutti i quiz da tutti i file JSON selezionati, senza duplicati)
+    quizzesToProcess.forEach(quiz => {
         if (quiz.category && categoryStats[quiz.category]) {
             categoryStats[quiz.category].total++;
         }
@@ -961,8 +1080,8 @@ function calculateCategoryStats() {
     try {
         const studyStatus = JSON.parse(localStorage.getItem('studyModeStatus') || '{}');
         
-        // Itera su tutti i quiz e controlla lo stato finale in studyModeStatus
-        allQuizzes.forEach(quiz => {
+        // Itera su tutti i quiz filtrati e controlla lo stato finale in studyModeStatus
+        quizzesToProcess.forEach(quiz => {
             const questionId = Number(quiz.id);
             if (isNaN(questionId)) return;
             
@@ -1149,6 +1268,207 @@ if (categoriesDialog) {
     observer.observe(categoriesDialog, { attributes: true, attributeFilter: ['class'] });
 }
 
+// Funzioni per gestire il dialog dei file
+function generateFileFilters() {
+    const container = document.getElementById('filesDialogContent');
+    if (!container) {
+        return;
+    }
+    if (allQuizzes.length === 0) {
+        return;
+    }
+    
+    // Ottieni la lista dei file disponibili
+    const jsonFiles = window.jsonFilesList || [
+        'quiz-data.json',
+        'new-quiz-data.json',
+        'modello3-quiz-data.json',
+        'modello4-quiz-data.json',
+        'modello5-quiz-data.json',
+        'modello6-quiz-data.json',
+        'modello7-quiz-data.json'
+    ];
+    
+    container.innerHTML = '';
+    
+    // Mappa dei nomi dei file per visualizzazione
+    const fileDisplayNames = {
+        'quiz-data.json': 'Database Principale',
+        'new-quiz-data.json': 'Modello 2',
+        'modello3-quiz-data.json': 'Modello 3',
+        'modello4-quiz-data.json': 'Modello 4',
+        'modello5-quiz-data.json': 'Modello 5',
+        'modello6-quiz-data.json': 'Modello 6',
+        'modello7-quiz-data.json': 'Modello 7'
+    };
+    
+    jsonFiles.forEach(fileName => {
+        // Conta i quiz per questo file
+        const fileQuizzes = allQuizzes.filter(q => q.sourceFile === fileName);
+        const quizCount = fileQuizzes.length;
+        
+        const fileLabel = document.createElement('label');
+        fileLabel.className = 'file-checkbox';
+        fileLabel.innerHTML = `
+            <input type="checkbox" value="${fileName}" checked>
+            <span>${fileDisplayNames[fileName] || fileName}</span>
+            <span class="file-stats" data-file="${fileName}">(${quizCount})</span>
+        `;
+        container.appendChild(fileLabel);
+    });
+    
+    // Aggiorna i riferimenti ai checkbox
+    fileCheckboxes = document.querySelectorAll('.file-checkbox input[type="checkbox"]');
+    
+    // Ricarica le selezioni salvate
+    loadSelectedFiles();
+    
+    // Aggiungi event listener ai checkbox
+    fileCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            saveSelectedFiles();
+            // Rigenera le categorie per mostrare/nascondere quelle disponibili
+            generateCategoryFilters();
+            // Deseleziona automaticamente le categorie che non hanno più quiz disponibili
+            cleanupUnavailableCategories();
+            // Aggiorna i pulsanti delle quantità e le statistiche
+            updateQuestionCountButtons();
+            updateCategoryStats();
+        });
+    });
+}
+
+// Carica i file selezionati dal localStorage
+function loadSelectedFiles() {
+    const savedFiles = localStorage.getItem('selectedFiles');
+    if (savedFiles) {
+        const files = JSON.parse(savedFiles);
+        selectedFiles = files;
+        if (fileCheckboxes) {
+            fileCheckboxes.forEach(checkbox => {
+                checkbox.checked = files.includes(checkbox.value);
+            });
+        }
+    } else {
+        // Se non ci sono selezioni salvate, seleziona tutti i file di default
+        const jsonFiles = window.jsonFilesList || [
+            'quiz-data.json',
+            'new-quiz-data.json',
+            'modello3-quiz-data.json',
+            'modello4-quiz-data.json',
+            'modello5-quiz-data.json',
+            'modello6-quiz-data.json',
+            'modello7-quiz-data.json'
+        ];
+        selectedFiles = jsonFiles;
+        if (fileCheckboxes) {
+            fileCheckboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+        }
+        saveSelectedFiles();
+    }
+}
+
+// Salva i file selezionati nel localStorage
+function saveSelectedFiles() {
+    if (fileCheckboxes) {
+        selectedFiles = Array.from(fileCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+        localStorage.setItem('selectedFiles', JSON.stringify(selectedFiles));
+    }
+}
+
+// Gestione dialog file
+const filesDialog = document.getElementById('filesDialog');
+const fileFilterBtn = document.getElementById('fileFilterBtn');
+const closeFilesDialogBtn = document.getElementById('closeFilesDialogBtn');
+let fileCheckboxes = [];
+
+// Gestione pulsante Filtri File - Toggle dialog file
+if (fileFilterBtn) {
+    fileFilterBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (filesDialog) {
+            const isHidden = filesDialog.classList.contains('hidden');
+            
+            // Chiudi gli altri dialog se sono aperti
+            if (categoriesDialog && !categoriesDialog.classList.contains('hidden')) {
+                categoriesDialog.classList.add('hidden');
+            }
+            if (optionsDialog && !optionsDialog.classList.contains('hidden')) {
+                optionsDialog.classList.add('hidden');
+            }
+            
+            filesDialog.classList.toggle('hidden');
+            // Se stiamo aprendo il dialog, assicurati che gli elementi siano stati generati
+            if (isHidden) {
+                const container = document.getElementById('filesDialogContent');
+                
+                // Se i quiz non sono ancora caricati, caricali prima
+                if (allQuizzes.length === 0) {
+                    await loadQuizData();
+                }
+                
+                // Se il container è vuoto o non ci sono elementi, genera i file
+                if (!container || container.children.length === 0) {
+                    if (allQuizzes.length > 0) {
+                        generateFileFilters();
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Chiudi dialog file con pulsante X
+if (closeFilesDialogBtn) {
+    closeFilesDialogBtn.addEventListener('click', () => {
+        if (filesDialog) {
+            filesDialog.classList.add('hidden');
+        }
+    });
+}
+
+// Pulsante "Seleziona Tutto" per i file
+const selectAllFilesBtn = document.getElementById('selectAllFilesBtn');
+if (selectAllFilesBtn) {
+    selectAllFilesBtn.addEventListener('click', () => {
+        if (fileCheckboxes) {
+            fileCheckboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            saveSelectedFiles();
+            // Rigenera le categorie per mostrare/nascondere quelle disponibili
+            generateCategoryFilters();
+            // Deseleziona automaticamente le categorie che non hanno più quiz disponibili
+            cleanupUnavailableCategories();
+            updateQuestionCountButtons();
+            updateCategoryStats();
+        }
+    });
+}
+
+// Pulsante "Deseleziona Tutto" per i file
+const deselectAllFilesBtn = document.getElementById('deselectAllFilesBtn');
+if (deselectAllFilesBtn) {
+    deselectAllFilesBtn.addEventListener('click', () => {
+        if (fileCheckboxes) {
+            fileCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            saveSelectedFiles();
+            // Rigenera le categorie per mostrare/nascondere quelle disponibili
+            generateCategoryFilters();
+            // Deseleziona automaticamente le categorie che non hanno più quiz disponibili
+            cleanupUnavailableCategories();
+            updateQuestionCountButtons();
+            updateCategoryStats();
+        }
+    });
+}
+
 // Gestione versione applicazione
 ipcRenderer.on('app-version', (event, version) => {
     const versionElement = document.getElementById('appVersion');
@@ -1162,7 +1482,31 @@ ipcRenderer.send('request-app-version');
 
 
 // Inizializzazione all'avvio
+// Inizializza i file selezionati all'avvio (prima di init)
+function initializeSelectedFiles() {
+    const savedFiles = localStorage.getItem('selectedFiles');
+    if (savedFiles) {
+        selectedFiles = JSON.parse(savedFiles);
+    } else {
+        // Se non ci sono selezioni salvate, seleziona tutti i file di default
+        const jsonFiles = window.jsonFilesList || [
+            'quiz-data.json',
+            'new-quiz-data.json',
+            'modello3-quiz-data.json',
+            'modello4-quiz-data.json',
+            'modello5-quiz-data.json',
+            'modello6-quiz-data.json',
+            'modello7-quiz-data.json'
+        ];
+        selectedFiles = jsonFiles;
+        localStorage.setItem('selectedFiles', JSON.stringify(selectedFiles));
+    }
+}
+
 async function init() {
+    // Inizializza i file selezionati
+    initializeSelectedFiles();
+    
     // Carica i quiz
     const loaded = await loadQuizData();
     if (loaded) {
