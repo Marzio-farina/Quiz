@@ -43,3 +43,7 @@ venv/
 env/
 ENV/
 
+# Generated Graphify artifacts
+/graphify-out/
+/.graphify-venv/
+/.graphify/__pycache__/
